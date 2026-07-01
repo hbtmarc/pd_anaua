@@ -1,0 +1,13 @@
+{
+  "name": "Anauá — Plano Diretor de Bolso",
+  "short_name": "Anauá Campo",
+  "description": "Assistente de campo offline para captação audiovisual da campanha 1 ano de Anauá.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1a3a2f",
+  "theme_color": "#1a3a2f",
+  "lang": "pt-BR",
+  "orientation": "portrait-primary",
+  "icons": []
+}

@@ -1,8 +1,1250 @@
-<html>
-    <head>
-        <title>PD Anaúna</title>
-    </head>
-    <body>
-        <h1>PD Anaúna</h1>
-    </body>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plano Diretor Audiovisual — 1 ano de Anauá. Viver a natureza em grupo. São Thomé das Letras, 03 a 05/07/2026.">
+  <meta name="theme-color" content="#1a3a2f">
+  <meta property="og:title" content="1 ano de Anauá — Plano Diretor Audiovisual">
+  <meta property="og:description" content="Plano de campanha audiovisual para captar a experiência Anauá em São Thomé das Letras: natureza, grupo, cuidado e pertencimento.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:image" content="assets/img/og-cover.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="1 ano de Anauá — Plano Diretor Audiovisual">
+  <meta name="twitter:description" content="Plano estático de campo para a campanha audiovisual Anauá: prioridades, checklist, narrativa e cuidados de imagem.">
+  <meta name="twitter:image" content="assets/img/og-cover.jpg">
+  <title>1 ano de Anauá — Plano Diretor Audiovisual</title>
+  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo-principal">Ir para o conteúdo</a>
+
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__bar" id="scroll-progress-bar"></div>
+  </div>
+
+  <header class="site-header" id="topo">
+    <div class="site-header__inner">
+      <a class="site-header__brand" href="#topo">
+        <span class="site-header__brand-mark">Anauá</span>
+        <span class="site-header__brand-sub">Plano Diretor</span>
+      </a>
+
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-principal"
+        id="nav-toggle"
+      >
+        <span class="nav-toggle__label">Menu</span>
+        <span class="nav-toggle__icon" aria-hidden="true"></span>
+      </button>
+
+      <nav class="site-nav" id="nav-principal" aria-label="Navegação principal">
+        <ul class="site-nav__list">
+          <li><a href="#agora">Agora</a></li>
+          <li><a href="#visao">Visão</a></li>
+          <li><a href="#reels">Reels</a></li>
+          <li><a href="#narrativa">Narrativa</a></li>
+          <li><a href="#captacao">Captação</a></li>
+          <li><a href="#campo">Campo</a></li>
+          <li><a href="#pos">Pós</a></li>
+          <li><a href="#checklist">Checklist</a></li>
+          <li><a href="#riscos">Riscos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo-principal">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__backdrop" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <p class="hero__eyebrow">Plano Diretor Audiovisual</p>
+        <h1 class="hero__title" id="hero-title">1 ano de Anauá</h1>
+        <p class="hero__subtitle">Viver a natureza em grupo</p>
+        <p class="hero__meta">São Thomé das Letras/MG · 03 a 05/07/2026</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#visao">Abrir plano diretor</a>
+          <a class="btn btn--secondary" href="#campo">Abrir modo campo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section field-assistant" id="agora" aria-labelledby="agora-title">
+      <div class="container">
+        <div class="assistant-shell">
+          <header class="assistant-hero">
+            <div>
+              <p class="section__eyebrow">Plano Diretor de Bolso</p>
+              <h2 class="section__title" id="agora-title">Painel Agora</h2>
+              <p class="section__intro">
+                Use primeiro em campo: veja o bloco atual, resolva Prioridade A, marque shots, acione contingências e gere o resumo.
+              </p>
+            </div>
+            <div class="assistant-actions" aria-label="Ações rápidas">
+              <button class="btn btn--primary" type="button" id="focus-mode-toggle" aria-pressed="false">Modo Foco</button>
+              <a class="btn btn--secondary" href="#contingencia">Modo Emergência</a>
+            </div>
+          </header>
+
+          <div class="now-grid">
+            <article class="now-card now-card--main">
+              <span class="now-card__label">Bloco provável atual</span>
+              <h3 id="now-block-title">Calculando...</h3>
+              <p id="now-block-window">Usando data e hora local do navegador.</p>
+              <strong id="now-next-step">Carregando próximo melhor passo.</strong>
+            </article>
+            <article class="now-card">
+              <span class="now-card__label">Prioridade</span>
+              <p id="now-priority">-</p>
+            </article>
+            <article class="now-card">
+              <span class="now-card__label">Captar primeiro</span>
+              <p id="now-capture-first">-</p>
+            </article>
+            <article class="now-card">
+              <span class="now-card__label">Cortar se apertar</span>
+              <p id="now-cut">-</p>
+            </article>
+            <article class="now-card">
+              <span class="now-card__label">Risco principal</span>
+              <p id="now-risk">-</p>
+            </article>
+          </div>
+
+          <div class="smart-progress" aria-label="Progresso inteligente">
+            <div><span>Geral</span><strong id="progress-general">0%</strong></div>
+            <div><span>Prioridade A</span><strong id="progress-a">0%</strong></div>
+            <div><span>Captados</span><strong id="progress-captured">0</strong></div>
+            <div><span>Repetir</span><strong id="progress-repeat">0</strong></div>
+          </div>
+          <p class="priority-alert" id="priority-alert" hidden>Antes de sair deste bloco, resolva os itens A pendentes.</p>
+
+          <div class="assistant-tabs" aria-label="Filtro de bloco operacional">
+            <div>
+              <span class="assistant-tabs__label">Bloco operacional</span>
+              <p>Toque em uma etapa abaixo para mudar o contexto do checklist e dos shots. O app já sugere pelo horário local.</p>
+            </div>
+            <label class="visually-hidden" for="block-filter">Selecionar bloco operacional</label>
+            <select id="block-filter"></select>
+          </div>
+          <div class="block-switcher" id="block-switcher" aria-label="Trocar bloco operacional"></div>
+
+          <div class="assistant-grid">
+            <section class="tool-panel" id="checklist-bloco" aria-labelledby="checklist-bloco-title">
+              <header class="tool-panel__header">
+                <p class="section__eyebrow">Checklist do bloco</p>
+                <h3 id="checklist-bloco-title">O que resolver agora</h3>
+              </header>
+              <div class="operational-checklist" id="operational-checklist"></div>
+            </section>
+
+            <section class="tool-panel" id="shots-operacionais" aria-labelledby="shots-operacionais-title">
+              <header class="tool-panel__header">
+                <p class="section__eyebrow">Shot list acionável</p>
+                <h3 id="shots-operacionais-title">Shots relacionados</h3>
+              </header>
+              <div class="shot-toolbar">
+                <button class="status-filter is-active" type="button" data-shot-filter="all">Todos do bloco</button>
+                <button class="status-filter" type="button" data-shot-filter="A">Só Prioridade A</button>
+                <button class="status-filter" type="button" data-shot-filter="pendente">Ainda pendentes</button>
+                <button class="status-filter" type="button" data-shot-filter="repetir">Para refazer</button>
+              </div>
+              <div class="action-shot-list" id="action-shot-list"></div>
+            </section>
+          </div>
+
+          <section class="tool-panel contingency-panel" id="contingencia" aria-labelledby="contingencia-title">
+            <header class="tool-panel__header">
+              <p class="section__eyebrow">Emergência / contingência</p>
+              <h3 id="contingencia-title">Resposta rápida</h3>
+            </header>
+            <div class="contingency-buttons" id="contingency-buttons"></div>
+            <div class="contingency-result" id="contingency-result" aria-live="polite"></div>
+          </section>
+
+          <section class="tool-panel question-panel" id="pergunta-rapida" aria-labelledby="pergunta-rapida-title">
+            <header class="tool-panel__header">
+              <p class="section__eyebrow">Pergunta rápida</p>
+              <h3 id="pergunta-rapida-title">Depoimento em campo</h3>
+            </header>
+            <div class="question-buttons" id="question-buttons"></div>
+            <p class="question-display" id="question-display">Escolha uma pergunta para mostrar em destaque.</p>
+            <button class="btn btn--ghost" type="button" id="next-question">Próxima pergunta</button>
+          </section>
+
+          <section class="tool-panel report-panel" id="relatorio" aria-labelledby="relatorio-title">
+            <header class="tool-panel__header">
+              <p class="section__eyebrow">Relatório do campo</p>
+              <h3 id="relatorio-title">Resumo copiável</h3>
+            </header>
+            <div class="report-actions">
+              <button class="btn btn--primary" type="button" id="generate-report">Gerar resumo</button>
+              <button class="btn btn--ghost" type="button" id="copy-report">Copiar resumo</button>
+              <button class="btn btn--ghost" type="button" id="share-report">Compartilhar resumo</button>
+            </div>
+            <p class="share-status" id="share-status" aria-live="polite"></p>
+            <textarea class="report-output" id="report-output" rows="12" readonly placeholder="O resumo aparecerá aqui."></textarea>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section director-overview" id="visao" aria-labelledby="visao-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Plano diretor completo</p>
+          <h2 class="section__title" id="visao-title">Campanha multientrega para 1 ano de Anauá</h2>
+          <p class="section__intro">
+            O projeto não é um aftermovie. É uma campanha comercial, emocional, cinematográfica e humana para gerar desejo,
+            confiança e pertencimento, usando São Thomé como jornada sensorial e a Anauá como condutora da experiência.
+          </p>
+        </header>
+
+        <div class="spec-grid" aria-label="Ficha executiva do plano">
+          <article class="spec-card">
+            <span class="spec-card__label">Entrega principal</span>
+            <strong>Reel 01 · 1’28”</strong>
+            <p>Vídeo vertical 9:16, 1080p, peça-mãe da campanha.</p>
+          </article>
+          <article class="spec-card">
+            <span class="spec-card__label">Entregas totais</span>
+            <strong>5 Reels · 4’30”</strong>
+            <p>Manifesto, participante, natureza, bastidores e depoimentos condicionais.</p>
+          </article>
+          <article class="spec-card">
+            <span class="spec-card__label">Meta de captação</span>
+            <strong>30 a 60 min de bruto</strong>
+            <p>Material vertical nativo, com horizontais apenas opcionais e justificados.</p>
+          </article>
+          <article class="spec-card">
+            <span class="spec-card__label">Locação</span>
+            <strong>São Thomé das Letras/MG</strong>
+            <p>Van, pousada, Sobradinho, grutas, poços, Pirâmide, Letreiro e retorno para BH.</p>
+          </article>
+        </div>
+
+        <div class="director-grid">
+          <article class="director-card director-card--lead">
+            <p class="section__eyebrow">Decisão de direção</p>
+            <h3>Manifesto de experiência</h3>
+            <p>
+              Não fazer institucional, vlog ou vídeo turístico. Mostrar pessoas saindo cansadas de BH, atravessando estrada,
+              pedra, água, silêncio e roda, e voltando como grupo com memória compartilhada.
+            </p>
+          </article>
+          <article class="director-card">
+            <h3>Objetivo comercial</h3>
+            <p>Vender desejo, confiança e pertencimento; gerar intenção de próxima viagem e lead pelo perfil da Anauá.</p>
+          </article>
+          <article class="director-card">
+            <h3>Objetivo narrativo</h3>
+            <p>Materializar a agência real: organização, pontualidade, cuidado, condução, segurança e presença.</p>
+          </article>
+          <article class="director-card">
+            <h3>Público</h3>
+            <p>Pessoas que querem viajar em grupo com segurança, natureza e experiência humana, não pacote turístico frio.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section manifesto" id="manifesto" aria-labelledby="manifesto-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Por que este filme existe</p>
+          <h2 class="section__title" id="manifesto-title">Manifesto</h2>
+        </header>
+        <div class="manifesto__grid">
+          <blockquote class="manifesto__lead">
+            Não é um vídeo de viagem. É a prova de que viver a natureza em grupo muda o corpo, a escuta e o jeito de pertencer.
+          </blockquote>
+          <div class="manifesto__body">
+            <p>
+              A Anauá conduz experiências reais — com cuidado, segurança e presença. Este plano existe para capturar
+              o que acontece quando pessoas deixam a rotina, encontram pedra e céu, e descobrem que não estão sozinhas.
+            </p>
+            <p>
+              Cada frame deve transmitir condução humana, não promoção genérica. O tom é íntimo e confiante:
+              quem assiste precisa sentir o grupo, a equipe orientando, a natureza como protagonista e o
+              pertencimento como virada emocional.
+            </p>
+            <ul class="manifesto__values">
+              <li>Experiência real, não cenário montado</li>
+              <li>Natureza como personagem, não pano de fundo</li>
+              <li>Grupo e condução visíveis em cada decisão de câmera</li>
+              <li>Cuidado, segurança e organização como prova de confiança</li>
+            </ul>
+          </div>
+        </div>
+        <div class="concept-strip" aria-label="Conceitos de direção">
+          <article>
+            <span>01</span>
+            <strong>A viagem que virou grupo</strong>
+            <p>Rostos, mãos, mochilas, trilhas, água, roda e despedida.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Um ano guiando encontros</strong>
+            <p>Orientar, esperar, conferir, avisar, conduzir e celebrar.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>São Thomé em presença</strong>
+            <p>Pedra, água, vento e silêncio com escala humana.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <strong>A prova no rosto</strong>
+            <p>Microdepoimentos sinceros e expressões reais.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reels" id="reels" aria-labelledby="reels-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Matriz de entregas</p>
+          <h2 class="section__title" id="reels-title">Reels da campanha</h2>
+          <p class="section__intro">
+            Cinco peças com funções distintas. Prioridade A garante a narrativa comercial; B amplia o universo;
+            C entra se o tempo e a energia permitirem.
+          </p>
+        </header>
+        <div class="reels__grid">
+          <article class="reel-card reel-card--priority-a">
+            <div class="reel-card__head">
+              <span class="priority-badge priority-badge--a">Prioridade A</span>
+              <span class="reel-card__duration">1'28"</span>
+            </div>
+            <h3 class="reel-card__title">Reel 01 — Principal</h3>
+            <p class="reel-card__desc">
+              Peça-mãe da campanha. Arco emocional completo: gancho, promessa, chegada, natureza, cuidado da equipe,
+              virada de pertencimento e fechamento comercial.
+            </p>
+          </article>
+
+          <article class="reel-card reel-card--priority-a">
+            <div class="reel-card__head">
+              <span class="priority-badge priority-badge--a">Prioridade A</span>
+              <span class="reel-card__duration">45s</span>
+            </div>
+            <h3 class="reel-card__title">Reel 02 — Participante</h3>
+            <p class="reel-card__desc">
+              Olhar de quem vive. Depoimentos espontâneos, reações no corpo e frases que vendem desejo sem parecer roteiro.
+            </p>
+          </article>
+
+          <article class="reel-card reel-card--priority-b">
+            <div class="reel-card__head">
+              <span class="priority-badge priority-badge--b">Prioridade B</span>
+              <span class="reel-card__duration">40s</span>
+            </div>
+            <h3 class="reel-card__title">Reel 03 — Natureza e conexão</h3>
+            <p class="reel-card__desc">
+              Paisagem, silêncio, água, pedra e respiração coletiva. Ritmo mais contemplativo para ampliar o universo visual.
+            </p>
+          </article>
+
+          <article class="reel-card reel-card--priority-b">
+            <div class="reel-card__head">
+              <span class="priority-badge priority-badge--b">Prioridade B</span>
+              <span class="reel-card__duration">45s</span>
+            </div>
+            <h3 class="reel-card__title">Reel 04 — Bastidores equipe</h3>
+            <p class="reel-card__desc">
+              Condução, orientação e cuidado visíveis. Prova de que a Anauá organiza, acolhe e conduz com segurança.
+            </p>
+          </article>
+
+          <article class="reel-card reel-card--priority-c">
+            <div class="reel-card__head">
+              <span class="priority-badge priority-badge--c">Condicional</span>
+              <span class="reel-card__duration">52s</span>
+            </div>
+            <h3 class="reel-card__title">Reel 05 — Depoimentos</h3>
+            <p class="reel-card__desc">
+              Compilação de falas fortes capturadas ao longo do fim de semana. Só entra se houver material autêntico e áudio limpo.
+            </p>
+          </article>
+        </div>
+        <div class="reel-hooks">
+          <h3>Ganchos e função editorial</h3>
+          <ul>
+            <li><strong>R01:</strong> “Um ano depois, a Anauá continua começando do jeito certo...” · vende marca e campanha.</li>
+            <li><strong>R02:</strong> “Você não assiste uma viagem dessas. Você entra nela.” · identificação e lead.</li>
+            <li><strong>R03:</strong> “São Thomé não pede pressa. Pede presença.” · alcance visual e salvamentos.</li>
+            <li><strong>R04:</strong> “A parte mais bonita da viagem é a que ninguém vê primeiro.” · confiança e conversão.</li>
+            <li><strong>R05:</strong> “O que você leva daqui?” · prova social, só se houver áudio e falas fortes.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section narrative" id="narrativa" aria-labelledby="narrativa-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Reel 01 — Principal</p>
+          <h2 class="section__title" id="narrativa-title">Estrutura narrativa</h2>
+          <p class="section__intro">
+            O arco de 1'28" deve funcionar como trailer emocional e convite comercial. Cada bloco tem função clara na montagem.
+          </p>
+        </header>
+        <ol class="narrative__timeline">
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">01</span>
+            <div class="narrative__step-body">
+              <h3>Gancho</h3>
+              <p>Abrir com imagem forte e pergunta implícita: o que muda quando você vive a natureza em grupo?</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">02</span>
+            <div class="narrative__step-body">
+              <h3>Promessa humana</h3>
+              <p>Rostos, mãos, mochilas. A promessa não é paisagem — é pertencimento conduzido com cuidado.</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">03</span>
+            <div class="narrative__step-body">
+              <h3>Estrada e chegada</h3>
+              <p>Movimento, expectativa, transição da rotina para o território. Som ambiente e ritmo de viagem.</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">04</span>
+            <div class="narrative__step-body">
+              <h3>Primeiro contato com São Thomé</h3>
+              <p>Letreiro, pedra, altitude, ar. Estabelecer lugar sem cartão-postal genérico.</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">05</span>
+            <div class="narrative__step-body">
+              <h3>Natureza e corpo</h3>
+              <p>Trilha, gruta, água, respiração. Corpo em contato com o ambiente — não pose, presença.</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">06</span>
+            <div class="narrative__step-body">
+              <h3>Cuidado da equipe</h3>
+              <p>Orientação, café, organização, olhar atento. Confiança mostrada, não declarada.</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">07</span>
+            <div class="narrative__step-body">
+              <h3>Virada / pertencimento</h3>
+              <p>Roda, fala de 1 ano, pirâmide. O momento em que o grupo deixa de ser estranhos.</p>
+            </div>
+          </li>
+          <li class="narrative__step">
+            <span class="narrative__step-num" aria-hidden="true">08</span>
+            <div class="narrative__step-body">
+              <h3>Fechamento comercial emocional</h3>
+              <p>Despedida no letreiro, convite implícito, sensação de “quero estar aí”. Marca discreta, desejo alto.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section field-mode" id="campo" aria-labelledby="campo-title">
+      <div class="container">
+        <div class="field-mode__panel">
+          <header class="field-mode__header">
+            <p class="section__eyebrow">Uso rápido no set</p>
+            <h2 class="section__title" id="campo-title">Modo Campo</h2>
+            <p class="section__intro">
+              Visão compacta para tomada de decisão quando houver pouco tempo, pouca bateria ou mudança de clima.
+            </p>
+          </header>
+
+          <div class="field-mode__grid">
+            <article class="field-mode__block">
+              <span class="field-mode__tag">Agora</span>
+              <h3>Itens críticos da etapa atual</h3>
+              <ul>
+                <li>Checar áudio antes de qualquer fala útil.</li>
+                <li>Captar plano aberto, médio e detalhe de cada cena A.</li>
+                <li>Registrar equipe conduzindo, não só participantes reagindo.</li>
+                <li>Fazer backup assim que houver pausa real.</li>
+              </ul>
+            </article>
+
+            <article class="field-mode__block">
+              <span class="field-mode__tag">Não sair sem</span>
+              <h3>Lista resumida</h3>
+              <ul>
+                <li>Embarque orientado pela equipe.</li>
+                <li>Gruta / água com corpo em ação.</li>
+                <li>Roda e fala de 1 ano.</li>
+                <li>Letreiro / despedida emocional.</li>
+              </ul>
+            </article>
+
+            <article class="field-mode__block field-mode__block--priority">
+              <span class="field-mode__tag">Prioridade A</span>
+              <h3>Cenas inegociáveis</h3>
+              <ul>
+                <li>Arco completo do Reel 01.</li>
+                <li>2–3 falas fortes com áudio limpo.</li>
+                <li>Cuidado da equipe em ação.</li>
+                <li>Pertencimento do grupo sem pose forçada.</li>
+              </ul>
+            </article>
+
+            <article class="field-mode__block">
+              <span class="field-mode__tag">Contingência</span>
+              <h3>Se apertar, proteger a história</h3>
+              <ul>
+                <li>Chuva: som, casaco, vidro, abrigo e depoimentos cobertos.</li>
+                <li>Atraso: salvar equipe, água/gruta, fala 1 ano e despedida.</li>
+                <li>Bateria baixa: iPhone + Lark + power bank viram kit mínimo.</li>
+                <li>Insegurança: parar captação e proteger grupo/pessoa/equipamento.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section must-capture" id="captacao" aria-labelledby="captacao-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Plano de campo</p>
+          <h2 class="section__title" id="captacao-title">Não sair sem</h2>
+          <p class="section__intro">
+            Cenas obrigatórias para garantir montagem, emoção e prova de condução. Se faltar, o filme perde força comercial.
+          </p>
+        </header>
+        <ul class="must-capture__list">
+          <li>Embarque com equipe orientando</li>
+          <li>Café / mochila</li>
+          <li>Gruta / água</li>
+          <li>Organização às 15h</li>
+          <li>Roda / fala de 1 ano</li>
+          <li>Pirâmide</li>
+          <li>Letreiro / despedida</li>
+          <li>Depoimentos possíveis</li>
+          <li>Foleys essenciais</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section priorities" id="prioridades" aria-labelledby="prioridades-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Decisão de campo</p>
+          <h2 class="section__title" id="prioridades-title">Prioridades de captação</h2>
+          <p class="section__intro">
+            Quando o tempo apertar, a ordem abaixo define o que salvar e o que pode ser cortado sem comprometer a campanha.
+          </p>
+        </header>
+        <div class="priorities__grid">
+          <article class="priority-card priority-card--a">
+            <span class="priority-card__label">Prioridade A</span>
+            <h3 class="priority-card__title">Inegociável</h3>
+            <ul>
+              <li>Reel 01 — arco completo</li>
+              <li>Embarque orientado pela equipe</li>
+              <li>Gruta / água com corpo em ação</li>
+              <li>Roda / fala de 1 ano</li>
+              <li>Letreiro / despedida emocional</li>
+              <li>Áudio limpo de 2–3 falas fortes</li>
+            </ul>
+          </article>
+
+          <article class="priority-card priority-card--b">
+            <span class="priority-card__label">Prioridade B</span>
+            <h3 class="priority-card__title">Apoio narrativo</h3>
+            <ul>
+              <li>Bastidores da equipe conduzindo</li>
+              <li>Detalhes de natureza e conexão</li>
+              <li>Café / mochila / organização 15h</li>
+              <li>Pirâmide e momentos de grupo</li>
+              <li>Plano aberto de São Thomé</li>
+            </ul>
+          </article>
+
+          <article class="priority-card priority-card--c">
+            <span class="priority-card__label">Prioridade C</span>
+            <h3 class="priority-card__title">Extra cortável</h3>
+            <ul>
+              <li>Drone — apenas se seguro e autorizado</li>
+              <li>Reel 05 — depoimentos extras</li>
+              <li>Insert shots decorativos</li>
+              <li>Repetições de cenas já capturadas</li>
+              <li>Foleys adicionais além do essencial</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section production-plan" id="plano-tecnico" aria-labelledby="plano-tecnico-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Shot list técnico</p>
+          <h2 class="section__title" id="plano-tecnico-title">Captação 01–27, formatos e função de cada cena</h2>
+          <p class="section__intro">
+            Cada cena precisa ter função narrativa, som útil e prioridade clara. Vertical 9:16 é matriz; horizontal é bônus
+            somente depois de garantir o take vertical equivalente.
+          </p>
+        </header>
+
+        <div class="shot-list">
+          <details class="shot-item" open>
+            <summary><span>01</span> Embarque · A · 9V-VE</summary>
+            <p>iPhone + Osmo. Mochila, pés, porta da van, chegada discreta, som de porta/rodas/vozes. Não mostrar documentos ou placas sensíveis.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>02</span> Equipe orienta · A · 9V</summary>
+            <p>Sony 23mm ou iPhone + Lark Max 2. Meio-corpo da equipe, grupo ao fundo, fala limpa sobre assentos, cronograma e cuidado.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>03</span> Van em movimento · B · 9V</summary>
+            <p>Vidro, mãos, reflexos, luz passando, motor baixo e conversa distante sem conteúdo privado. Gravar handles estáveis.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>04</span> Chegada e café · A · 9V-VE</summary>
+            <p>Sony 15/23mm e iPhone. Café, xícara, pão, casaco e mochila. Foco em gesto humano, não hotelaria genérica.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>05</span> Igreja de Pedra · B · 9V + H-opt</summary>
+            <p>Localização com pedra e grupo em escala. Proteger céu e incluir participante para fugir de cartão-postal vazio.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>06</span> Caminhada urbana · B · 9V</summary>
+            <p>iPhone + Osmo. Passos em pedras, costas, pés e grupo. Evitar rostos aleatórios e exposição de terceiros.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>07</span> Gruta Sobradinho · A · 9V-VE</summary>
+            <p>iPhone em baixa luz ou Sony 15mm. Silhueta, lanterna, textura de rocha, eco, passos e respiração. Planos curtos e estáveis.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>08</span> Água e poços · A · 9V-VE</summary>
+            <p>GoPro + iPhone seguro; Sony distante. Pés na água, riso, gota e mão. Som de água prioritário.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>09</span> Almoço no complexo · C · 9V</summary>
+            <p>Pausa e convivência. Prato, mesa e risada sem publicidade de restaurante. Só usar se houver gesto humano real.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>10</span> Organização 15h · A · 9V</summary>
+            <p>Equipe chama grupo, confere horário, orienta casaco e saída direta para Pirâmide. Material crítico para Reel 04.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>11</span> Parque Antônio Rosa · B · 9V</summary>
+            <p>Trilha curta, pedras e grupo subindo. Usar detalhe e compressão se houver excesso de gente.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>12</span> Pedra da Bruxa · A · 9V + H-opt</summary>
+            <p>Escala e misticismo sem clichê. Participantes contemplando, não posando. Som de vento e naturalidade.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>13</span> Roda de conversa · A · 9V-VE</summary>
+            <p>Sony 23mm/iPhone + Lark. Mãos, círculo, silêncio e fala sobre 1 ano. Consentimento e corte de falas íntimas.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>14</span> Pirâmide pôr do sol · A · 9V + H-opt</summary>
+            <p>Clímax visual. Grupo em contraluz, vento e horizonte. Drone só autorizado e seguro; manter distância de risco.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>15</span> Noite livre no centro · C · 9V</summary>
+            <p>Respiro cultural com iPhone discreto. Luz de loja, caminhada e grupo livre; evitar marcas e pessoas identificáveis.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>16</span> Ladeira do Amendoim · B · 9V</summary>
+            <p>Reação do grupo e estrada sem placas sensíveis. Manter segurança e explicação breve; não parecer pegadinha.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>17</span> Vale das Borboletas · A · 9V-VE</summary>
+            <p>Segundo eixo de água. Buscar calma, detalhe, silêncio e rosto pós-banho para diferenciar de Sobradinho.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>18</span> Poço dos Gnomos/Maria Ribeiro · B · 9V</summary>
+            <p>Variação sensorial com mãos na água, pedras e grupo entrando/saindo. Sempre inserir pessoa.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>19</span> Gruta de São Thomé · B · 9V</summary>
+            <p>Memória histórica/espiritual sem didatismo. Silhueta, textura e eco; cuidado com baixa luz e crowd.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>20</span> Tarde livre · C · 9V</summary>
+            <p>Descanso e autonomia. Captar compras, banco e conversa aberta sem áudio privado apenas se houver função narrativa.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>21</span> Tirolesa opcional · C · 9V</summary>
+            <p>GoPro/iPhone seguro se ocorrer. Não vender como incluso nem obrigatório; depende de autorização e segurança.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>22</span> Letreiro despedida · A · 9V + H-opt</summary>
+            <p>Sony 23mm/iPhone + Lark. Grupo, abraço, fala final, pôr do sol extra e despedida sem clichê.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>23</span> Depoimento expectativa · A · 9V-VE</summary>
+            <p>Pergunta: “o que você espera dessa viagem?”. Luz em sombra aberta e pedido de resposta concreta.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>24</span> Depoimento momento marcante · A · 9V-VE</summary>
+            <p>Pergunta: “qual cena você vai lembrar?”. Captar 15s por pessoa; cortar falas longas e genéricas.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>25</span> B-roll de equipe · A · 9V</summary>
+            <p>Conferir lista, água, horários, grupo, microfone e recado privado sem expor tela ou dados.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>26</span> Foleys essenciais · A</summary>
+            <p>10s limpos de porta da van, passos, mochila, água, vento, gruta, xícara, tecido, zíper e silêncio.</p>
+          </details>
+          <details class="shot-item">
+            <summary><span>27</span> Frames de capa · A · 9V + foto</summary>
+            <p>Três versões por Reel: grupo, participante, paisagem com pessoa e equipe. Deixar área limpa para texto.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section route-plan" id="ordem" aria-labelledby="ordem-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Ordem de gravação</p>
+          <h2 class="section__title" id="ordem-title">Roteiro operacional por bloco real</h2>
+          <p class="section__intro">
+            O roteiro pode mudar; a história não: início, travessia, cuidado, natureza, pertencimento e despedida.
+          </p>
+        </header>
+        <div class="route-grid">
+          <article><span>Sexta 20:40–22:20</span><strong>Embarques</strong><p>Porta/van, equipe orienta, sonolência, horário e assentos. Sem atrasar o grupo.</p></article>
+          <article><span>Madrugada</span><strong>Estrada</strong><p>Vidro, luz, mãos, descanso e transição. Não filmar pessoas dormindo de modo constrangedor.</p></article>
+          <article><span>Sábado 07:00</span><strong>Café</strong><p>Mochila, casaco, rostos acordando e alinhamento do dia. Fazer capa alternativa com participante.</p></article>
+          <article><span>Sábado manhã</span><strong>Igreja / Sobradinho</strong><p>Localização, gruta, água, trilha e almoço. Água e gruta sustentam Reel 03.</p></article>
+          <article><span>Sábado 15:00</span><strong>Organização</strong><p>Equipe chama grupo, casaco, saída direta e cronograma. Cena crítica para bastidores.</p></article>
+          <article><span>Sábado 16:20</span><strong>Pedra / Pirâmide</strong><p>Pedra da Bruxa, roda, fala de 1 ano, silêncio, vento e pôr do sol. Não falhar.</p></article>
+          <article><span>Domingo 07:00–12:30</span><strong>Vale e poços</strong><p>Água diferente, cansaço bom e nova prova de experiência, mais calma e íntima.</p></article>
+          <article><span>Domingo 13:30–17:00</span><strong>Depoimentos finais</strong><p>Gruta, tarde livre e pickups com Sony 23mm + Lark em luz controlada.</p></article>
+          <article><span>Retorno</span><strong>Letreiro e van</strong><p>Despedida, fala final, grupo, porta da van e estrada de volta.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section image-care" id="cuidados" aria-labelledby="cuidados-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Privacidade e produção</p>
+          <h2 class="section__title" id="cuidados-title">Cuidados de imagem e autorização</h2>
+          <p class="section__intro">
+            Conteúdo forte não justifica risco jurídico, exposição indevida ou material que não possa ser publicado.
+          </p>
+        </header>
+        <ul class="image-care__list">
+          <li>Evitar close sem autorização clara da pessoa filmada.</li>
+          <li>Não expor crianças sem autorização do responsável.</li>
+          <li>Não filmar telas, documentos, placas sensíveis ou conversas privadas.</li>
+          <li>Drone apenas se regular, autorizado e seguro para o local.</li>
+          <li>Música apenas com licença adequada para publicação e impulsionamento.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section equipment" id="equipamentos" aria-labelledby="equipamentos-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Kit de produção</p>
+          <h2 class="section__title" id="equipamentos-title">Equipamentos</h2>
+          <p class="section__intro">
+            Setup enxuto, mobile-first no set. Cada ferramenta tem função definida para não dispersar atenção em campo.
+          </p>
+        </header>
+        <div class="equipment__grid">
+          <article class="equipment-card">
+            <h3>Captação principal móvel</h3>
+            <p>iPhone 15 Pro Max + DJI Osmo Mobile 6</p>
+            <span class="equipment-card__role">Reels, estabilização, agilidade</span>
+          </article>
+          <article class="equipment-card">
+            <h3>Captação cinematográfica</h3>
+            <p>Sony ZV-E10 + Viltrox 15mm / 23mm</p>
+            <span class="equipment-card__role">Look premium, profundidade, baixa luz</span>
+          </article>
+          <article class="equipment-card">
+            <h3>Ação e POV</h3>
+            <p>GoPro HERO 11</p>
+            <span class="equipment-card__role">Trilha, água, movimento imersivo</span>
+          </article>
+          <article class="equipment-card">
+            <h3>Áudio</h3>
+            <p>Hollyland Lark Max 2 / M2</p>
+            <span class="equipment-card__role">Depoimentos, falas, ambiente controlado</span>
+          </article>
+          <article class="equipment-card equipment-card--conditional">
+            <h3>Aéreo</h3>
+            <p>DJI Mini 4 Pro <em>(condicional)</em></p>
+            <span class="equipment-card__role">Somente com segurança e autorização</span>
+          </article>
+          <article class="equipment-card">
+            <h3>Energia</h3>
+            <p>Power Bank</p>
+            <span class="equipment-card__role">Autonomia em campo o dia inteiro</span>
+          </article>
+          <article class="equipment-card">
+            <h3>Pós e backup</h3>
+            <p>MacBook Pro M5</p>
+            <span class="equipment-card__role">Revisão rápida, backup, organização</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section craft" id="foto-audio" aria-labelledby="foto-audio-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Fotografia e som</p>
+          <h2 class="section__title" id="foto-audio-title">Imagem, áudio, luz, ritmo e cor</h2>
+          <p class="section__intro">
+            A campanha depende tanto de som real quanto de imagem bonita. Música estrutura emoção; não encobre fala,
+            foley ou ambiência.
+          </p>
+        </header>
+        <div class="craft-grid">
+          <article><h3>Imagem</h3><p>Câmera próxima nos participantes. Planos abertos só com corpo/escala. 23mm para retratos e capas; 15mm para grupo/ambiente; iPhone/Osmo para movimento vertical.</p></article>
+          <article><h3>Luz</h3><p>Manhã e fim de tarde para pele e textura. Evitar meio-dia duro em rosto; usar sombra aberta e contraluz quando possível.</p></article>
+          <article><h3>Cor</h3><p>Terra, quartzito, verde, azul frio de manhã e dourado do pôr do sol. Pele natural, céu protegido e saturação turística contida.</p></article>
+          <article><h3>FPS e obturador</h3><p>24/30fps para fala e realidade; 60fps só para água, passos, vento, tecido e inserts. Usar ND para respeitar obturador.</p></article>
+          <article><h3>Áudio direto</h3><p>Lark Max 2 para oratória/depoimentos; Lark M2 como backup. Gravar 10s de room tone em cada bloco de fala.</p></article>
+          <article><h3>Foleys</h3><p>Porta da van, zíper, passos, tecido, xícara, água, respiração pós-trilha, mão na pedra e vento na Pirâmide.</p></article>
+          <article><h3>J/L-cuts</h3><p>Água entra antes do poço, vento antes da Pirâmide, fala antes do bastidor. Som conduz transição emocional.</p></article>
+          <article><h3>Música</h3><p>Buscar no Epidemic Sound: organic cinematic travel, warm documentary folk, ambient nature documentary e sunset cinematic acoustic.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section post-plan" id="pos" aria-labelledby="pos-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Pós-produção</p>
+          <h2 class="section__title" id="pos-title">Organização, timelines, texto, capas e export</h2>
+          <p class="section__intro">
+            Montar primeiro o manifesto. Depois derivar os selects para participante, natureza, bastidores e depoimentos.
+          </p>
+        </header>
+
+        <div class="post-layout">
+          <article class="post-card">
+            <h3>Estrutura de projeto</h3>
+            <ul>
+              <li>00_ADMIN · roteiro, autorização, notas, fontes e export checklist.</li>
+              <li>01_SONY · Sony ZV-E10 por dia/locação.</li>
+              <li>02_IP15PM · iPhone por dia/locação, vertical e horizontal separados.</li>
+              <li>03_GOPRO · água, trilha e POV.</li>
+              <li>04_DRONE · apenas material autorizado, com comprovação.</li>
+              <li>05_AUDIO · Lark Max 2/M2, room tone e foleys.</li>
+              <li>06_SELECTS, 07_TIMELINES, 08_GFX_TEXTOS e 09_EXPORTS.</li>
+            </ul>
+          </article>
+          <article class="post-card">
+            <h3>Timelines</h3>
+            <ul>
+              <li>R01_Manifesto_0128 · cronológica sensorial.</li>
+              <li>R02_Participante_0045 · antes, atravessamento, cansaço bom e frase final.</li>
+              <li>R03_Natureza_0040 · pedra, gruta, água, vento, silêncio e horizonte.</li>
+              <li>R04_Bastidores_0045 · checklist, orientação, deslocamento e cuidado invisível.</li>
+              <li>R05_Depoimentos_0052 · pergunta, quatro falas fortes e síntese final.</li>
+            </ul>
+          </article>
+          <article class="post-card">
+            <h3>Export e controle</h3>
+            <ul>
+              <li>1080x1920, áudio estéreo, H.264/H.265 conforme fluxo.</li>
+              <li>Nome padrão: ANAUÁ_1ANO_R01_MANIFESTO_V01_1080x1920.</li>
+              <li>Exportar V01 interna, revisar no celular, corrigir texto/mix/cortes e fechar V02 final.</li>
+              <li>Capas 1080x1920 e versão 4:5 se necessário.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section script-plan" id="falas" aria-labelledby="falas-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Roteiro de campo</p>
+          <h2 class="section__title" id="falas-title">Oratória, depoimentos e narração mínima</h2>
+          <p class="section__intro">
+            A campanha deve ser conduzida por falas reais da equipe, depoimentos curtos e texto de tela. Narração longa é plano B.
+          </p>
+        </header>
+        <div class="script-grid">
+          <article><h3>Boas-vindas</h3><p>“Vamos cuidar dos horários, da segurança e do ritmo do grupo para todo mundo aproveitar bem.”</p><span>20–30s · perto da van · sem dados sensíveis</span></article>
+          <article><h3>Orientação do sábado</h3><p>“Hoje o dia tem pedra, gruta, água e fim de tarde no alto... levem casaco.”</p><span>15–25s · clareza operacional + cuidado</span></article>
+          <article><h3>Fala sobre 1 ano</h3><p>“Mais do que levar pessoas para lugares bonitos, a nossa ideia é criar experiência com cuidado, grupo e presença.”</p><span>20s · fala central do manifesto</span></article>
+          <article><h3>Roda de conexão</h3><p>“Quem quiser, compartilha uma palavra sobre o que está levando desse dia.”</p><span>curta · preservar privacidade</span></article>
+          <article><h3>Antes do pôr do sol</h3><p>“Agora é menos sobre foto e mais sobre presença.”</p><span>10–15s · natural, sem soar artificial</span></article>
+          <article><h3>Despedida</h3><p>“Que essa viagem volte com vocês como memória boa — e que a próxima encontre mais gente no caminho.”</p><span>15–20s · fechamento emocional</span></article>
+        </div>
+        <div class="question-bank">
+          <h3>Perguntas para depoimentos</h3>
+          <ul>
+            <li>O que você espera dessa viagem?</li>
+            <li>Qual foi sua primeira sensação ao chegar em São Thomé com o grupo?</li>
+            <li>Qual cena você acabou de viver que uma foto não explicaria?</li>
+            <li>Que palavra define esse momento?</li>
+            <li>O que foi diferente em viajar com a Anauá?</li>
+            <li>Para quem está pensando em ir numa próxima viagem, o que você diria?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section publishing" id="publicacao" aria-labelledby="publicacao-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Publicação e capas</p>
+          <h2 class="section__title" id="publicacao-title">Legenda, SEO orgânico e frames de capa</h2>
+          <p class="section__intro">
+            Tratar cada Reel como peça publicável e impulsionável: direitos de imagem, música licenciada, texto claro e promessa sustentada por cena.
+          </p>
+        </header>
+        <div class="publishing-grid">
+          <article>
+            <h3>Legenda principal R01</h3>
+            <p>Há um ano, a Anauá começou a reunir pessoas para viver a natureza com mais presença, cuidado e grupo. Em São Thomé, esse ciclo virou estrada, café cedo, pedra, gruta, água fria, conversa, silêncio, pôr do sol e despedida. Não foi só uma viagem. Foi uma memória construída junto.</p>
+            <small>#AnauaEcoturismo #SaoThomeDasLetras #EcoturismoMG #ViagemEmGrupo #NaturezaEmMinas</small>
+          </article>
+          <article>
+            <h3>Capas por Reel</h3>
+            <ul>
+              <li>R01 · Grupo em contraluz na Pirâmide ou Letreiro · “1 ano de Anauá”.</li>
+              <li>R02 · Participante olhando água/pedra · “Você dentro da viagem”.</li>
+              <li>R03 · Silhueta humana pequena na paisagem · “Natureza pede presença”.</li>
+              <li>R04 · Equipe orientando grupo · “O cuidado por trás”.</li>
+              <li>R05 · Pessoa em depoimento · “O que você leva daqui?”.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section checklist-section" id="checklist" aria-labelledby="checklist-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Preparação de campo</p>
+          <h2 class="section__title" id="checklist-title">Checklist interativo</h2>
+          <p class="section__intro">
+            Marque conforme for concluindo. O progresso fica salvo neste navegador — sem login, sem servidor.
+          </p>
+        </header>
+
+        <div class="checklist__toolbar">
+          <p class="checklist__progress" id="checklist-progress" aria-live="polite">0 de 0 concluídos</p>
+          <button class="btn btn--ghost" type="button" id="checklist-clear">Limpar checklist</button>
+        </div>
+
+        <fieldset class="checklist" id="checklist-fieldset">
+          <legend class="visually-hidden">Itens do checklist de campo</legend>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Pré-produção</h3>
+            <ul class="checklist__list" data-checklist-group="pre">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="baterias-carregadas">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Baterias e cartões conferidos</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="audio-testado">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Microfones testados (Lark Max 2 / M2)</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="estabilizador">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Osmo calibrado e balanceado</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="lentes-limpas">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Lentes limpas — 15mm e 23mm</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Captação — Prioridade A</h3>
+            <ul class="checklist__list" data-checklist-group="captacao-a">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="embarque-equipe">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Embarque com equipe orientando</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="gruta-agua">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Gruta / água — corpo em ação</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="roda-1-ano">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Roda / fala de 1 ano</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="letreiro-despedida">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Letreiro / despedida emocional</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="falas-fortes">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">2–3 falas fortes com áudio limpo</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Captação — Apoio</h3>
+            <ul class="checklist__list" data-checklist-group="captacao-b">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="cafe-mochila">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Café / mochila</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="organizacao-15h">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Organização às 15h</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="piramide">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Pirâmide</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="bastidores-equipe">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Bastidores da equipe conduzindo</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="foleys">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Foleys essenciais gravados</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Pós-captação</h3>
+            <ul class="checklist__list" data-checklist-group="pos">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="backup-materiais">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Backup de todos os arquivos no MacBook</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="revisao-rush">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Revisão rápida do rush prioritário</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Áudio e foleys</h3>
+            <ul class="checklist__list" data-checklist-group="audio">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="fala-1-ano-limpa">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Fala limpa sobre 1 ano da Anauá captada</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="room-tone">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Room tone de 10s gravado nos blocos de fala</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="foleys-lista">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Porta, passos, mochila, água, vento, gruta, xícara, tecido e zíper</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Inventário e backup</h3>
+            <ul class="checklist__list" data-checklist-group="backup">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="inventario-ida-volta">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Inventário ida/volta conferido: câmeras, lentes, tampas, cartões, microfones, RC2, baterias e cabos</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="pasta-backup-criada">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Pasta ANAUÁ_1ANO_STL_2026 criada com VIDEO, AUDIO, SELECTS, DAVINCI e EXPORTS</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="dupla-copia">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Nenhum cartão formatado antes de dupla cópia segura</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="checklist__group">
+            <h3 class="checklist__group-title">Pós e publicação</h3>
+            <ul class="checklist__list" data-checklist-group="publicacao">
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="timelines-r01-r05">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Timelines R01 a R05 criadas e selects A/B/C separados</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="capas-reels">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">3 capas por Reel exportadas ou marcadas como frame</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="licenca-musica">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">Música com licença adequada para publicação e impulsionamento</span>
+                </label>
+              </li>
+              <li>
+                <label class="checklist__item">
+                  <input type="checkbox" name="checklist" value="revisao-celular">
+                  <span class="checklist__box" aria-hidden="true"></span>
+                  <span class="checklist__text">V01 revisada em celular; V02 final exportada em 1080x1920 com áudio estéreo</span>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+
+    <section class="section risks" id="riscos" aria-labelledby="riscos-title">
+      <div class="container">
+        <header class="section__header">
+          <p class="section__eyebrow">Direção consciente</p>
+          <h2 class="section__title" id="riscos-title">Riscos e correções</h2>
+          <p class="section__intro">
+            Cada armadilha comum tem resposta de direção. Antecipar evita retrabalho e protege a marca.
+          </p>
+        </header>
+        <div class="risks__grid">
+          <article class="risk-card">
+            <h3 class="risk-card__risk">Aftermovie superficial</h3>
+            <p class="risk-card__fix">
+              <strong>Correção:</strong> Montar arco emocional com virada de pertencimento. Cada corte responde à pergunta
+              “por que viver isso em grupo?” — não apenas “olha que lugar bonito”.
+            </p>
+          </article>
+          <article class="risk-card">
+            <h3 class="risk-card__risk">Institucional engessado</h3>
+            <p class="risk-card__fix">
+              <strong>Correção:</strong> Priorizar voz de participante e imagens de condução real. Evitar texto em tela,
+              jargão corporativo e narração genérica de agência.
+            </p>
+          </article>
+          <article class="risk-card">
+            <h3 class="risk-card__risk">Som ruim</h3>
+            <p class="risk-card__fix">
+              <strong>Correção:</strong> Testar Hollyland antes de cada bloco de fala. Gravar ambiente separado para foleys.
+              Se o áudio falhar, a cena vira apoio visual — não entra como depoimento.
+            </p>
+          </article>
+          <article class="risk-card">
+            <h3 class="risk-card__risk">Drone irregular / inseguro</h3>
+            <p class="risk-card__fix">
+              <strong>Correção:</strong> DJI Mini 4 Pro só em condições seguras e autorizadas. Sem drone, a campanha
+              continua forte — é prioridade C, nunca A.
+            </p>
+          </article>
+          <article class="risk-card">
+            <h3 class="risk-card__risk">Exposição indevida</h3>
+            <p class="risk-card__fix">
+              <strong>Correção:</strong> Consentimento verbal antes de close em rosto. Evitar situações íntimas sem contexto.
+              Framing consciente protege participantes e a Anauá.
+            </p>
+          </article>
+          <article class="risk-card">
+            <h3 class="risk-card__risk">Cronograma apertado</h3>
+            <p class="risk-card__fix">
+              <strong>Correção:</strong> Seguir matriz A / B / C sem negociar o bloco A. Cortar extras antes de comprometer
+              embarque, gruta, roda e despedida.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__brand">Anauá Ecoturismo</p>
+      <p class="site-footer__meta">Plano Diretor Audiovisual · São Thomé das Letras/MG · 03 a 05/07/2026</p>
+      <a class="site-footer__top" href="#topo">Voltar ao topo</a>
+    </div>
+  </footer>
+
+  <script src="assets/js/plan-data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
 </html>
