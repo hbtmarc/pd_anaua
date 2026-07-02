@@ -30,7 +30,7 @@
     <div class="site-header__inner">
       <a class="site-header__brand" href="#topo">
         <span class="site-header__brand-mark">Anauá</span>
-        <span class="site-header__brand-sub">Plano Diretor</span>
+        <span class="site-header__brand-sub">Plano de Campo</span>
       </a>
 
       <button
@@ -76,90 +76,114 @@
     </section>
 
     <section class="section field-assistant" id="agora" aria-labelledby="agora-title">
-      <div class="container">
-        <div class="assistant-shell">
-          <header class="assistant-hero">
+      <div class="field-app">
+        <aside class="field-rail" aria-label="Controle de campo">
+          <a class="field-rail__brand" href="#topo">
+            <strong>Anauá</strong>
+            <span>Plano de Campo</span>
+          </a>
+          <button class="field-nav" type="button" data-view="agora">Agora</button>
+          <button class="field-nav" type="button" data-view="checklist">Checklist</button>
+          <button class="field-nav" type="button" data-view="shots">Shots</button>
+          <button class="field-nav field-nav--danger" type="button" data-view="emergencia">Emergência</button>
+          <button class="field-nav" type="button" data-view="relatorio">Relatório</button>
+          <a class="field-nav field-nav--link" href="#visao">Plano completo</a>
+        </aside>
+
+        <div class="field-main">
+          <header class="field-topbar">
             <div>
               <p class="section__eyebrow">Plano Diretor de Bolso</p>
-              <h2 class="section__title" id="agora-title">Painel Agora</h2>
-              <p class="section__intro">
-                Use primeiro em campo: veja o bloco atual, resolva Prioridade A, marque shots, acione contingências e gere o resumo.
-              </p>
+              <h2 class="section__title" id="agora-title">Central de Comando</h2>
             </div>
             <div class="assistant-actions" aria-label="Ações rápidas">
               <button class="btn btn--primary" type="button" id="focus-mode-toggle" aria-pressed="false">Modo Foco</button>
-              <a class="btn btn--secondary" href="#contingencia">Modo Emergência</a>
+              <button class="btn btn--danger" type="button" data-view="emergencia">Emergência</button>
+              <a class="btn btn--ghost field-plan-link" href="#visao">Plano completo</a>
             </div>
           </header>
 
-          <div class="now-grid">
-            <article class="now-card now-card--main">
-              <span class="now-card__label">Bloco provável atual</span>
-              <h3 id="now-block-title">Calculando...</h3>
-              <p id="now-block-window">Usando data e hora local do navegador.</p>
-              <strong id="now-next-step">Carregando próximo melhor passo.</strong>
-            </article>
-            <article class="now-card">
-              <span class="now-card__label">Prioridade</span>
-              <p id="now-priority">-</p>
-            </article>
-            <article class="now-card">
-              <span class="now-card__label">Captar primeiro</span>
-              <p id="now-capture-first">-</p>
-            </article>
-            <article class="now-card">
-              <span class="now-card__label">Cortar se apertar</span>
-              <p id="now-cut">-</p>
-            </article>
-            <article class="now-card">
-              <span class="now-card__label">Risco principal</span>
-              <p id="now-risk">-</p>
-            </article>
-          </div>
-
-          <div class="smart-progress" aria-label="Progresso inteligente">
-            <div><span>Geral</span><strong id="progress-general">0%</strong></div>
-            <div><span>Prioridade A</span><strong id="progress-a">0%</strong></div>
-            <div><span>Captados</span><strong id="progress-captured">0</strong></div>
-            <div><span>Repetir</span><strong id="progress-repeat">0</strong></div>
-          </div>
-          <p class="priority-alert" id="priority-alert" hidden>Antes de sair deste bloco, resolva os itens A pendentes.</p>
-
-          <div class="assistant-tabs" aria-label="Filtro de bloco operacional">
-            <div>
-              <span class="assistant-tabs__label">Bloco operacional</span>
-              <p>Toque em uma etapa abaixo para mudar o contexto do checklist e dos shots. O app já sugere pelo horário local.</p>
+          <section class="field-view" data-view-panel="agora" aria-label="Agora">
+            <div class="now-grid">
+              <article class="now-card now-card--main">
+                <span class="now-card__label">Bloco atual</span>
+                <h3 id="now-block-title">Calculando...</h3>
+                <p id="now-block-window">Usando data e hora local do navegador.</p>
+                <strong id="now-next-step">Carregando próximo melhor passo.</strong>
+              </article>
+              <article class="now-card">
+                <span class="now-card__label">Prioridade</span>
+                <p id="now-priority">-</p>
+              </article>
+              <article class="now-card">
+                <span class="now-card__label">Captar primeiro</span>
+                <p id="now-capture-first">-</p>
+              </article>
+              <article class="now-card">
+                <span class="now-card__label">Cortar se apertar</span>
+                <p id="now-cut">-</p>
+              </article>
+              <article class="now-card">
+                <span class="now-card__label">Risco principal</span>
+                <p id="now-risk">-</p>
+              </article>
             </div>
-            <label class="visually-hidden" for="block-filter">Selecionar bloco operacional</label>
-            <select id="block-filter"></select>
-          </div>
-          <div class="block-switcher" id="block-switcher" aria-label="Trocar bloco operacional"></div>
 
-          <div class="assistant-grid">
-            <section class="tool-panel" id="checklist-bloco" aria-labelledby="checklist-bloco-title">
-              <header class="tool-panel__header">
-                <p class="section__eyebrow">Checklist do bloco</p>
-                <h3 id="checklist-bloco-title">O que resolver agora</h3>
-              </header>
-              <div class="operational-checklist" id="operational-checklist"></div>
-            </section>
+            <div class="smart-progress" aria-label="Progresso inteligente">
+              <div><span>Geral</span><strong id="progress-general">0%</strong></div>
+              <div><span>Prioridade A</span><strong id="progress-a">0%</strong></div>
+              <div><span>Captados</span><strong id="progress-captured">0</strong></div>
+              <div><span>Repetir</span><strong id="progress-repeat">0</strong></div>
+            </div>
+            <p class="priority-alert" id="priority-alert" hidden>Antes de sair deste bloco, resolva os itens A pendentes.</p>
 
-            <section class="tool-panel" id="shots-operacionais" aria-labelledby="shots-operacionais-title">
-              <header class="tool-panel__header">
-                <p class="section__eyebrow">Shot list acionável</p>
-                <h3 id="shots-operacionais-title">Shots relacionados</h3>
-              </header>
-              <div class="shot-toolbar">
-                <button class="status-filter is-active" type="button" data-shot-filter="all">Todos do bloco</button>
-                <button class="status-filter" type="button" data-shot-filter="A">Só Prioridade A</button>
-                <button class="status-filter" type="button" data-shot-filter="pendente">Ainda pendentes</button>
-                <button class="status-filter" type="button" data-shot-filter="repetir">Para refazer</button>
+            <div class="command-actions" aria-label="Ações da central">
+              <button class="btn btn--primary" type="button" data-view="checklist">Abrir checklist do bloco</button>
+              <button class="btn btn--secondary" type="button" data-view="shots">Ver shots do bloco</button>
+              <button class="btn btn--danger" type="button" data-view="emergencia">Emergência</button>
+            </div>
+
+            <div class="assistant-tabs" aria-label="Filtro de bloco operacional">
+              <div>
+                <span class="assistant-tabs__label">Controle de bloco</span>
+                <p>Use as setas para avançar ou voltar rapidamente.</p>
               </div>
-              <div class="action-shot-list" id="action-shot-list"></div>
-            </section>
-          </div>
+              <div class="block-control" aria-label="Seletor rápido de bloco">
+                <button class="block-control__arrow" type="button" id="block-prev" aria-label="Bloco anterior">&lt;</button>
+                <label class="block-control__select">
+                  <span>Bloco</span>
+                  <select id="block-filter"></select>
+                </label>
+                <button class="block-control__arrow" type="button" id="block-next" aria-label="Próximo bloco">&gt;</button>
+              </div>
+            </div>
+            <div class="block-day-chips" id="block-day-chips" aria-label="Atalhos por dia"></div>
+          </section>
 
-          <section class="tool-panel contingency-panel" id="contingencia" aria-labelledby="contingencia-title">
+          <section class="field-view" data-view-panel="checklist" aria-labelledby="checklist-bloco-title">
+            <header class="tool-panel__header">
+              <p class="section__eyebrow">Checklist contextual</p>
+              <h3 id="checklist-bloco-title">O que resolver agora</h3>
+              <span class="view-progress" id="checklist-block-progress">0 de 0 feitos</span>
+            </header>
+            <div class="operational-checklist" id="operational-checklist"></div>
+          </section>
+
+          <section class="field-view" data-view-panel="shots" aria-labelledby="shots-operacionais-title">
+            <header class="tool-panel__header">
+              <p class="section__eyebrow">Shot list acionável</p>
+              <h3 id="shots-operacionais-title">Shots relacionados</h3>
+            </header>
+            <div class="shot-toolbar">
+              <button class="status-filter is-active" type="button" data-shot-filter="all">Todos do bloco</button>
+              <button class="status-filter" type="button" data-shot-filter="A">Prioridade A</button>
+              <button class="status-filter" type="button" data-shot-filter="pendente">Pendentes</button>
+              <button class="status-filter" type="button" data-shot-filter="repetir">Para refazer</button>
+            </div>
+            <div class="action-shot-list" id="action-shot-list"></div>
+          </section>
+
+          <section class="field-view contingency-panel" data-view-panel="emergencia" id="contingencia" aria-labelledby="contingencia-title">
             <header class="tool-panel__header">
               <p class="section__eyebrow">Emergência / contingência</p>
               <h3 id="contingencia-title">Resposta rápida</h3>
@@ -168,7 +192,7 @@
             <div class="contingency-result" id="contingency-result" aria-live="polite"></div>
           </section>
 
-          <section class="tool-panel question-panel" id="pergunta-rapida" aria-labelledby="pergunta-rapida-title">
+          <section class="field-view question-panel" data-view-panel="perguntas" id="pergunta-rapida" aria-labelledby="pergunta-rapida-title">
             <header class="tool-panel__header">
               <p class="section__eyebrow">Pergunta rápida</p>
               <h3 id="pergunta-rapida-title">Depoimento em campo</h3>
@@ -178,7 +202,7 @@
             <button class="btn btn--ghost" type="button" id="next-question">Próxima pergunta</button>
           </section>
 
-          <section class="tool-panel report-panel" id="relatorio" aria-labelledby="relatorio-title">
+          <section class="field-view report-panel" data-view-panel="relatorio" id="relatorio" aria-labelledby="relatorio-title">
             <header class="tool-panel__header">
               <p class="section__eyebrow">Relatório do campo</p>
               <h3 id="relatorio-title">Resumo copiável</h3>
@@ -192,6 +216,37 @@
             <textarea class="report-output" id="report-output" rows="12" readonly placeholder="O resumo aparecerá aqui."></textarea>
           </section>
         </div>
+
+        <aside class="field-side" aria-label="Resumo fixo do campo">
+          <div class="field-side__panel">
+            <span class="now-card__label">Bloco atual</span>
+            <strong id="side-block-title">Calculando...</strong>
+            <small id="side-block-window">-</small>
+          </div>
+          <div class="field-side__metrics">
+            <div><span>Geral</span><strong id="side-progress-general">0%</strong></div>
+            <div><span>Prioridade A</span><strong id="side-progress-a">0%</strong></div>
+            <div><span>Captados</span><strong id="side-captured">0</strong></div>
+            <div><span>Repetir</span><strong id="side-repeat">0</strong></div>
+          </div>
+          <div class="field-side__panel">
+            <span class="now-card__label">Próxima ação</span>
+            <p id="side-next-step">-</p>
+          </div>
+          <div class="field-side__panel field-side__panel--alert">
+            <span class="now-card__label">Alerta</span>
+            <p id="side-alert">Sem alerta crítico neste bloco.</p>
+          </div>
+          <div class="block-switcher" id="block-switcher" aria-label="Trocar bloco operacional"></div>
+        </aside>
+
+        <nav class="bottom-nav" aria-label="Controle de campo mobile">
+          <button class="bottom-nav__item" type="button" data-view="agora">Agora</button>
+          <button class="bottom-nav__item" type="button" data-view="checklist">Checklist</button>
+          <button class="bottom-nav__item" type="button" data-view="shots">Shots</button>
+          <button class="bottom-nav__item bottom-nav__item--danger" type="button" data-view="emergencia">Emergência</button>
+          <button class="bottom-nav__item" type="button" data-view="relatorio">Relatório</button>
+        </nav>
       </div>
     </section>
 

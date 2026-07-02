@@ -1,6 +1,6 @@
-/**
- * Anauá — Assistente de Campo Offline
- * Navegação, painel agora, shots acionáveis, contingências, relatório e PWA.
+﻿/**
+ * AnauÃ¡ â€” Assistente de Campo Offline
+ * NavegaÃ§Ã£o, painel agora, shots acionÃ¡veis, contingÃªncias, relatÃ³rio e PWA.
  */
 (function () {
   "use strict";
@@ -9,6 +9,9 @@
   var STORAGE_KEY = "anaua-pd-checklist";
   var FIELD_KEY = "anaua-field-state-v1";
   var FOCUS_KEY = "anaua-focus-mode";
+  var VIEW_KEY = "anaua-active-view";
+  var BLOCK_KEY = "anaua-current-block";
+  var SHOT_FILTER_KEY = "anaua-shot-filter";
   var currentBlockId = "";
   var currentQuestionIndex = -1;
   var currentShotFilter = "all";
@@ -30,6 +33,20 @@
       localStorage.setItem(FIELD_KEY, JSON.stringify(state));
     } catch (_err) {
       /* localStorage unavailable */
+    }
+  }
+
+  function savePreference(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (_err) {}
+  }
+
+  function loadPreference(key, fallback) {
+    try {
+      return localStorage.getItem(key) || fallback;
+    } catch (_err) {
+      return fallback;
     }
   }
 
@@ -59,6 +76,23 @@
     }) || (PLAN.blocosOperacionais || [])[0];
   }
 
+  function setCurrentBlock(blockId) {
+    currentBlockId = blockId;
+    savePreference(BLOCK_KEY, currentBlockId);
+    renderAssistant();
+  }
+
+  function moveBlock(delta) {
+    var blocks = PLAN.blocosOperacionais || [];
+    if (!blocks.length) return;
+    var index = blocks.findIndex(function (block) {
+      return block.id === currentBlockId;
+    });
+    if (index < 0) index = 0;
+    var next = (index + delta + blocks.length) % blocks.length;
+    setCurrentBlock(blocks[next].id);
+  }
+
   function statusLabel(status) {
     return {
       pendente: "Pendente",
@@ -79,9 +113,9 @@
 
   function blockShortTitle(title) {
     return title
-      .replace("Sábado · ", "")
-      .replace("Domingo · ", "")
-      .replace("Sexta · ", "")
+      .replace("SÃ¡bado Â· ", "")
+      .replace("Domingo Â· ", "")
+      .replace("Sexta Â· ", "")
       .replace(" / ", " / ");
   }
 
@@ -132,6 +166,20 @@
     return getBlockShots(block).some(function (shot) {
       return shot.prioridade === "A" && getShotState(shot.id).status === "pendente";
     });
+  }
+
+  function computeBlockChecklistProgress(block) {
+    var state = loadFieldState();
+    var items = checklistItemsForBlock(block);
+    var done = items.filter(function (item) {
+      var status = state.checklist[block.id + ":" + item[0]] || "pendente";
+      return status === "feito" || status === "descartado";
+    }).length;
+    return {
+      done: done,
+      total: items.length,
+      percent: items.length ? Math.round((done / items.length) * 100) : 0
+    };
   }
 
   function initNavigation() {
@@ -218,7 +266,7 @@
         if (cb.checked) done++;
       });
       var percent = checkboxes.length ? Math.round((done / checkboxes.length) * 100) : 0;
-      progressEl.textContent = done + " de " + checkboxes.length + " concluídos · " + percent + "%";
+      progressEl.textContent = done + " de " + checkboxes.length + " conclu\u00eddos \u00b7 " + percent + "%";
     }
 
     function applyState() {
@@ -262,6 +310,9 @@
     $("now-capture-first").textContent = block.captarPrimeiro;
     $("now-cut").textContent = block.cortarSeApertar;
     $("now-risk").textContent = (block.riscos || []).join("; ");
+    if ($("side-block-title")) $("side-block-title").textContent = blockShortTitle(block.titulo);
+    if ($("side-block-window")) $("side-block-window").textContent = block.janela;
+    if ($("side-next-step")) $("side-next-step").textContent = block.proximoPasso;
   }
 
   function renderProgress(block) {
@@ -271,6 +322,15 @@
     $("progress-captured").textContent = String(progress.captured);
     $("progress-repeat").textContent = String(progress.repeat);
     $("priority-alert").hidden = !hasPendingPriorityA(block);
+    if ($("side-progress-general")) $("side-progress-general").textContent = progress.generalPercent + "%";
+    if ($("side-progress-a")) $("side-progress-a").textContent = progress.priorityPercent + "%";
+    if ($("side-captured")) $("side-captured").textContent = String(progress.captured);
+    if ($("side-repeat")) $("side-repeat").textContent = String(progress.repeat);
+    if ($("side-alert")) {
+      $("side-alert").textContent = hasPendingPriorityA(block)
+        ? "Prioridade A pendente neste bloco. Resolver antes de sair."
+        : "Sem alerta cr\u00edtico neste bloco.";
+    }
   }
 
   function renderBlockFilter(block) {
@@ -283,10 +343,19 @@
       select.appendChild(option);
     });
     select.addEventListener("change", function () {
-      currentBlockId = select.value;
-      renderAssistant();
+      setCurrentBlock(select.value);
     });
     select.value = block.id;
+    if ($("block-prev")) {
+      $("block-prev").addEventListener("click", function () {
+        moveBlock(-1);
+      });
+    }
+    if ($("block-next")) {
+      $("block-next").addEventListener("click", function () {
+        moveBlock(1);
+      });
+    }
   }
 
   function renderBlockSwitcher(activeBlock) {
@@ -300,10 +369,10 @@
       button.innerHTML =
         '<span class="block-option__meta">' + item.prioridade + '</span>' +
         '<strong>' + blockShortTitle(item.titulo) + '</strong>' +
-        '<small>' + item.janela + '</small>';
+        '<small>' + item.janela + '</small>' +
+        '<em data-block-progress="' + item.id + '">0%</em>';
       button.addEventListener("click", function () {
-        currentBlockId = item.id;
-        renderAssistant();
+        setCurrentBlock(item.id);
       });
       root.appendChild(button);
     });
@@ -312,17 +381,50 @@
 
   function updateBlockSwitcher(activeBlock) {
     document.querySelectorAll("[data-block-id]").forEach(function (button) {
-      button.classList.toggle("is-active", button.getAttribute("data-block-id") === activeBlock.id);
+      var id = button.getAttribute("data-block-id");
+      var block = getBlockById(id);
+      var progress = block ? computeBlockChecklistProgress(block) : { percent: 0 };
+      var progressEl = button.querySelector("[data-block-progress]");
+      button.classList.toggle("is-active", id === activeBlock.id);
+      if (progressEl) progressEl.textContent = progress.percent + "%";
+    });
+  }
+
+  function renderDayChips(activeBlock) {
+    var root = $("block-day-chips");
+    if (!root) return;
+    var chips = [
+      ["preparacao", "Prepara\u00e7\u00e3o"],
+      ["sexta-embarques", "Sexta"],
+      ["sabado-cafe", "S\u00e1bado"],
+      ["domingo-vale", "Domingo"],
+      ["retorno", "Retorno"]
+    ];
+    if (!root.children.length) {
+      chips.forEach(function (chip) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "block-day-chip";
+        btn.setAttribute("data-day-block", chip[0]);
+        btn.textContent = chip[1];
+        btn.addEventListener("click", function () {
+          setCurrentBlock(chip[0]);
+        });
+        root.appendChild(btn);
+      });
+    }
+    root.querySelectorAll("[data-day-block]").forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-day-block") === activeBlock.id);
     });
   }
 
   function checklistItemsForBlock(block) {
     return [
       ["captar", "Captar primeiro: " + block.captarPrimeiro],
-      ["nao-sair", "Não sair sem: " + (block.naoSairSem || []).join(", ")],
+      ["nao-sair", "N\u00e3o sair sem: " + (block.naoSairSem || []).join(", ")],
       ["equip", "Kit/equipamento: " + (block.equipamentos || []).join(", ")],
       ["risco", "Controlar risco: " + (block.riscos || []).join(", ")],
-      ["backup", block.id === "preparacao" ? "Preparar mídia e espaço antes de sair" : "Marcar notas rápidas e preservar mídia"]
+      ["backup", block.id === "preparacao" ? "Preparar m\u00eddia e espa\u00e7o antes de sair" : "Marcar notas r\u00e1pidas e preservar m\u00eddia"]
     ];
   }
 
@@ -330,31 +432,66 @@
     var root = $("operational-checklist");
     if (!root) return;
     var state = loadFieldState();
-    root.innerHTML = "";
-    checklistItemsForBlock(block).forEach(function (item) {
+    var progress = computeBlockChecklistProgress(block);
+    var progressEl = $("checklist-block-progress");
+    var items = checklistItemsForBlock(block).map(function (item) {
       var key = block.id + ":" + item[0];
-      var status = state.checklist[key] || "pendente";
-      var row = document.createElement("article");
-      row.className = "op-check op-check--" + status;
-      row.innerHTML =
-        '<div class="op-check__copy"><span>' + statusLabel(status) + '</span><p>' + item[1] + '</p></div>' +
-        '<div class="segmented" role="group" aria-label="Status do checklist"></div>';
-      var group = row.querySelector(".segmented");
-      ["pendente", "feito", "repetir", "descartado"].forEach(function (option) {
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = statusLabel(option);
-        btn.className = status === option ? "is-active" : "";
-        btn.addEventListener("click", function () {
-          var next = loadFieldState();
-          next.checklist[key] = option;
-          saveFieldState(next);
-          renderAssistant();
-        });
-        group.appendChild(btn);
-      });
-      root.appendChild(row);
+      return {
+        key: key,
+        text: item[1],
+        status: state.checklist[key] || "pendente"
+      };
     });
+    var activeItems = items.filter(function (item) {
+      return item.status !== "feito" && item.status !== "descartado";
+    });
+    var doneItems = items.filter(function (item) {
+      return item.status === "feito" || item.status === "descartado";
+    });
+
+    if (progressEl) {
+      progressEl.textContent = progress.done + " de " + progress.total + " resolvidos \u00b7 " + progress.percent + "%";
+    }
+
+    function setChecklistStatus(key, option) {
+      var next = loadFieldState();
+      next.checklist[key] = option;
+      saveFieldState(next);
+      renderAssistant();
+    }
+
+    function renderItem(item) {
+      var row = document.createElement("article");
+      row.className = "op-check op-check--" + item.status;
+      row.innerHTML =
+        '<div class="op-check__copy"><span>' + statusLabel(item.status) + '</span><p>' + item.text + '</p></div>' +
+        '<div class="op-check__actions">' +
+          '<button class="btn-mini btn-mini--primary" type="button" data-check-action="feito">Feito</button>' +
+          '<button class="btn-mini btn-mini--muted" type="button" data-check-action="repetir">Revisar</button>' +
+          '<button class="btn-mini btn-mini--muted" type="button" data-check-action="descartado">Cortar</button>' +
+          '<button class="btn-mini btn-mini--ghost" type="button" data-check-action="pendente">Pendente</button>' +
+        '</div>';
+      row.querySelectorAll("[data-check-action]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          setChecklistStatus(item.key, btn.getAttribute("data-check-action"));
+        });
+      });
+      return row;
+    }
+
+    root.innerHTML = "";
+    activeItems.forEach(function (item) {
+      root.appendChild(renderItem(item));
+    });
+    if (doneItems.length) {
+      var details = document.createElement("details");
+      details.className = "done-group";
+      details.innerHTML = '<summary>Conclu\u00eddos (' + doneItems.length + ')</summary>';
+      doneItems.forEach(function (item) {
+        details.appendChild(renderItem(item));
+      });
+      root.appendChild(details);
+    }
   }
 
   function shotPassesFilter(shot) {
@@ -371,40 +508,54 @@
     getBlockShots(block).filter(shotPassesFilter).forEach(function (shot) {
       var shotState = getShotState(shot.id);
       var card = document.createElement("article");
-      card.className = "action-shot action-shot--" + shotState.status;
+      var priorityPending = shot.prioridade === "A" && shotState.status === "pendente";
+      var notePreview = shotState.note ? '<p class="shot-note-preview">Nota: ' + shotState.note + '</p>' : "";
+      card.className = "action-shot action-shot--" + shotState.status + (priorityPending ? " action-shot--priority-pending" : "");
       card.innerHTML =
-        '<div class="action-shot__head"><span>' + shot.id + '</span><div><strong>' + shot.nome + '</strong><small>Prioridade ' + shot.prioridade + ' · ' + shot.formato + '</small></div></div>' +
-        '<p>' + shot.funcao + ' ' + shot.execucao + '</p>' +
-        '<p class="action-shot__risk"><strong>Risco:</strong> ' + shot.risco + '</p>' +
-        '<p class="action-shot__reels">Ajuda nos Reels: ' + shot.reelsRelacionados.join(", ") + '</p>' +
-        '<div class="shot-actions"></div>' +
-        '<label class="shot-note">Nota de campo <textarea maxlength="180" rows="2" placeholder="Ex.: áudio ruim, refazer com menos vento, usar como capa...">' + (shotState.note || "") + '</textarea></label>';
-      var actions = card.querySelector(".shot-actions");
-      [
-        "feito",
-        "repetir",
-        "descartado",
-        "pendente"
-      ].forEach(function (statusOption) {
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = shotStatusLabel(statusOption);
-        btn.className = shotState.status === statusOption ? "is-active" : "";
+        '<div class="shot-card__top">' +
+          '<span class="shot-number">' + shot.id + '</span>' +
+          '<div class="shot-main"><strong>' + shot.nome + '</strong><small>' + shot.funcao + '</small></div>' +
+          '<div class="shot-card__badges">' +
+            '<span class="priority-chip priority-chip--' + shot.prioridade.toLowerCase() + '">Prioridade ' + shot.prioridade + '</span>' +
+            '<span class="status-chip status-chip--' + shotState.status + '">' + shotStatusLabel(shotState.status) + '</span>' +
+          '</div>' +
+          '<button class="btn-mini btn-mini--primary shot-primary-action" type="button" data-shot-action="feito">' + (shotState.status === "feito" ? "Captado" : "Marcar captado") + '</button>' +
+        '</div>' +
+        '<div class="shot-card__meta">' +
+          '<span><strong>Reels</strong> ' + shot.reelsRelacionados.join(", ") + '</span>' +
+          '<span><strong>Formato</strong> ' + shot.formato + '</span>' +
+        '</div>' +
+        '<details class="shot-details">' +
+          '<summary>Ver execução, risco e nota</summary>' +
+          '<div class="shot-details__body">' +
+            '<p><strong>Execução:</strong> ' + shot.execucao + '</p>' +
+            '<p class="action-shot__risk"><strong>Risco:</strong> ' + shot.risco + '</p>' +
+            notePreview +
+            '<label class="shot-note">Nota de campo<textarea maxlength="180" rows="2" placeholder="Ex.: \u00e1udio ruim, refazer com menos vento, usar como capa...">' + (shotState.note || "") + '</textarea></label>' +
+            '<div class="shot-actions">' +
+              '<button type="button" data-shot-action="repetir">Refazer</button>' +
+              '<button type="button" data-shot-action="descartado">Cortar</button>' +
+              '<button type="button" data-shot-action="pendente">Pendente</button>' +
+            '</div>' +
+          '</div>' +
+        '</details>';
+      card.querySelectorAll("[data-shot-action]").forEach(function (btn) {
         btn.addEventListener("click", function () {
-          setShotStatus(shot.id, statusOption);
+          setShotStatus(shot.id, btn.getAttribute("data-shot-action"));
         });
-        actions.appendChild(btn);
       });
-      card.querySelector("textarea").addEventListener("input", function (event) {
-        setShotNote(shot.id, event.target.value);
-      });
+      var textarea = card.querySelector("textarea");
+      if (textarea) {
+        textarea.addEventListener("input", function (event) {
+          setShotNote(shot.id, event.target.value);
+        });
+      }
       root.appendChild(card);
     });
     if (!root.children.length) {
       root.innerHTML = '<p class="empty-state">Nenhum shot neste filtro.</p>';
     }
   }
-
   function renderContingencies() {
     var buttons = $("contingency-buttons");
     var result = $("contingency-result");
@@ -419,11 +570,66 @@
           '<p><strong>Resposta:</strong> ' + item.resposta + '</p>' +
           '<p><strong>Proteger:</strong> ' + item.proteger + '</p>' +
           '<p><strong>Cortar:</strong> ' + item.cortar + '</p>' +
-          '<p><strong>Equipamento mínimo:</strong> ' + item.equipamentoMinimo + '</p>' +
+          '<p><strong>Equipamento m\u00ednimo:</strong> ' + item.equipamentoMinimo + '</p>' +
           '<p><strong>Evitar:</strong> ' + item.risco + '</p>';
       });
       buttons.appendChild(btn);
     });
+  }
+
+  function viewForHash() {
+    return {
+      "#agora": "agora",
+      "#checklist-bloco": "checklist",
+      "#shots-operacionais": "shots",
+      "#contingencia": "emergencia",
+      "#relatorio": "relatorio"
+    }[window.location.hash] || "";
+  }
+
+  function hashForView(view) {
+    return {
+      agora: "#agora",
+      checklist: "#checklist-bloco",
+      shots: "#shots-operacionais",
+      emergencia: "#contingencia",
+      relatorio: "#relatorio"
+    }[view] || "#agora";
+  }
+
+  function setActiveView(view, options) {
+    var valid = ["agora", "checklist", "shots", "emergencia", "relatorio"];
+    if (valid.indexOf(view) === -1) view = "agora";
+    document.querySelectorAll("[data-view-panel]").forEach(function (panel) {
+      panel.classList.toggle("is-active", panel.getAttribute("data-view-panel") === view);
+    });
+    document.querySelectorAll("[data-view]").forEach(function (control) {
+      control.classList.toggle("is-active", control.getAttribute("data-view") === view);
+    });
+    savePreference(VIEW_KEY, view);
+    if (options && options.updateHash && history.replaceState) {
+      history.replaceState(null, "", hashForView(view));
+    }
+  }
+
+  function initFieldViews() {
+    document.querySelectorAll("[data-view]").forEach(function (control) {
+      control.addEventListener("click", function (event) {
+        var view = control.getAttribute("data-view");
+        if (!view) return;
+        event.preventDefault();
+        setActiveView(view, { updateHash: true });
+        var field = $("agora");
+        if (field && window.innerWidth < 900) {
+          field.scrollIntoView({ block: "start" });
+        }
+      });
+    });
+    window.addEventListener("hashchange", function () {
+      var view = viewForHash();
+      if (view) setActiveView(view);
+    });
+    setActiveView(viewForHash() || loadPreference(VIEW_KEY, "agora"));
   }
 
   function showQuestion(index) {
@@ -466,20 +672,50 @@
     var checklistPending = checklistItemsForBlock(block).filter(function (item) {
       return (state.checklist[block.id + ":" + item[0]] || "pendente") === "pendente";
     });
-    var backup = getShotState("26").status === "feito" ? "Foleys/controle marcados como captados" : "Verificar foleys, mídia e backup antes de sair";
+    var backup = getShotState("26").status === "feito" ? "Foleys/controle marcados como captados" : "Verificar foleys, m\u00eddia e backup antes de sair";
+    function listOrNone(items, mapFn) {
+      return items.length ? items.map(function (item) {
+        return "- " + mapFn(item);
+      }).join("\n") : "- Nenhum";
+    }
 
     return [
-      "Resumo de campo — Anauá",
+      "ANAU\u00c1 — RESUMO DE CAMPO",
       "Gerado em: " + new Date().toLocaleString("pt-BR"),
-      "Bloco atual: " + block.titulo + " (" + block.janela + ")",
-      "Progresso geral: " + progress.generalPercent + "% · Prioridade A: " + progress.priorityPercent + "%",
-      "Shots captados: " + progress.captured + " · Repetir: " + progress.repeat,
-      "Shots A pendentes: " + (pendingA.length ? pendingA.map(function (s) { return s.id + " " + s.nome; }).join("; ") : "nenhum"),
-      "Shots a repetir: " + (repeat.length ? repeat.map(function (s) { return s.id + " " + s.nome; }).join("; ") : "nenhum"),
-      "Notas: " + (notes.length ? notes.map(function (s) { return s.id + " " + s.nome + ": " + getShotState(s.id).note; }).join(" | ") : "nenhuma"),
-      "Checklist pendente do bloco: " + (checklistPending.length ? checklistPending.map(function (i) { return i[1]; }).join(" | ") : "nenhum"),
-      "Status backup: " + backup,
-      "Próxima ação sugerida: " + block.proximoPasso
+      "",
+      "BLOCO ATUAL",
+      block.titulo,
+      "Janela: " + block.janela,
+      "Pr\u00f3xima a\u00e7\u00e3o: " + block.proximoPasso,
+      "",
+      "PROGRESSO",
+      "- Geral: " + progress.generalPercent + "%",
+      "- Prioridade A: " + progress.priorityPercent + "%",
+      "- Shots captados: " + progress.captured,
+      "- Shots para repetir: " + progress.repeat,
+      "",
+      "PRIORIDADE A PENDENTE",
+      listOrNone(pendingA, function (shot) {
+        return shot.id + " — " + shot.nome;
+      }),
+      "",
+      "SHOTS A REPETIR",
+      listOrNone(repeat, function (shot) {
+        return shot.id + " — " + shot.nome;
+      }),
+      "",
+      "NOTAS DE CAMPO",
+      listOrNone(notes, function (shot) {
+        return shot.id + " — " + shot.nome + ": " + getShotState(shot.id).note;
+      }),
+      "",
+      "CHECKLIST PENDENTE DO BLOCO",
+      listOrNone(checklistPending, function (item) {
+        return item[1];
+      }),
+      "",
+      "BACKUP / CONTROLE",
+      "- " + backup
     ].join("\n");
   }
 
@@ -487,6 +723,7 @@
     var output = $("report-output");
     var shareBtn = $("share-report");
     var status = $("share-status");
+    output.value = generateReport();
     $("generate-report").addEventListener("click", function () {
       output.value = generateReport();
     });
@@ -508,12 +745,12 @@
     });
     if (!navigator.share) {
       shareBtn.disabled = true;
-      status.textContent = "Compartilhamento nativo indisponível neste navegador.";
+      status.textContent = "Compartilhamento nativo indispon\u00edvel neste navegador.";
     }
     shareBtn.addEventListener("click", function () {
       if (!navigator.share) return;
       if (!output.value) output.value = generateReport();
-      navigator.share({ title: "Resumo de campo Anauá", text: output.value }).catch(function () {});
+      navigator.share({ title: "Resumo de campo Anau\u00e1", text: output.value }).catch(function () {});
     });
   }
 
@@ -535,9 +772,12 @@
   }
 
   function initShotFilters() {
+    currentShotFilter = loadPreference(SHOT_FILTER_KEY, "all");
     document.querySelectorAll("[data-shot-filter]").forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-shot-filter") === currentShotFilter);
       btn.addEventListener("click", function () {
         currentShotFilter = btn.getAttribute("data-shot-filter");
+        savePreference(SHOT_FILTER_KEY, currentShotFilter);
         document.querySelectorAll("[data-shot-filter]").forEach(function (item) {
           item.classList.toggle("is-active", item === btn);
         });
@@ -554,18 +794,22 @@
     var select = $("block-filter");
     if (select) select.value = block.id;
     updateBlockSwitcher(block);
+    renderDayChips(block);
     renderNow(block);
     renderProgress(block);
     renderOperationalChecklist(block);
     renderShots(block);
+    if ($("report-output")) $("report-output").value = generateReport();
   }
 
   function initAssistant() {
     if (!$("agora") || !PLAN.blocosOperacionais) return;
     var likely = getLikelyBlock();
-    currentBlockId = likely.id;
+    currentBlockId = loadPreference(BLOCK_KEY, likely.id);
     renderBlockFilter(likely);
     renderBlockSwitcher(likely);
+    renderDayChips(likely);
+    initFieldViews();
     initShotFilters();
     renderContingencies();
     renderQuestions();

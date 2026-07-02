@@ -8,9 +8,9 @@
 
 ## Fase atual
 
-**Fase 2.0 — Assistente de Campo Offline (em validação)**
+**Fase 2.1 — Controle de Campo Profissional (em validação)**
 
-Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso: assistente mobile-first, offline após primeira visita, com Painel Agora, cálculo de bloco provável, checklist por bloco, shot list acionável, notas persistentes, contingências, perguntas rápidas, Modo Foco e relatório copiável/compartilhável.
+Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso com interface de produto operacional: bottom nav no mobile, command center no desktop, painel fixo de métricas, checklist contextual, shots compactos com detalhes recolhidos, notas persistentes, contingências, Modo Foco e relatório copiável/compartilhável.
 
 ---
 
@@ -42,6 +42,10 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Revisão UI/UX de contraste | Assistente passou para fundo claro, texto escuro, cartões legíveis e estados visuais óbvios |
 | Revamp de painel e blocos | Separação visual reforçada, seletor de bloco orientado, gaps consistentes e desktop mais confortável |
 | Revamp de seletores e controles | Troca de bloco por cards acionáveis, dropdown como fallback, rótulos mais claros e botões orientados à ação |
+| Fase 2.1 como app de campo | Mobile prioriza bottom nav e primeira dobra operacional; desktop vira command center |
+| Status separado de ação | `Pendente` passa a ser chip informativo; ação primária do shot é `Marcar captado` |
+| Notas recolhidas por padrão | Reduz ruído visual e rolagem em campo; preview aparece só quando há nota |
+| Bloco, view e filtros persistentes | O app volta ao contexto de trabalho após recarregar |
 
 ---
 
@@ -79,6 +83,17 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 - [x] Revisão de UI/UX — contraste corrigido, primeira dobra mais intuitiva e desktop mais legível
 - [x] Revamp do painel — espaçamentos, alinhamentos, hierarquia, botões, cards e seletor de bloco refinados
 - [x] Revamp de controles — cards de bloco, filtros de shot mais claros, estados com linguagem de campo e notas com placeholder útil
+- [x] Fase 2.1 — bottom nav mobile com Agora, Checklist, Shots, Emergência e Relatório
+- [x] Fase 2.1 — desktop em 3 áreas: sidebar, centro operacional e painel direito
+- [x] Central de Comando — bloco, janela, prioridade, captar primeiro, cortar, próximo passo e alerta A
+- [x] Seletor de bloco — dropdown mobile, chips por dia e timeline/lista desktop
+- [x] Checklist contextual — pendentes primeiro, concluídos recolhidos e ação principal Feito
+- [x] Shots compactos — status chips, prioridade, reels, detalhes recolhidos e nota recolhida
+- [x] Persistência ampliada — bloco manual, view ativa e filtro de shots
+- [x] Seletor central de bloco — controle `< Bloco >` com anterior/próximo e persistência
+- [x] Shotlist refinado — cards compactos com número, função, Reels, formato, prioridade, status e CTA claro
+- [x] Relatório formatado — resumo pré-gerado com seções e listas copiáveis
+- [x] Service Worker — cache atualizado para `anaua-campo-v6`
 
 ---
 
@@ -97,13 +112,15 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Revisão final com o PDF ao lado | Alta | Confirmar se a síntese web está fiel e se algum detalhe operacional deve virar texto literal |
 | Teste offline real em navegador | Alta | Service Worker só funciona após primeira visita em origem servida por HTTP/HTTPS |
 | Ícones PWA | Baixa | Manifest está preparado sem ícones obrigatórios; adicionar quando houver arte final |
+| QA em celular físico sob luz forte | Alta | Validar contraste real, alvo de toque e velocidade de decisão em campo |
+| QA desktop em 1366px e 1920px | Média | Confirmar command center sem sobreposição ou componentes encostados |
 
 ---
 
 ## Próximo passo
 
-1. **Abrir em servidor local ou GitHub Pages** e validar console, menu mobile, Painel Agora, filtro de bloco, Modo Foco, contingências e relatório.
-2. **Testar persistência** de shots, notas, checklist por bloco e Modo Foco.
+1. **Abrir em servidor local ou GitHub Pages** e validar console, bottom nav, sidebar, Central de Comando, filtro de bloco, Modo Foco, contingências e relatório.
+2. **Testar persistência** de bloco manual, view ativa, filtros, shots, notas, checklist por bloco e Modo Foco.
 3. **Testar offline** após primeira visita.
 4. **Criar `assets/img/og-cover.jpg`** em 1200 × 630 px antes do compartilhamento público.
 5. **Rodar Lighthouse** em mobile e desktop no link publicado.
@@ -147,6 +164,14 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Seletor de bloco mais intuitivo | OK |
 | Troca de bloco por cards acionáveis | OK |
 | Botões e textos revisados para clareza operacional | OK |
+| Mobile com navegação inferior de 5 áreas | OK |
+| Desktop em layout command center | OK |
+| Painel direito fixo com métricas operacionais | OK |
+| Checklist com concluídos recolhidos | OK |
+| Shots sem quatro botões grandes visíveis | OK |
+| Pendente não aparece como CTA primário | OK |
+| Notas de campo recolhidas por padrão | OK |
+| Persistência de bloco/view/filtro | OK |
 | Lighthouse mobile/desktop executado | Pendente |
 | Teste em GitHub Pages executado | Pendente |
 | Teste offline real executado | Pendente |

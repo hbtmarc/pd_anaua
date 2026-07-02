@@ -4,6 +4,10 @@ Plano Diretor de Bolso e assistente de campo offline para a campanha audiovisual
 
 O conteúdo foi consolidado a partir de `docs/Plano_Diretor_Anaua_1_Ano_Sao_Thome.pdf`, tratado como fonte mestre do projeto.
 
+## Fase atual
+
+**Fase 2.1 — Controle de Campo Profissional.** A seção operacional foi reorganizada como app de campo: bottom nav no mobile, command center no desktop, checklist contextual, shots compactos, emergência e relatório em telas próprias.
+
 ## Stack
 
 - HTML, CSS e JavaScript puros
@@ -60,15 +64,15 @@ O GitHub Pages servirá automaticamente `/index.html` como página inicial.
 
 ### Checklist
 
-O checklist, status dos shots, notas e Modo Foco persistem no `localStorage` do navegador. Não há login, backend, Firebase ou Supabase.
+O checklist, bloco selecionado, view ativa, filtros, status dos shots, notas e Modo Foco persistem no `localStorage` do navegador. Não há login, backend, Firebase ou Supabase.
 
 ### Usar em campo
 
 1. Abra a página antes da viagem com internet para instalar o cache offline.
-2. No celular, use a seção **Agora** como primeira tela de trabalho.
+2. No celular, use a navegação inferior: **Agora**, **Checklist**, **Shots**, **Emergência** e **Relatório**.
 3. Ative **Modo Foco** para esconder o documento longo.
-4. Selecione o bloco operacional ou deixe o app calcular pela data/hora local.
-5. Marque shots como `Captado`, `Repetir`, `Descartado` ou `Pendente`.
+4. Selecione o bloco operacional no dropdown ou nos chips por dia.
+5. Marque shots pela ação principal **Marcar captado**; use **Detalhes** para refazer, cortar, voltar pendente ou adicionar nota.
 6. Use **Emergência** para chuva, atraso, bateria baixa, ruído, frio, baixa luz, excesso de pessoas ou insegurança.
 7. Gere e copie o resumo em **Relatório do campo**.
 
@@ -84,6 +88,9 @@ No navegador, limpe os dados do site ou execute no console:
 localStorage.removeItem("anaua-field-state-v1");
 localStorage.removeItem("anaua-focus-mode");
 localStorage.removeItem("anaua-pd-checklist");
+localStorage.removeItem("anaua-current-block");
+localStorage.removeItem("anaua-active-view");
+localStorage.removeItem("anaua-shot-filter");
 ```
 
 ## SEO e compartilhamento
@@ -98,10 +105,12 @@ Antes da publicação final, coloque uma imagem `og-cover.jpg` em `assets/img/` 
 ## Seções do site
 
 - Hero com CTAs
-- Painel Agora com cálculo de bloco provável
+- Central de Comando com cálculo de bloco provável
+- Navegação inferior mobile para Agora, Checklist, Shots, Emergência e Relatório
+- Sidebar e painel fixo no desktop
 - Progresso geral, progresso A, captados e repetir
-- Checklist operacional por bloco com 4 estados
-- Shot list acionável com nota por shot
+- Checklist operacional por bloco com pendentes primeiro e concluídos recolhidos
+- Shot list acionável compacta com detalhes e nota recolhidos
 - Modo Foco persistente
 - Emergência/contingência
 - Pergunta rápida
@@ -130,10 +139,10 @@ Antes da publicação final, coloque uma imagem `og-cover.jpg` em `assets/img/` 
 
 - Abrir `index.html` localmente no navegador.
 - Testar desktop e mobile, incluindo menu, rolagem e leitura do Modo Campo.
-- Testar Painel Agora, filtro de bloco, Modo Foco, contingências, perguntas e relatório.
+- Testar Central de Comando, bottom nav mobile, sidebar desktop, filtro de bloco, Modo Foco, contingências e relatório.
 - Conferir se as seções do plano cobrem: visão, Reels, narrativa, shot list, ordem de gravação, áudio/foto, pós, publicação, logística, checklist e riscos.
 - Testar navegação por teclado: skip link, menu, links, botões e checkboxes.
-- Marcar shots/status/notas, recarregar a página e validar persistência no `localStorage`.
+- Marcar bloco, view, filtros, shots/status/notas, recarregar a página e validar persistência no `localStorage`.
 - Usar “Limpar checklist” e confirmar que há confirmação antes de apagar.
 - Publicar/testar no GitHub Pages com caminhos relativos.
 - Visitar uma vez online e testar abertura offline após o service worker instalar.
