@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plano Diretor Audiovisual — 1 ano de Anauá. Viver a natureza em grupo. São Thomé das Letras, 03 a 05/07/2026.">
-  <meta name="theme-color" content="#1a3a2f">
+  <meta name="description" content="Plano de Campo Anauá — controle audiovisual offline para São Thomé das Letras, 03 a 05/07/2026.">
+  <meta name="theme-color" content="#10281f">
   <meta property="og:title" content="1 ano de Anauá — Plano Diretor Audiovisual">
   <meta property="og:description" content="Plano de campanha audiovisual para captar a experiência Anauá em São Thomé das Letras: natureza, grupo, cuidado e pertencimento.">
   <meta property="og:type" content="website">
@@ -14,8 +14,8 @@
   <meta name="twitter:title" content="1 ano de Anauá — Plano Diretor Audiovisual">
   <meta name="twitter:description" content="Plano estático de campo para a campanha audiovisual Anauá: prioridades, checklist, narrativa e cuidados de imagem.">
   <meta name="twitter:image" content="assets/img/og-cover.jpg">
-  <title>1 ano de Anauá — Plano Diretor Audiovisual</title>
-  <link rel="icon" href="assets/img/favicon.ico" sizes="any">
+  <title>Anauá — Plano de Campo</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2310281f'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial,sans-serif' font-size='24' font-weight='700' fill='%23f5f6f2'%3EA%3C/text%3E%3C/svg%3E">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -33,48 +33,14 @@
         <span class="site-header__brand-sub">Plano de Campo</span>
       </a>
 
-      <button
-        class="nav-toggle"
-        type="button"
-        aria-expanded="false"
-        aria-controls="nav-principal"
-        id="nav-toggle"
-      >
-        <span class="nav-toggle__label">Menu</span>
-        <span class="nav-toggle__icon" aria-hidden="true"></span>
-      </button>
-
-      <nav class="site-nav" id="nav-principal" aria-label="Navegação principal">
-        <ul class="site-nav__list">
-          <li><a href="#agora">Agora</a></li>
-          <li><a href="#visao">Visão</a></li>
-          <li><a href="#reels">Reels</a></li>
-          <li><a href="#narrativa">Narrativa</a></li>
-          <li><a href="#captacao">Captação</a></li>
-          <li><a href="#campo">Campo</a></li>
-          <li><a href="#pos">Pós</a></li>
-          <li><a href="#checklist">Checklist</a></li>
-          <li><a href="#riscos">Riscos</a></li>
-        </ul>
-      </nav>
+      <div class="site-header__actions">
+        <span class="app-status" id="app-status" aria-live="polite">offline pronto</span>
+        <a class="site-header__plan" href="#visao">Plano</a>
+      </div>
     </div>
   </header>
 
   <main id="conteudo-principal">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero__backdrop" aria-hidden="true"></div>
-      <div class="container hero__content">
-        <p class="hero__eyebrow">Plano Diretor Audiovisual</p>
-        <h1 class="hero__title" id="hero-title">1 ano de Anauá</h1>
-        <p class="hero__subtitle">Viver a natureza em grupo</p>
-        <p class="hero__meta">São Thomé das Letras/MG · 03 a 05/07/2026</p>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="#visao">Abrir plano diretor</a>
-          <a class="btn btn--secondary" href="#campo">Abrir modo campo</a>
-        </div>
-      </div>
-    </section>
-
     <section class="section field-assistant" id="agora" aria-labelledby="agora-title">
       <div class="field-app">
         <aside class="field-rail" aria-label="Controle de campo">
@@ -94,14 +60,21 @@
           <header class="field-topbar">
             <div>
               <p class="section__eyebrow">Plano Diretor de Bolso</p>
-              <h2 class="section__title" id="agora-title">Central de Comando</h2>
+              <h2 class="section__title" id="agora-title">Central de Campo</h2>
             </div>
             <div class="assistant-actions" aria-label="Ações rápidas">
               <button class="btn btn--primary" type="button" id="focus-mode-toggle" aria-pressed="false">Modo Foco</button>
               <button class="btn btn--danger" type="button" data-view="emergencia">Emergência</button>
-              <a class="btn btn--ghost field-plan-link" href="#visao">Plano completo</a>
+              <a class="btn btn--ghost field-plan-link" href="#visao">Plano</a>
             </div>
           </header>
+
+          <div class="block-control universal-block-control" aria-label="Controle de bloco">
+            <button class="block-control__arrow" type="button" id="block-prev" aria-label="Bloco anterior">&lt;</button>
+            <span class="block-control__current" id="block-current-label" aria-live="polite">Bloco</span>
+            <select class="visually-hidden" id="block-filter" aria-label="Bloco operacional"></select>
+            <button class="block-control__arrow" type="button" id="block-next" aria-label="Próximo bloco">&gt;</button>
+          </div>
 
           <section class="field-view" data-view-panel="agora" aria-label="Agora">
             <div class="now-grid">
@@ -110,6 +83,7 @@
                 <h3 id="now-block-title">Calculando...</h3>
                 <p id="now-block-window">Usando data e hora local do navegador.</p>
                 <strong id="now-next-step">Carregando próximo melhor passo.</strong>
+                <small class="now-card__status" id="now-status">Status geral em cálculo.</small>
               </article>
               <article class="now-card">
                 <span class="now-card__label">Prioridade</span>
@@ -127,6 +101,10 @@
                 <span class="now-card__label">Risco principal</span>
                 <p id="now-risk">-</p>
               </article>
+              <article class="now-card">
+                <span class="now-card__label">Kit mínimo</span>
+                <p id="now-equipment">-</p>
+              </article>
             </div>
 
             <div class="smart-progress" aria-label="Progresso inteligente">
@@ -135,29 +113,16 @@
               <div><span>Captados</span><strong id="progress-captured">0</strong></div>
               <div><span>Repetir</span><strong id="progress-repeat">0</strong></div>
             </div>
-            <p class="priority-alert" id="priority-alert" hidden>Antes de sair deste bloco, resolva os itens A pendentes.</p>
+            <p class="priority-alert" id="priority-alert" hidden>Prioridade A pendente antes de sair deste bloco.</p>
 
             <div class="command-actions" aria-label="Ações da central">
               <button class="btn btn--primary" type="button" data-view="checklist">Abrir checklist do bloco</button>
               <button class="btn btn--secondary" type="button" data-view="shots">Ver shots do bloco</button>
               <button class="btn btn--danger" type="button" data-view="emergencia">Emergência</button>
+              <button class="btn btn--ghost" type="button" data-view="relatorio" data-generate-report>Gerar resumo</button>
             </div>
 
-            <div class="assistant-tabs" aria-label="Filtro de bloco operacional">
-              <div>
-                <span class="assistant-tabs__label">Controle de bloco</span>
-                <p>Use as setas para avançar ou voltar rapidamente.</p>
-              </div>
-              <div class="block-control" aria-label="Seletor rápido de bloco">
-                <button class="block-control__arrow" type="button" id="block-prev" aria-label="Bloco anterior">&lt;</button>
-                <label class="block-control__select">
-                  <span>Bloco</span>
-                  <select id="block-filter"></select>
-                </label>
-                <button class="block-control__arrow" type="button" id="block-next" aria-label="Próximo bloco">&gt;</button>
-              </div>
-            </div>
-            <div class="block-day-chips" id="block-day-chips" aria-label="Atalhos por dia"></div>
+            <p class="visually-hidden" id="current-block-summary">Bloco atual.</p>
           </section>
 
           <section class="field-view" data-view-panel="checklist" aria-labelledby="checklist-bloco-title">
@@ -213,7 +178,13 @@
               <button class="btn btn--ghost" type="button" id="share-report">Compartilhar resumo</button>
             </div>
             <p class="share-status" id="share-status" aria-live="polite"></p>
-            <textarea class="report-output" id="report-output" rows="12" readonly placeholder="O resumo aparecerá aqui."></textarea>
+            <div class="report-preview" aria-label="Preview do resumo">
+              <pre id="report-preview">O resumo aparecerá aqui.</pre>
+            </div>
+            <details class="report-fallback">
+              <summary>Texto selecionável</summary>
+              <textarea class="report-output" id="report-output" rows="12" readonly placeholder="O resumo aparecerá aqui."></textarea>
+            </details>
           </section>
         </div>
 
@@ -238,15 +209,22 @@
             <p id="side-alert">Sem alerta crítico neste bloco.</p>
           </div>
           <div class="block-switcher" id="block-switcher" aria-label="Trocar bloco operacional"></div>
+          <div class="field-side__panel field-side__panel--safe">
+            <span class="now-card__label">Dados locais</span>
+            <p>Status, notas, bloco, filtros e foco ficam só neste navegador.</p>
+            <button class="btn btn--ghost btn--compact" type="button" id="local-data-clear">Limpar dados locais</button>
+          </div>
         </aside>
 
         <nav class="bottom-nav" aria-label="Controle de campo mobile">
-          <button class="bottom-nav__item" type="button" data-view="agora">Agora</button>
-          <button class="bottom-nav__item" type="button" data-view="checklist">Checklist</button>
-          <button class="bottom-nav__item" type="button" data-view="shots">Shots</button>
-          <button class="bottom-nav__item bottom-nav__item--danger" type="button" data-view="emergencia">Emergência</button>
-          <button class="bottom-nav__item" type="button" data-view="relatorio">Relatório</button>
+          <button class="bottom-nav__item" type="button" data-view="agora"><span aria-hidden="true">●</span>Agora</button>
+          <button class="bottom-nav__item" type="button" data-view="checklist"><span aria-hidden="true">✓</span>Checklist</button>
+          <button class="bottom-nav__item" type="button" data-view="shots"><span aria-hidden="true">▦</span>Shots</button>
+          <button class="bottom-nav__item bottom-nav__item--danger" type="button" data-view="emergencia"><span aria-hidden="true">!</span>Emergência</button>
+          <button class="bottom-nav__item" type="button" data-view="relatorio"><span aria-hidden="true">↗</span>Relatório</button>
         </nav>
+
+        <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
       </div>
     </section>
 

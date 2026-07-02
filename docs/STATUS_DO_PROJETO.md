@@ -2,15 +2,15 @@
 
 **Campanha:** 1 ano de Anauá — Viver a natureza em grupo  
 **Local/data:** São Thomé das Letras/MG · 03 a 05/07/2026  
-**Última atualização:** 01/07/2026
+**Última atualização:** 02/07/2026
 
 ---
 
 ## Fase atual
 
-**Fase 2.1 — Controle de Campo Profissional (em validação)**
+**Fase 2.2 — Revamp Master UX/UI (em validação)**
 
-Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso com interface de produto operacional: bottom nav no mobile, command center no desktop, painel fixo de métricas, checklist contextual, shots compactos com detalhes recolhidos, notas persistentes, contingências, Modo Foco e relatório copiável/compartilhável.
+Site estático publicável no GitHub Pages evoluído para app premium de campo: primeira tela em Central de Campo, mobile com bottom nav de 5 abas e controle universal de bloco, desktop em command center com sidebar e painel direito, checklist contextual, shots com CTA por estado, notas recolhidas, contingências rápidas, Modo Foco e relatório com preview copiável/compartilhável.
 
 ---
 
@@ -19,12 +19,12 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Decisão | Motivo |
 |---------|--------|
 | HTML/CSS/JS puros, sem build | Publicação direta no GitHub Pages; abertura local via `index.html` |
-| Paleta natureza (verde profundo, pedra, areia, céu, dourado) | Coerência com ecoturismo e tom cinematográfico |
+| Paleta Fase 2.2 (off-white frio, verde profundo, cinza quente e dourado contido) | Remove aparência bege administrativa e mantém identidade Anauá |
 | Tipografia system + serif editorial | Performance, zero dependência externa, hierarquia premium |
 | Checklist em `localStorage` | Persistência sem backend nem login |
 | Matriz A/B/C com destaque visual proporcional | Prioridade A inegociável; C explicitamente cortável |
-| Hero com gradiente CSS (sem imagens obrigatórias) | Carregamento rápido; espaço reservado em `/assets/img` |
-| Menu compacto no mobile, nav horizontal no desktop | Mobile-first real com acessibilidade (Escape, foco, skip link) |
+| Sem hero antes do app operacional | A primeira dobra precisa responder onde estou, o que fazer e o que falta |
+| Bottom nav mobile e sidebar desktop | Mobile-first real sem menu superior competindo com a operação |
 | Reel 05 e drone como condicionais | Alinhado ao plano — não comprometem entrega mínima |
 | Modo Campo como seção dedicada | Consulta rápida no celular durante captação, sem lógica automática desnecessária |
 | Open Graph/Twitter Card com `assets/img/og-cover.jpg` | Compartilhamento preparado sem depender da imagem existir no MVP |
@@ -42,10 +42,13 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Revisão UI/UX de contraste | Assistente passou para fundo claro, texto escuro, cartões legíveis e estados visuais óbvios |
 | Revamp de painel e blocos | Separação visual reforçada, seletor de bloco orientado, gaps consistentes e desktop mais confortável |
 | Revamp de seletores e controles | Troca de bloco por cards acionáveis, dropdown como fallback, rótulos mais claros e botões orientados à ação |
-| Fase 2.1 como app de campo | Mobile prioriza bottom nav e primeira dobra operacional; desktop vira command center |
+| Fase 2.2 como app de campo premium | Mobile prioriza decisão rápida; desktop vira command center com painel auxiliar leve |
 | Status separado de ação | `Pendente` passa a ser chip informativo; ação primária do shot é `Marcar captado` |
 | Notas recolhidas por padrão | Reduz ruído visual e rolagem em campo; preview aparece só quando há nota |
 | Bloco, view e filtros persistentes | O app volta ao contexto de trabalho após recarregar |
+| Controle universal de bloco em todas as abas | A troca de bloco fica sempre disponível no formato simples `< bloco >` |
+| Relatório com preview e fallback recolhido | Mantém leitura limpa e ainda permite seleção manual quando Clipboard/Web Share falham |
+| Botão de limpar dados locais em área secundária | Facilita QA e reset de campo sem mexer no console |
 
 ---
 
@@ -83,17 +86,19 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 - [x] Revisão de UI/UX — contraste corrigido, primeira dobra mais intuitiva e desktop mais legível
 - [x] Revamp do painel — espaçamentos, alinhamentos, hierarquia, botões, cards e seletor de bloco refinados
 - [x] Revamp de controles — cards de bloco, filtros de shot mais claros, estados com linguagem de campo e notas com placeholder útil
-- [x] Fase 2.1 — bottom nav mobile com Agora, Checklist, Shots, Emergência e Relatório
-- [x] Fase 2.1 — desktop em 3 áreas: sidebar, centro operacional e painel direito
-- [x] Central de Comando — bloco, janela, prioridade, captar primeiro, cortar, próximo passo e alerta A
-- [x] Seletor de bloco — dropdown mobile, chips por dia e timeline/lista desktop
-- [x] Checklist contextual — pendentes primeiro, concluídos recolhidos e ação principal Feito
-- [x] Shots compactos — status chips, prioridade, reels, detalhes recolhidos e nota recolhida
+- [x] Fase 2.2 — bottom nav mobile com Agora, Checklist, Shots, Emergência e Relatório
+- [x] Fase 2.2 — desktop em 3 áreas: sidebar, centro operacional e painel direito leve
+- [x] Central de Campo — bloco, janela, próxima ação, progresso A, alerta e ações rápidas
+- [x] Seletor de bloco — controle universal `< bloco >` em todas as abas e timeline/lista desktop como apoio
+- [x] Checklist contextual — Pendentes, Revisar e Mostrar concluídos com ação principal contextual
+- [x] Shots compactos — status chips, prioridade, reels, CTA contextual, detalhes e nota recolhidos
 - [x] Persistência ampliada — bloco manual, view ativa e filtro de shots
 - [x] Seletor central de bloco — controle `< Bloco >` com anterior/próximo e persistência
 - [x] Shotlist refinado — cards compactos com número, função, Reels, formato, prioridade, status e CTA claro
-- [x] Relatório formatado — resumo pré-gerado com seções e listas copiáveis
-- [x] Service Worker — cache atualizado para `anaua-campo-v6`
+- [x] Relatório formatado — preview em card, cópia, Web Share e fallback selecionável recolhido
+- [x] Botão seguro para limpar dados locais
+- [x] Indicador discreto online/offline pronto
+- [x] Service Worker — cache atualizado para `anaua-campo-v8`
 
 ---
 
@@ -101,9 +106,8 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 
 | Item | Prioridade | Observação |
 |------|------------|------------|
-| Fotos e frames reais em `/assets/img` | Média | Hero e cards ganham impacto com material de campo |
+| Fotos e frames reais em `/assets/img` | Média | Plano completo e compartilhamento ganham impacto com material de campo |
 | Criar `assets/img/og-cover.jpg` | Alta | Necessário para preview social real no WhatsApp, LinkedIn e redes |
-| Criar `assets/img/favicon.ico` | Baixa | Link já preparado; ausência não bloqueia abertura do site |
 | Revisão de copy com equipe Anauá | Média | Validar tom emocional vs. institucional |
 | Teste em dispositivos reais (iOS/Android) | Alta | Antes do fim de semana de captação |
 | Definir URL final do GitHub Pages | Baixa | Após criação do repositório remoto |
@@ -119,7 +123,7 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 
 ## Próximo passo
 
-1. **Abrir em servidor local ou GitHub Pages** e validar console, bottom nav, sidebar, Central de Comando, filtro de bloco, Modo Foco, contingências e relatório.
+1. **Abrir em servidor local ou GitHub Pages** e validar console, bottom nav, controle universal de bloco, sidebar, Central de Campo, Modo Foco, contingências e relatório.
 2. **Testar persistência** de bloco manual, view ativa, filtros, shots, notas, checklist por bloco e Modo Foco.
 3. **Testar offline** após primeira visita.
 4. **Criar `assets/img/og-cover.jpg`** em 1200 × 630 px antes do compartilhamento público.
@@ -141,8 +145,8 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Conteúdo claro, comercial e emocional | OK |
 | README com instruções de publicação | OK |
 | Acessibilidade básica (semântica, foco, skip link, contraste) | OK |
-| Menu mobile fecha ao clicar em links e com Escape | OK |
-| `aria-expanded` atualizado no menu | OK |
+| Header mobile compacto com acesso ao Plano | OK |
+| Controle de bloco universal aparece em todas as abas | OK |
 | Checklist mostra percentual além de contagem | OK |
 | Modo Campo legível no celular | OK |
 | SEO/social básico preparado | OK |
@@ -172,6 +176,7 @@ Site estático publicável no GitHub Pages evoluído para Plano Diretor de Bolso
 | Pendente não aparece como CTA primário | OK |
 | Notas de campo recolhidas por padrão | OK |
 | Persistência de bloco/view/filtro | OK |
+| Limpeza de dados locais disponível em área secundária | OK |
 | Lighthouse mobile/desktop executado | Pendente |
 | Teste em GitHub Pages executado | Pendente |
 | Teste offline real executado | Pendente |

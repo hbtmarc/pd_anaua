@@ -1,4 +1,4 @@
-const CACHE_NAME = "anaua-campo-v6";
+const CACHE_NAME = "anaua-campo-v8";
 const ASSETS = [
   "./",
   "./index.html",

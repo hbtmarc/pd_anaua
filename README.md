@@ -6,7 +6,7 @@ O conteúdo foi consolidado a partir de `docs/Plano_Diretor_Anaua_1_Ano_Sao_Thom
 
 ## Fase atual
 
-**Fase 2.1 — Controle de Campo Profissional.** A seção operacional foi reorganizada como app de campo: bottom nav no mobile, command center no desktop, checklist contextual, shots compactos, emergência e relatório em telas próprias.
+**Fase 2.2 — Revamp Master UX/UI.** O app abre direto na Central de Campo, com visual premium mais limpo, bottom nav mobile de 5 abas, controle universal de bloco, command center desktop, painel direito leve, checklist contextual, shots compactos, emergência rápida e relatório com preview copiável.
 
 ## Stack
 
@@ -70,11 +70,11 @@ O checklist, bloco selecionado, view ativa, filtros, status dos shots, notas e M
 
 1. Abra a página antes da viagem com internet para instalar o cache offline.
 2. No celular, use a navegação inferior: **Agora**, **Checklist**, **Shots**, **Emergência** e **Relatório**.
-3. Ative **Modo Foco** para esconder o documento longo.
-4. Selecione o bloco operacional no dropdown ou nos chips por dia.
-5. Marque shots pela ação principal **Marcar captado**; use **Detalhes** para refazer, cortar, voltar pendente ou adicionar nota.
+3. Use o controle universal **< bloco >** no topo do app para avançar ou voltar entre blocos; no desktop, a timeline do painel direito continua como apoio.
+4. Marque checklist e shots pela ação principal do estado atual: **Feito**, **Captado**, **Resolver**, **Refazer** ou **Restaurar**.
+5. Use **Detalhes** em shots para ver execução, risco, status secundários e nota de campo recolhida.
 6. Use **Emergência** para chuva, atraso, bateria baixa, ruído, frio, baixa luz, excesso de pessoas ou insegurança.
-7. Gere e copie o resumo em **Relatório do campo**.
+7. Gere, copie ou compartilhe o resumo em **Relatório**. O textarea fica recolhido como fallback selecionável.
 
 ### Instalar/adicionar à tela inicial
 
@@ -82,7 +82,7 @@ Em navegadores compatíveis, abra o site publicado no GitHub Pages e use **Adici
 
 ### Limpar dados locais
 
-No navegador, limpe os dados do site ou execute no console:
+No desktop, use **Dados locais → Limpar dados locais** no painel direito. Também é possível limpar os dados do site pelo navegador ou executar no console:
 
 ```js
 localStorage.removeItem("anaua-field-state-v1");
@@ -98,23 +98,23 @@ localStorage.removeItem("anaua-shot-filter");
 O HTML já aponta para:
 
 - `assets/img/og-cover.jpg` como imagem Open Graph/Twitter Card.
-- `assets/img/favicon.ico` como favicon.
+- Favicon inline em SVG no próprio HTML, sem asset obrigatório.
 
 Antes da publicação final, coloque uma imagem `og-cover.jpg` em `assets/img/` com proporção recomendada de **1200 × 630 px**. Ela deve mostrar a Anauá ou a experiência em São Thomé de forma reconhecível, com boa leitura em miniatura e sem texto pequeno.
 
 ## Seções do site
 
-- Hero com CTAs
-- Central de Comando com cálculo de bloco provável
+- Central de Campo como primeira tela, com cálculo de bloco provável
 - Navegação inferior mobile para Agora, Checklist, Shots, Emergência e Relatório
 - Sidebar e painel fixo no desktop
+- Controle universal de bloco em todas as abas
 - Progresso geral, progresso A, captados e repetir
-- Checklist operacional por bloco com pendentes primeiro e concluídos recolhidos
-- Shot list acionável compacta com detalhes e nota recolhidos
+- Checklist operacional por bloco com Pendentes, Revisar e concluídos recolhidos
+- Shot list acionável compacta com CTA contextual, detalhes e nota recolhidos
 - Modo Foco persistente
-- Emergência/contingência
+- Emergência/contingência com resposta rápida selecionável
 - Pergunta rápida
-- Relatório copiável/compartilhável
+- Relatório com preview, cópia, Web Share e fallback selecionável
 - Visão executiva do plano diretor
 - Manifesto
 - Conceitos de direção
@@ -138,12 +138,12 @@ Antes da publicação final, coloque uma imagem `og-cover.jpg` em `assets/img/` 
 ## Checklist de validação QA
 
 - Abrir `index.html` localmente no navegador.
-- Testar desktop e mobile, incluindo menu, rolagem e leitura do Modo Campo.
-- Testar Central de Comando, bottom nav mobile, sidebar desktop, filtro de bloco, Modo Foco, contingências e relatório.
+- Testar desktop e mobile, incluindo bottom nav, controle universal de bloco, rolagem e leitura do Plano completo.
+- Testar Central de Campo, sidebar desktop, painel direito, Modo Foco, contingências e relatório.
 - Conferir se as seções do plano cobrem: visão, Reels, narrativa, shot list, ordem de gravação, áudio/foto, pós, publicação, logística, checklist e riscos.
 - Testar navegação por teclado: skip link, menu, links, botões e checkboxes.
 - Marcar bloco, view, filtros, shots/status/notas, recarregar a página e validar persistência no `localStorage`.
-- Usar “Limpar checklist” e confirmar que há confirmação antes de apagar.
+- Usar “Limpar checklist” e “Limpar dados locais” e confirmar que há confirmação antes de apagar.
 - Publicar/testar no GitHub Pages com caminhos relativos.
 - Visitar uma vez online e testar abertura offline após o service worker instalar.
 - Rodar Lighthouse em mobile e desktop, validando Performance, Accessibility, Best Practices e SEO.

@@ -1,6 +1,6 @@
-﻿/**
- * AnauÃ¡ â€” Assistente de Campo Offline
- * NavegaÃ§Ã£o, painel agora, shots acionÃ¡veis, contingÃªncias, relatÃ³rio e PWA.
+/**
+ * Anauá — Assistente de Campo Offline
+ * Navegação, painel agora, shots acionáveis, contingências, relatório e PWA.
  */
 (function () {
   "use strict";
@@ -15,9 +15,44 @@
   var currentBlockId = "";
   var currentQuestionIndex = -1;
   var currentShotFilter = "all";
+  var noteSaveTimers = {};
 
   function $(id) {
     return document.getElementById(id);
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function setText(id, value) {
+    var el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  function shortText(value, limit) {
+    var text = String(value || "");
+    return text.length > limit ? text.slice(0, limit - 1).trim() + "…" : text;
+  }
+
+  function showToast(message, type) {
+    var region = $("toast-region");
+    if (!region) return;
+    var toast = document.createElement("p");
+    toast.className = "toast" + (type ? " toast--" + type : "");
+    toast.textContent = message;
+    region.appendChild(toast);
+    window.setTimeout(function () {
+      toast.classList.add("is-leaving");
+      window.setTimeout(function () {
+        toast.remove();
+      }, 220);
+    }, 2200);
   }
 
   function loadFieldState() {
@@ -60,6 +95,7 @@
     state.shots[shotId] = state.shots[shotId] || { status: "pendente", note: "" };
     state.shots[shotId].status = status;
     saveFieldState(state);
+    showToast(shotStatusLabel(status));
     renderAssistant();
   }
 
@@ -98,7 +134,7 @@
       pendente: "Pendente",
       feito: "Feito",
       repetir: "Revisar",
-      descartado: "Cortar"
+      descartado: "Cortado"
     }[status] || status;
   }
 
@@ -107,15 +143,15 @@
       pendente: "Pendente",
       feito: "Captado",
       repetir: "Refazer",
-      descartado: "Cortar"
+      descartado: "Cortado"
     }[status] || status;
   }
 
   function blockShortTitle(title) {
     return title
-      .replace("SÃ¡bado Â· ", "")
-      .replace("Domingo Â· ", "")
-      .replace("Sexta Â· ", "")
+      .replace("Sábado · ", "")
+      .replace("Domingo · ", "")
+      .replace("Sexta · ", "")
       .replace(" / ", " / ");
   }
 
@@ -166,6 +202,27 @@
     return getBlockShots(block).some(function (shot) {
       return shot.prioridade === "A" && getShotState(shot.id).status === "pendente";
     });
+  }
+
+  function computeBlockShotProgress(block) {
+    var shots = getBlockShots(block);
+    var captured = shots.filter(function (shot) {
+      return getShotState(shot.id).status === "feito";
+    }).length;
+    var repeat = shots.filter(function (shot) {
+      return getShotState(shot.id).status === "repetir";
+    }).length;
+    var pendingA = shots.filter(function (shot) {
+      return shot.prioridade === "A" && getShotState(shot.id).status === "pendente";
+    }).length;
+
+    return {
+      total: shots.length,
+      captured: captured,
+      repeat: repeat,
+      pendingA: pendingA,
+      percent: shots.length ? Math.round((captured / shots.length) * 100) : 0
+    };
   }
 
   function computeBlockChecklistProgress(block) {
@@ -303,33 +360,43 @@
   }
 
   function renderNow(block) {
-    $("now-block-title").textContent = block.titulo;
-    $("now-block-window").textContent = block.janela;
-    $("now-next-step").textContent = block.proximoPasso;
-    $("now-priority").textContent = block.prioridade;
-    $("now-capture-first").textContent = block.captarPrimeiro;
-    $("now-cut").textContent = block.cortarSeApertar;
-    $("now-risk").textContent = (block.riscos || []).join("; ");
-    if ($("side-block-title")) $("side-block-title").textContent = blockShortTitle(block.titulo);
-    if ($("side-block-window")) $("side-block-window").textContent = block.janela;
-    if ($("side-next-step")) $("side-next-step").textContent = block.proximoPasso;
+    var blockProgress = computeBlockShotProgress(block);
+    var statusText = blockProgress.total
+      ? blockProgress.captured + " de " + blockProgress.total + " shots captados neste bloco"
+      : "Bloco sem shot relacionado";
+
+    setText("now-block-title", block.titulo);
+    setText("now-block-window", block.janela);
+    setText("now-next-step", block.proximoPasso);
+    setText("now-priority", block.prioridade);
+    setText("now-capture-first", block.captarPrimeiro);
+    setText("now-cut", block.cortarSeApertar);
+    setText("now-risk", (block.riscos || []).join("; "));
+    setText("now-equipment", (block.equipamentos || []).join(" + "));
+    setText("now-status", statusText);
+    setText("current-block-summary", blockShortTitle(block.titulo) + " · " + block.janela);
+    setText("block-current-label", blockShortTitle(block.titulo));
+    setText("side-block-title", blockShortTitle(block.titulo));
+    setText("side-block-window", block.janela);
+    setText("side-next-step", block.proximoPasso);
   }
 
   function renderProgress(block) {
     var progress = computeProgress();
-    $("progress-general").textContent = progress.generalPercent + "%";
-    $("progress-a").textContent = progress.priorityPercent + "%";
-    $("progress-captured").textContent = String(progress.captured);
-    $("progress-repeat").textContent = String(progress.repeat);
-    $("priority-alert").hidden = !hasPendingPriorityA(block);
-    if ($("side-progress-general")) $("side-progress-general").textContent = progress.generalPercent + "%";
-    if ($("side-progress-a")) $("side-progress-a").textContent = progress.priorityPercent + "%";
-    if ($("side-captured")) $("side-captured").textContent = String(progress.captured);
-    if ($("side-repeat")) $("side-repeat").textContent = String(progress.repeat);
+    var pendingA = hasPendingPriorityA(block);
+    setText("progress-general", progress.generalPercent + "%");
+    setText("progress-a", progress.priorityPercent + "%");
+    setText("progress-captured", String(progress.captured));
+    setText("progress-repeat", String(progress.repeat));
+    if ($("priority-alert")) $("priority-alert").hidden = !pendingA;
+    setText("side-progress-general", progress.generalPercent + "%");
+    setText("side-progress-a", progress.priorityPercent + "%");
+    setText("side-captured", String(progress.captured));
+    setText("side-repeat", String(progress.repeat));
     if ($("side-alert")) {
-      $("side-alert").textContent = hasPendingPriorityA(block)
+      $("side-alert").textContent = pendingA
         ? "Prioridade A pendente neste bloco. Resolver antes de sair."
-        : "Sem alerta cr\u00edtico neste bloco.";
+        : "Sem alerta crítico neste bloco.";
     }
   }
 
@@ -362,15 +429,16 @@
     var root = $("block-switcher");
     if (!root || root.children.length) return;
     (PLAN.blocosOperacionais || []).forEach(function (item) {
+      var progress = computeBlockShotProgress(item);
       var button = document.createElement("button");
       button.type = "button";
       button.className = "block-option";
       button.setAttribute("data-block-id", item.id);
       button.innerHTML =
-        '<span class="block-option__meta">' + item.prioridade + '</span>' +
-        '<strong>' + blockShortTitle(item.titulo) + '</strong>' +
-        '<small>' + item.janela + '</small>' +
-        '<em data-block-progress="' + item.id + '">0%</em>';
+        '<span class="block-option__meta">' + escapeHtml(item.prioridade) + '</span>' +
+        '<strong>' + escapeHtml(blockShortTitle(item.titulo)) + '</strong>' +
+        '<small>' + escapeHtml(item.janela) + '</small>' +
+        '<em data-block-progress="' + item.id + '">' + progress.percent + "%</em>";
       button.addEventListener("click", function () {
         setCurrentBlock(item.id);
       });
@@ -383,9 +451,10 @@
     document.querySelectorAll("[data-block-id]").forEach(function (button) {
       var id = button.getAttribute("data-block-id");
       var block = getBlockById(id);
-      var progress = block ? computeBlockChecklistProgress(block) : { percent: 0 };
+      var progress = block ? computeBlockShotProgress(block) : { percent: 0 };
       var progressEl = button.querySelector("[data-block-progress]");
       button.classList.toggle("is-active", id === activeBlock.id);
+      button.setAttribute("aria-pressed", String(id === activeBlock.id));
       if (progressEl) progressEl.textContent = progress.percent + "%";
     });
   }
@@ -442,8 +511,11 @@
         status: state.checklist[key] || "pendente"
       };
     });
-    var activeItems = items.filter(function (item) {
-      return item.status !== "feito" && item.status !== "descartado";
+    var pendingItems = items.filter(function (item) {
+      return item.status === "pendente";
+    });
+    var reviewItems = items.filter(function (item) {
+      return item.status === "repetir";
     });
     var doneItems = items.filter(function (item) {
       return item.status === "feito" || item.status === "descartado";
@@ -457,19 +529,31 @@
       var next = loadFieldState();
       next.checklist[key] = option;
       saveFieldState(next);
+      showToast(statusLabel(option));
       renderAssistant();
     }
 
     function renderItem(item) {
       var row = document.createElement("article");
+      var primary = item.status === "feito" || item.status === "descartado"
+        ? ["pendente", item.status === "feito" ? "Reabrir" : "Restaurar"]
+        : ["feito", item.status === "repetir" ? "Resolver" : "Feito"];
       row.className = "op-check op-check--" + item.status;
       row.innerHTML =
-        '<div class="op-check__copy"><span>' + statusLabel(item.status) + '</span><p>' + item.text + '</p></div>' +
+        '<div class="op-check__copy">' +
+          '<span class="status-chip status-chip--' + item.status + '">' + escapeHtml(statusLabel(item.status)) + '</span>' +
+          '<p>' + escapeHtml(item.text) + '</p>' +
+        '</div>' +
         '<div class="op-check__actions">' +
-          '<button class="btn-mini btn-mini--primary" type="button" data-check-action="feito">Feito</button>' +
-          '<button class="btn-mini btn-mini--muted" type="button" data-check-action="repetir">Revisar</button>' +
-          '<button class="btn-mini btn-mini--muted" type="button" data-check-action="descartado">Cortar</button>' +
-          '<button class="btn-mini btn-mini--ghost" type="button" data-check-action="pendente">Pendente</button>' +
+          '<button class="btn-mini btn-mini--primary" type="button" data-check-action="' + primary[0] + '">' + primary[1] + '</button>' +
+          '<details class="item-more">' +
+            '<summary aria-label="Ações secundárias">...</summary>' +
+            '<div class="item-more__menu">' +
+              '<button type="button" data-check-action="repetir">Revisar</button>' +
+              '<button type="button" data-check-action="descartado">Cortar</button>' +
+              '<button type="button" data-check-action="pendente">Voltar para pendente</button>' +
+            '</div>' +
+          '</details>' +
         '</div>';
       row.querySelectorAll("[data-check-action]").forEach(function (btn) {
         btn.addEventListener("click", function () {
@@ -480,17 +564,29 @@
     }
 
     root.innerHTML = "";
-    activeItems.forEach(function (item) {
-      root.appendChild(renderItem(item));
-    });
+
+    function renderGroup(title, itemsToRender, isCollapsed) {
+      var group = document.createElement(isCollapsed ? "details" : "section");
+      group.className = "check-group" + (isCollapsed ? " check-group--done" : "");
+      if (isCollapsed) {
+        group.innerHTML = '<summary>' + title + ' (' + itemsToRender.length + ')</summary>';
+      } else {
+        group.innerHTML = '<h4>' + title + ' (' + itemsToRender.length + ')</h4>';
+      }
+      if (itemsToRender.length) {
+        itemsToRender.forEach(function (item) {
+          group.appendChild(renderItem(item));
+        });
+      } else if (!isCollapsed) {
+        group.insertAdjacentHTML("beforeend", '<p class="empty-state">Nenhum item nesta lista.</p>');
+      }
+      root.appendChild(group);
+    }
+
+    renderGroup("Pendentes", pendingItems, false);
+    renderGroup("Revisar", reviewItems, false);
     if (doneItems.length) {
-      var details = document.createElement("details");
-      details.className = "done-group";
-      details.innerHTML = '<summary>Conclu\u00eddos (' + doneItems.length + ')</summary>';
-      doneItems.forEach(function (item) {
-        details.appendChild(renderItem(item));
-      });
-      root.appendChild(details);
+      renderGroup("Mostrar concluídos", doneItems, true);
     }
   }
 
@@ -501,37 +597,46 @@
     return status === currentShotFilter;
   }
 
+  function getShotPrimaryAction(status) {
+    if (status === "feito") return { label: "Ver", status: "", opensDetails: true };
+    if (status === "repetir") return { label: "Refazer", status: "pendente" };
+    if (status === "descartado") return { label: "Restaurar", status: "pendente" };
+    return { label: "Captado", status: "feito" };
+  }
+
   function renderShots(block) {
     var root = $("action-shot-list");
     if (!root) return;
     root.innerHTML = "";
     getBlockShots(block).filter(shotPassesFilter).forEach(function (shot) {
       var shotState = getShotState(shot.id);
+      var primaryAction = getShotPrimaryAction(shotState.status);
       var card = document.createElement("article");
       var priorityPending = shot.prioridade === "A" && shotState.status === "pendente";
-      var notePreview = shotState.note ? '<p class="shot-note-preview">Nota: ' + shotState.note + '</p>' : "";
+      var notePreview = shotState.note ? '<p class="shot-note-preview">Nota: ' + escapeHtml(shortText(shotState.note, 92)) + '</p>' : "";
       card.className = "action-shot action-shot--" + shotState.status + (priorityPending ? " action-shot--priority-pending" : "");
       card.innerHTML =
         '<div class="shot-card__top">' +
-          '<span class="shot-number">' + shot.id + '</span>' +
-          '<div class="shot-main"><strong>' + shot.nome + '</strong><small>' + shot.funcao + '</small></div>' +
+          '<span class="shot-number">' + escapeHtml(shot.id) + '</span>' +
+          '<div class="shot-main"><strong>' + escapeHtml(shot.nome) + '</strong><small>' + escapeHtml(shot.funcao) + '</small></div>' +
           '<div class="shot-card__badges">' +
-            '<span class="priority-chip priority-chip--' + shot.prioridade.toLowerCase() + '">Prioridade ' + shot.prioridade + '</span>' +
-            '<span class="status-chip status-chip--' + shotState.status + '">' + shotStatusLabel(shotState.status) + '</span>' +
+            '<span class="priority-chip priority-chip--' + escapeHtml(shot.prioridade.toLowerCase()) + '">Prioridade ' + escapeHtml(shot.prioridade) + '</span>' +
+            '<span class="status-chip status-chip--' + escapeHtml(shotState.status) + '">' + escapeHtml(shotStatusLabel(shotState.status)) + '</span>' +
           '</div>' +
-          '<button class="btn-mini btn-mini--primary shot-primary-action" type="button" data-shot-action="feito">' + (shotState.status === "feito" ? "Captado" : "Marcar captado") + '</button>' +
+          '<span class="action-shot__reels">' + escapeHtml(shot.reelsRelacionados.join(", ")) + '</span>' +
+          '<button class="btn-mini btn-mini--primary shot-primary-action" type="button" data-shot-primary>' + primaryAction.label + '</button>' +
         '</div>' +
         '<div class="shot-card__meta">' +
-          '<span><strong>Reels</strong> ' + shot.reelsRelacionados.join(", ") + '</span>' +
-          '<span><strong>Formato</strong> ' + shot.formato + '</span>' +
+          '<span><strong>Reels</strong> ' + escapeHtml(shot.reelsRelacionados.join(", ")) + '</span>' +
+          '<span><strong>Formato</strong> ' + escapeHtml(shot.formato) + '</span>' +
         '</div>' +
+        notePreview +
         '<details class="shot-details">' +
-          '<summary>Ver execução, risco e nota</summary>' +
+          '<summary>Detalhes</summary>' +
           '<div class="shot-details__body">' +
-            '<p><strong>Execução:</strong> ' + shot.execucao + '</p>' +
-            '<p class="action-shot__risk"><strong>Risco:</strong> ' + shot.risco + '</p>' +
-            notePreview +
-            '<label class="shot-note">Nota de campo<textarea maxlength="180" rows="2" placeholder="Ex.: \u00e1udio ruim, refazer com menos vento, usar como capa...">' + (shotState.note || "") + '</textarea></label>' +
+            '<p><strong>Execução:</strong> ' + escapeHtml(shot.execucao) + '</p>' +
+            '<p class="action-shot__risk"><strong>Risco:</strong> ' + escapeHtml(shot.risco) + '</p>' +
+            '<label class="shot-note">Nota de campo<textarea maxlength="180" rows="2" placeholder="Ex.: áudio ruim, refazer com menos vento, usar como capa...">' + escapeHtml(shotState.note || "") + '</textarea><small class="shot-note-status" aria-live="polite"></small></label>' +
             '<div class="shot-actions">' +
               '<button type="button" data-shot-action="repetir">Refazer</button>' +
               '<button type="button" data-shot-action="descartado">Cortar</button>' +
@@ -539,15 +644,35 @@
             '</div>' +
           '</div>' +
         '</details>';
+      var details = card.querySelector(".shot-details");
+      var primary = card.querySelector("[data-shot-primary]");
+      if (primary) {
+        primary.addEventListener("click", function () {
+          if (primaryAction.opensDetails && details) {
+            details.open = true;
+            details.scrollIntoView({ block: "nearest" });
+            return;
+          }
+          setShotStatus(shot.id, primaryAction.status);
+        });
+      }
       card.querySelectorAll("[data-shot-action]").forEach(function (btn) {
         btn.addEventListener("click", function () {
           setShotStatus(shot.id, btn.getAttribute("data-shot-action"));
         });
       });
       var textarea = card.querySelector("textarea");
+      var noteStatus = card.querySelector(".shot-note-status");
       if (textarea) {
         textarea.addEventListener("input", function (event) {
-          setShotNote(shot.id, event.target.value);
+          if (noteStatus) noteStatus.textContent = "salvando...";
+          window.clearTimeout(noteSaveTimers[shot.id]);
+          noteSaveTimers[shot.id] = window.setTimeout(function () {
+            setShotNote(shot.id, event.target.value);
+            if (noteStatus) noteStatus.textContent = "salvo";
+            updateReportOutput();
+            showToast("Nota salva");
+          }, 450);
         });
       }
       root.appendChild(card);
@@ -560,21 +685,37 @@
     var buttons = $("contingency-buttons");
     var result = $("contingency-result");
     if (!buttons || buttons.children.length) return;
+
+    function renderResult(item) {
+      if (!item || !result) {
+        if (result) result.innerHTML = '<p class="empty-state">Escolha uma situação para ver a resposta rápida.</p>';
+        return;
+      }
+      result.innerHTML =
+        '<h4>' + escapeHtml(item.rotulo) + '</h4>' +
+        '<div class="contingency-result__grid">' +
+          '<p><strong>O que fazer agora</strong>' + escapeHtml(item.resposta) + '</p>' +
+          '<p><strong>Proteger</strong>' + escapeHtml(item.proteger) + '</p>' +
+          '<p><strong>Cortar</strong>' + escapeHtml(item.cortar) + '</p>' +
+          '<p><strong>Kit mínimo</strong>' + escapeHtml(item.equipamentoMinimo) + '</p>' +
+          '<p><strong>Evitar</strong>' + escapeHtml(item.risco) + '</p>' +
+        '</div>';
+    }
+
     (PLAN.contingencias || []).forEach(function (item) {
       var btn = document.createElement("button");
       btn.type = "button";
-      btn.innerHTML = '<strong>' + item.rotulo + '</strong><span>' + item.resposta.split(".")[0] + '.</span>';
+      btn.setAttribute("data-contingency-id", item.id);
+      btn.innerHTML = '<strong>' + escapeHtml(item.rotulo) + '</strong><span>' + escapeHtml(item.resposta.split(".")[0]) + '.</span>';
       btn.addEventListener("click", function () {
-        result.innerHTML =
-          '<h4>' + item.rotulo + '</h4>' +
-          '<p><strong>Resposta:</strong> ' + item.resposta + '</p>' +
-          '<p><strong>Proteger:</strong> ' + item.proteger + '</p>' +
-          '<p><strong>Cortar:</strong> ' + item.cortar + '</p>' +
-          '<p><strong>Equipamento m\u00ednimo:</strong> ' + item.equipamentoMinimo + '</p>' +
-          '<p><strong>Evitar:</strong> ' + item.risco + '</p>';
+        buttons.querySelectorAll("[data-contingency-id]").forEach(function (control) {
+          control.classList.toggle("is-active", control === btn);
+        });
+        renderResult(item);
       });
       buttons.appendChild(btn);
     });
+    renderResult(null);
   }
 
   function viewForHash() {
@@ -627,9 +768,19 @@
     });
     window.addEventListener("hashchange", function () {
       var view = viewForHash();
-      if (view) setActiveView(view);
+      if (view) {
+        setActiveView(view);
+        var field = $("agora");
+        if (field) field.scrollIntoView({ block: "start" });
+      }
     });
-    setActiveView(viewForHash() || loadPreference(VIEW_KEY, "agora"));
+    var initialView = viewForHash();
+    setActiveView(initialView || loadPreference(VIEW_KEY, "agora"));
+    if (initialView && $("agora")) {
+      window.setTimeout(function () {
+        $("agora").scrollIntoView({ block: "start" });
+      }, 0);
+    }
   }
 
   function showQuestion(index) {
@@ -719,38 +870,65 @@
     ].join("\n");
   }
 
+  function updateReportOutput() {
+    var text = generateReport();
+    var output = $("report-output");
+    var preview = $("report-preview");
+    if (output) output.value = text;
+    if (preview) preview.textContent = text;
+    return text;
+  }
+
   function initReport() {
     var output = $("report-output");
+    var preview = $("report-preview");
     var shareBtn = $("share-report");
     var status = $("share-status");
-    output.value = generateReport();
-    $("generate-report").addEventListener("click", function () {
-      output.value = generateReport();
+    if (!output) return;
+    if (preview) preview.textContent = output.value;
+    updateReportOutput();
+    document.querySelectorAll("#generate-report, [data-generate-report]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        setActiveView("relatorio", { updateHash: true });
+        updateReportOutput();
+        if (status) status.textContent = "Resumo gerado.";
+        showToast("Resumo gerado");
+      });
     });
     $("copy-report").addEventListener("click", function () {
-      if (!output.value) output.value = generateReport();
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(output.value).then(function () {
-          status.textContent = "Resumo copiado.";
-        }).catch(function () {
-          output.focus();
-          output.select();
-          status.textContent = "Selecione e copie o texto.";
-        });
-      } else {
+      if (!output.value) updateReportOutput();
+      function selectFallback() {
+        var fallback = output.closest("details");
+        if (fallback) fallback.open = true;
         output.focus();
         output.select();
-        status.textContent = "Selecione e copie o texto.";
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(output.value).then(function () {
+          if (status) status.textContent = "Resumo copiado.";
+          showToast("Resumo copiado", "success");
+        }).catch(function () {
+          selectFallback();
+          if (status) status.textContent = "Selecione e copie o texto.";
+          showToast("Falha ao copiar", "error");
+        });
+      } else {
+        selectFallback();
+        if (status) status.textContent = "Selecione e copie o texto.";
       }
     });
-    if (!navigator.share) {
+    if (shareBtn && !navigator.share) {
       shareBtn.disabled = true;
-      status.textContent = "Compartilhamento nativo indispon\u00edvel neste navegador.";
+      if (status) status.textContent = "Compartilhamento nativo indisponível neste navegador.";
     }
-    shareBtn.addEventListener("click", function () {
+    if (shareBtn) shareBtn.addEventListener("click", function () {
       if (!navigator.share) return;
-      if (!output.value) output.value = generateReport();
-      navigator.share({ title: "Resumo de campo Anau\u00e1", text: output.value }).catch(function () {});
+      if (!output.value) updateReportOutput();
+      navigator.share({ title: "Resumo de campo Anauá", text: output.value }).then(function () {
+        showToast("Resumo compartilhado");
+      }).catch(function () {
+        showToast("Compartilhamento cancelado");
+      });
     });
   }
 
@@ -786,6 +964,58 @@
     });
   }
 
+  function initLocalDataControls() {
+    var clearBtn = $("local-data-clear");
+    if (!clearBtn) return;
+    clearBtn.addEventListener("click", function () {
+      if (!window.confirm("Limpar status, notas, bloco, filtros e modo foco deste navegador?")) return;
+      try {
+        [
+          FIELD_KEY,
+          FOCUS_KEY,
+          STORAGE_KEY,
+          BLOCK_KEY,
+          VIEW_KEY,
+          SHOT_FILTER_KEY
+        ].forEach(function (key) {
+          localStorage.removeItem(key);
+        });
+      } catch (_err) {}
+      showToast("Dados locais limpos");
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 350);
+    });
+  }
+
+  function initAppStatus() {
+    var status = $("app-status");
+    if (!status) return;
+
+    function renderStatus(isReady) {
+      if (!navigator.onLine) {
+        status.textContent = "offline pronto";
+        status.classList.add("is-offline");
+        return;
+      }
+      status.textContent = isReady ? "online · offline pronto" : "online";
+      status.classList.remove("is-offline");
+    }
+
+    renderStatus(false);
+    window.addEventListener("online", function () {
+      renderStatus(Boolean(navigator.serviceWorker && navigator.serviceWorker.controller));
+    });
+    window.addEventListener("offline", function () {
+      renderStatus(true);
+    });
+    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+      navigator.serviceWorker.ready.then(function () {
+        renderStatus(true);
+      }).catch(function () {});
+    }
+  }
+
   function renderAssistant() {
     if (!PLAN.blocosOperacionais) return;
     var likely = getLikelyBlock();
@@ -799,7 +1029,7 @@
     renderProgress(block);
     renderOperationalChecklist(block);
     renderShots(block);
-    if ($("report-output")) $("report-output").value = generateReport();
+    updateReportOutput();
   }
 
   function initAssistant() {
@@ -815,6 +1045,8 @@
     renderQuestions();
     initReport();
     initFocusMode();
+    initLocalDataControls();
+    initAppStatus();
     renderAssistant();
   }
 
