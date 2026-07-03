@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 33;
+const APP_VERSION = 34;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -2464,8 +2464,8 @@ function syncItemCompletion(item) {
   const units = bulletUnits(item);
   if (!units.length) return isDone(item.id);
   const done = units.every(unit => isDone(unit.id));
-  if (done) state.checked[item.id] = true;
-  else delete state.checked[item.id];
+  state.checked[item.id] = done;
+  if (!done) delete state.checked[item.id];
   return done;
 }
 function syncAllCardCompletion() { allItems().forEach(item => syncItemCompletion(item)); }
@@ -2592,7 +2592,11 @@ function save(options = {}) {
   persistLocal(payload);
   if (window.ChecklistCloud) {
     updateCloudStatus('syncing');
-    window.ChecklistCloud.push(payload, { forceReset: options.forceReset === true });
+    window.ChecklistCloud.push(payload, {
+      forceReset: options.forceReset === true,
+      immediate: options.immediate !== false,
+      source: 'user'
+    });
   } else {
     updateCloudStatus('local');
   }
@@ -2885,6 +2889,27 @@ function renderPowerInlineCta() {
     </div>`;
 }
 
+
+function persistBulletChangeFromInput(input) {
+  const card = input.closest('.check-item');
+  if (!card || !input.dataset.bulletId) return false;
+
+  const itemId = card.dataset.itemId;
+  const sectionId = card.dataset.sectionId;
+  const section = checklist.find(entry => entry.id === sectionId);
+  if (!section) return false;
+
+  const item = sectionItems(section).find(entry => entry.id === itemId);
+  if (!item) return false;
+
+  state.checked[input.dataset.bulletId] = input.checked;
+  syncItemCompletion(item);
+  if (sectionDone(section)) openNextSection(section.id);
+  save({ immediate: true });
+  render();
+  return true;
+}
+
 function renderDetails(item) {
   return (item.details || []).map(block => {
     if (block.type === 'power-diagram') {
@@ -2922,7 +2947,7 @@ function renderItem(item, section) {
     state.checked[item.id] = value;
     syncItemCompletion(item);
     if (sectionDone(section)) openNextSection(section.id);
-    save();
+    save({ immediate: true });
     render();
   });
 
@@ -2933,14 +2958,15 @@ function renderItem(item, section) {
     });
   });
 
-  node.querySelectorAll('.summary-check-input').forEach(input => {
+  node.querySelectorAll('.bullet-input').forEach(input => {
+    input.dataset.bound = 'true';
     input.addEventListener('click', event => event.stopPropagation());
     input.addEventListener('change', event => {
       event.stopPropagation();
       state.checked[input.dataset.bulletId] = input.checked;
       syncItemCompletion(item);
       if (sectionDone(section)) openNextSection(section.id);
-      save();
+      save({ immediate: true });
       render();
     });
   });
@@ -2956,7 +2982,7 @@ function renderItem(item, section) {
     } else {
       state.expanded[item.id] = nextState;
     }
-    save();
+    save({ immediate: true });
     render();
   });
   return node;
@@ -3114,19 +3140,19 @@ function setAll(value) {
     state.checked[item.id] = value;
     syncItemCompletion(item);
   });
-  save({ forceReset: value === false });
+  save({ forceReset: value === false, immediate: true });
   render();
 }
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v33', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v34', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v33.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v34.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 
@@ -3139,7 +3165,7 @@ els.markVisible.addEventListener('click', () => { if (confirm('Marcar todos os i
 els.clearVisible.addEventListener('click', () => { if (confirm('Limpar todos os itens visíveis?')) setVisible(false); });
 els.markAll.addEventListener('click', () => { if (confirm('Marcar tudo?')) setAll(true); });
 els.clearAll.addEventListener('click', () => { if (confirm('Limpar tudo?')) setAll(false); });
-els.reset.addEventListener('click', () => { if (confirm('Resetar todo o checklist?')) { state.checked={}; state.filter='all'; state.query=''; state.hideDone=true; state.openSections=[]; state.expanded={}; state.controlsVisible=false; save({ forceReset: true }); render(); } });
+els.reset.addEventListener('click', () => { if (confirm('Resetar todo o checklist?')) { state.checked={}; state.filter='all'; state.query=''; state.hideDone=true; state.openSections=[]; state.expanded={}; state.controlsVisible=false; save({ forceReset: true, immediate: true }); render(); } });
 els.exportBtn.addEventListener('click', exportJson);
 els.toggleControls.addEventListener('click', () => { state.controlsVisible = state.controlsVisible === false ? true : false; save(); render(); });
 els.moreToggle.addEventListener('click', () => els.more.classList.toggle('is-open'));

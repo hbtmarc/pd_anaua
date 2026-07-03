@@ -2814,3 +2814,19 @@ body.is-scrolled .topbar:after { background: radial-gradient(ellipse at top, rgb
 }
 
 /* v33 — sincronização local recente x nuvem antiga estabilizada */
+
+
+/* v34 — card concluído e sincronização imediata */
+.check-item.is-done {
+  border-color: rgba(31,107,79,.42);
+  background:
+    linear-gradient(180deg, rgba(31,107,79,.075), rgba(255,253,248,.93));
+}
+.check-item.is-done .check-item__title {
+  color: var(--green);
+}
+.check-item.is-done .main-toggle .check-item__box {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}

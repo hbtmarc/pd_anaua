@@ -65,23 +65,15 @@ function isExplicitNewerReset(local, remote) {
   return normalizeTimestamp(local.forceResetAt) > normalizeTimestamp(remote?.forceResetAt || 0);
 }
 
-function localShouldReplaceRemote(local, remote, options = {}) {
-  const localState = normalizeState(local);
-  const remoteState = remote ? normalizeState(remote) : null;
-
-  if (!remoteState) return hasUsefulState(localState) || options.forceReset === true;
-  if (options.forceReset === true || isExplicitNewerReset(localState, remoteState)) return true;
-
-  if (!hasUsefulState(localState)) return false;
-
-  const localTime = normalizeTimestamp(localState.updatedAt);
-  const remoteTime = normalizeTimestamp(remoteState.updatedAt);
-
-  return localTime > remoteTime + CLOCK_SKEW_MS;
-}
-
 function emit(status, label) {
   if (typeof statusHandler === "function") statusHandler(status, label);
+}
+
+function shouldBlockEmptyOverwrite(payload, options = {}) {
+  const remoteCount = checkedCountFrom(lastRemoteState);
+  const localCount = checkedCountFrom(payload);
+  const forceReset = options.forceReset === true || isExplicitNewerReset(payload, lastRemoteState);
+  return !forceReset && remoteCount > 0 && localCount === 0;
 }
 
 function writeState(payload, options = {}) {
@@ -92,11 +84,7 @@ function writeState(payload, options = {}) {
     updatedAt: Date.now()
   });
 
-  const remoteCount = checkedCountFrom(lastRemoteState);
-  const localCount = checkedCountFrom(finalPayload);
-  const forceReset = options.forceReset === true || isExplicitNewerReset(finalPayload, lastRemoteState);
-
-  if (!forceReset && remoteCount > 0 && localCount === 0) {
+  if (shouldBlockEmptyOverwrite(finalPayload, options)) {
     emit("synced", "Nuvem preservada");
     console.warn("[Checklist Cloud] Escrita vazia bloqueada para preservar progresso remoto.");
     return;
@@ -108,11 +96,23 @@ function writeState(payload, options = {}) {
   }
 
   set(databaseRef, finalPayload)
-    .then(() => emit("synced", "Nuvem ativa"))
+    .then(() => {
+      lastRemoteState = finalPayload;
+      emit("synced", "Nuvem ativa");
+    })
     .catch(error => {
       emit("error", "Falha");
       console.warn("[Checklist Cloud] Falha ao salvar no RTDB:", error);
     });
+}
+
+function localIsNewerThanRemote(local, remote) {
+  if (!remote) return hasUsefulState(local);
+  const localReset = normalizeTimestamp(local.forceResetAt);
+  const remoteReset = normalizeTimestamp(remote.forceResetAt);
+  if (localReset > remoteReset) return true;
+  if (remoteReset > localReset) return false;
+  return hasUsefulState(local) && normalizeTimestamp(local.updatedAt) > normalizeTimestamp(remote.updatedAt) + CLOCK_SKEW_MS;
 }
 
 async function initCloudSync({ getLocalState, applyRemoteState, pushIfRemoteEmpty, onStatus } = {}) {
@@ -132,40 +132,41 @@ async function initCloudSync({ getLocalState, applyRemoteState, pushIfRemoteEmpt
     emit("connecting", "Conectando");
 
     onValue(databaseRef, snapshot => {
-      const rawRemote = snapshot.val();
-      const remote = rawRemote ? normalizeState(rawRemote) : null;
+      const remote = snapshot.val() ? normalizeState(snapshot.val()) : null;
       const local = normalizeState(typeof getLocalState === "function" ? getLocalState() : {});
 
       hydrated = true;
       lastRemoteState = remote;
 
+      if (queuedLocalState) {
+        if (queuedLocalState.options?.forceReset || localIsNewerThanRemote(queuedLocalState.payload, remote)) {
+          emit("syncing", "Enviando local");
+          const queued = queuedLocalState;
+          queuedLocalState = null;
+          writeState(queued.payload, queued.options);
+          return;
+        }
+        queuedLocalState = null;
+      }
+
       if (!remote) {
-        if (localShouldReplaceRemote(queuedLocalState || local, null, queuedLocalState?.options || {})) {
+        if (hasUsefulState(local)) {
           emit("empty", "Criando nuvem");
-          writeState((queuedLocalState && queuedLocalState.payload) || local, (queuedLocalState && queuedLocalState.options) || {});
+          writeState(local, {});
         } else if (typeof pushIfRemoteEmpty === "function") {
           pushIfRemoteEmpty();
         } else {
           emit("synced", "Nuvem pronta");
         }
-        queuedLocalState = null;
         return;
       }
 
-      if (queuedLocalState && localShouldReplaceRemote(queuedLocalState.payload, remote, queuedLocalState.options)) {
-        emit("syncing", "Enviando local");
-        writeState(queuedLocalState.payload, queuedLocalState.options);
-        queuedLocalState = null;
-        return;
-      }
-
-      if (localShouldReplaceRemote(local, remote)) {
+      if (localIsNewerThanRemote(local, remote)) {
         emit("syncing", "Enviando local");
         writeState(local, {});
         return;
       }
 
-      queuedLocalState = null;
       applyingRemote = true;
       if (typeof applyRemoteState === "function") applyRemoteState(remote);
       applyingRemote = false;
@@ -199,13 +200,8 @@ function pushCloudState(state, options = {}) {
     return;
   }
 
-  pushTimer = window.setTimeout(() => {
-    if (localShouldReplaceRemote(payload, lastRemoteState, options)) {
-      writeState(payload, options);
-    } else {
-      emit("synced", "Nuvem ativa");
-    }
-  }, options.immediate ? 0 : DEBOUNCE_MS);
+  const delay = options.immediate ? 0 : DEBOUNCE_MS;
+  pushTimer = window.setTimeout(() => writeState(payload, options), delay);
 }
 
 window.ChecklistCloud = {

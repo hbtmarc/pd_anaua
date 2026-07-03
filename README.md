@@ -1,29 +1,29 @@
-# Anauá STL — Checklist v33
+# Anauá STL — Checklist v34
 
-Correção definitiva do ciclo Chrome/Firefox/GitHub Pages.
+Correção da persistência dos checkboxes internos dos cards.
 
-## O que foi corrigido
+## Problema corrigido
 
-- Marcação feita no Chrome não desaparece mais após Ctrl+Shift+R se o `localStorage` estiver mais recente que o RTDB.
-- Navegador limpo não zera o RTDB.
-- O Firebase só recebe escrita depois do primeiro snapshot remoto.
-- Se o local for mais novo que a nuvem, o local sobe para o Firebase.
-- Se a nuvem for mais nova, a nuvem hidrata o navegador.
-- Escrita vazia continua bloqueada quando já existe progresso remoto.
-- Reset e Limpar Tudo continuam permitidos por intenção explícita.
+O HTML dos checkboxes internos usa a classe `.bullet-input`, mas o JavaScript anterior estava escutando uma classe antiga (`.summary-check-input`). Resultado: o checkbox mudava visualmente na tela, mas não atualizava `state.checked`, não concluía o card e não subia para o RTDB.
 
-## Regra de sincronização
+## Correções
 
-1. Aguardar primeiro snapshot do RTDB.
-2. Comparar `updatedAt`.
-3. Estado local mais recente vence e sobe.
-4. Estado remoto mais recente vence e aplica.
-5. Navegador vazio nunca apaga progresso remoto.
-6. Preferências como `hideDone`, `controlsVisible`, `openSections` e `expanded` persistem depois da primeira alteração real.
+- Listener corrigido para `.bullet-input`.
+- Adicionado fallback delegado em `sectionsContainer` para impedir erro semelhante no futuro.
+- Ao marcar qualquer checkbox interno:
+  - atualiza `state.checked`;
+  - recalcula conclusão do card;
+  - recalcula conclusão da seção;
+  - salva no `localStorage`;
+  - envia imediatamente para o Firebase RTDB.
+- Card fica concluído automaticamente quando todos os checkboxes internos estão marcados.
+- Escrita no RTDB agora é imediata para ações do usuário, sem depender de debounce.
+- Navegador vazio continua bloqueado contra apagar progresso remoto.
+- Adicionado favicon para evitar 404.
+- Adicionado neutralizador de service worker antigo e limpeza de caches legados.
 
 ## Mantido
 
 - `localStorage`: `checklist_stl`
 - Firebase path: `/checklist_stl/shared/state`
-- Visual verde/branco para seção concluída.
 - Mapa de energia: `#/energia`
