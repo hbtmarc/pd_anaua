@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 30;
+const APP_VERSION = 31;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -2482,6 +2482,24 @@ function normalizeTimestamp(value) {
   return 0;
 }
 
+function checkedCountFrom(payload) {
+  if (!payload || !payload.checked || typeof payload.checked !== 'object') return 0;
+  return Object.values(payload.checked).filter(Boolean).length;
+}
+
+function hasUsefulProgress(payload) {
+  return checkedCountFrom(payload) > 0;
+}
+
+function remoteShouldApply(remote, local) {
+  if (!remote) return false;
+  const remoteCount = checkedCountFrom(remote);
+  const localCount = checkedCountFrom(local);
+  if (remoteCount > localCount) return true;
+  if (remoteCount < localCount) return false;
+  return normalizeTimestamp(remote.updatedAt) > normalizeTimestamp(local.updatedAt);
+}
+
 function getPersistedState({ touch = true } = {}) {
   const previous = readStoredState();
   return {
@@ -2560,8 +2578,7 @@ function save() {
 function applyRemoteState(remote) {
   const local = readStoredState();
   const remoteTime = normalizeTimestamp(remote?.updatedAt);
-  const localTime = normalizeTimestamp(local?.updatedAt);
-  if (!remote || remoteTime < localTime) return;
+  if (!remoteShouldApply(remote, local)) return;
   applyPersistedState(remote, { keepView: false });
   persistLocal({ ...remote, updatedAt: remoteTime || Date.now() });
   if (state.query) els.searchPanel.classList.add('is-open');
@@ -2573,8 +2590,11 @@ function applyRemoteState(remote) {
 
 function pushLocalStateToCloud() {
   const local = readStoredState();
-  const hasLocal = local && Object.keys(local).length > 0;
-  const payload = hasLocal ? local : getPersistedState();
+  const payload = local && Object.keys(local).length > 0 ? local : getPersistedState();
+  if (!hasUsefulProgress(payload)) {
+    updateCloudStatus('synced', 'Nuvem pronta');
+    return;
+  }
   if (window.ChecklistCloud) window.ChecklistCloud.push({ ...payload, updatedAt: normalizeTimestamp(payload.updatedAt) || Date.now() });
 }
 
@@ -3076,14 +3096,14 @@ function setAll(value) {
 }
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v30', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v31', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v30.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v31.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 

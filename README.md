@@ -1,36 +1,38 @@
-# Anauá STL — Checklist v30
+# Anauá STL — Checklist v31
 
-Versão com sincronização Firebase Realtime Database sem Auth.
+Correções sobre sincronização, Live Server e estado visual de seção.
 
-## O que mudou
+## Mudanças
 
-- O estado do checklist sincroniza em:
+- Seção concluída agora inverte visualmente:
+  - fundo verde;
+  - textos brancos;
+  - barra de progresso branca;
+  - destaque forte para diferenciar do restante.
+- Sincronização RTDB ficou mais inteligente:
+  - estado vazio de outro navegador não apaga progresso local;
+  - se local tem mais itens marcados que a nuvem, local sobe para o Firebase;
+  - se nuvem tem mais itens marcados que local, nuvem aplica no site;
+  - se o total marcado empatar, o mais recente vence.
+- Primeira gravação continua criando automaticamente:
   `/checklist_stl/shared/state`
-- O `localStorage` continua como cache/fallback:
+- localStorage mantido:
   `checklist_stl`
-- A primeira execução cria automaticamente a estrutura no RTDB.
-- Se o RTDB estiver vazio, o estado local sobe para a nuvem.
-- Se o RTDB tiver estado mais recente, ele aplica no site.
-- Badge no header mostra:
-  - Local;
-  - Conectando;
-  - Sincronizando;
-  - Nuvem ativa;
-  - Falha.
-- Lógica de card completo corrigida:
-  quando todos os checkboxes de um card estão marcados, o card fica completo automaticamente.
-- Mantido o mapa de energia em:
+- Mapa de energia mantido:
   `#/energia`
 
-## Firebase
+## Correção do Live Server/Five Server
 
-Configuração usada:
-- Projeto: `planodiretor-marc35`
-- RTDB: `https://planodiretor-marc35-default-rtdb.firebaseio.com`
-- Caminho: `checklist_stl/shared/state`
+O erro 403 "Can't access files outside of root" ocorre quando o servidor foi aberto em uma raiz diferente e você tenta acessar `D:/...` pela URL.
 
-## Publicação
+Forma correta:
+1. Abrir a pasta do projeto como workspace/root no Cursor/VS Code.
+2. Clicar com o botão direito na pasta do projeto ou no `index.html`.
+3. Usar Open with Five Server / Go Live.
+4. A URL deve ficar parecida com:
+   `http://127.0.0.1:5500/index.html`
+   ou
+   `http://127.0.0.1:5500/`
 
-Publicar todo o conteúdo no GitHub Pages.
-Não precisa criar manualmente nó no banco.
-A primeira gravação cria a estrutura.
+Não usar:
+`http://127.0.0.1:5500/d:/...`

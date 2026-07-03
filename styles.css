@@ -2767,3 +2767,42 @@ body.is-scrolled .topbar:after { background: radial-gradient(ellipse at top, rgb
     display: none;
   }
 }
+
+
+/* v31 — seção concluída com estado visual forte */
+.section-card.is-complete {
+  border-color: rgba(31,107,79,.72);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255,255,255,.18), transparent 34%),
+    linear-gradient(135deg, #1f6b4f 0%, #15523d 100%);
+  color: #fff;
+  box-shadow: 0 22px 56px rgba(31,107,79,.24);
+}
+.section-card.is-complete .section-card__icon {
+  background: rgba(255,255,255,.18);
+  color: #fff;
+}
+.section-card.is-complete .section-card__title small,
+.section-card.is-complete .section-card__title strong,
+.section-card.is-complete .section-goal,
+.section-card.is-complete .section-card__progress,
+.section-card.is-complete .section-card__progress em,
+.section-card.is-complete .section-card__progress iconify-icon {
+  color: #fff;
+}
+.section-card.is-complete .mini-bar {
+  background: rgba(255,255,255,.22);
+}
+.section-card.is-complete .mini-bar i {
+  background: #fff;
+}
+.section-card.is-complete .section-card__body {
+  color: var(--ink);
+}
+.section-card.is-complete.is-collapsed .section-card__header {
+  min-height: 92px;
+}
+.section-card.is-complete.is-collapsed .section-goal::after {
+  content: " · concluído";
+  font-weight: 900;
+}

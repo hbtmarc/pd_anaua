@@ -17,6 +17,23 @@ function normalizeTimestamp(value) {
   return 0;
 }
 
+function checkedCountFrom(payload) {
+  if (!payload || !payload.checked || typeof payload.checked !== "object") return 0;
+  return Object.values(payload.checked).filter(Boolean).length;
+}
+
+function hasUsefulProgress(payload) {
+  return checkedCountFrom(payload) > 0;
+}
+
+function remoteShouldApply(remote, local) {
+  const remoteCount = checkedCountFrom(remote);
+  const localCount = checkedCountFrom(local);
+  if (remoteCount > localCount) return true;
+  if (remoteCount < localCount) return false;
+  return normalizeTimestamp(remote?.updatedAt) > normalizeTimestamp(local?.updatedAt);
+}
+
 function normalizeState(state = {}) {
   return {
     version: Number(state.version || 0),
@@ -55,16 +72,24 @@ async function initCloudSync({ getLocalState, applyRemoteState, pushIfRemoteEmpt
       const local = normalizeState(typeof getLocalState === "function" ? getLocalState() : {});
 
       if (!remote) {
-        emit("empty", "Criando nuvem");
-        if (typeof pushIfRemoteEmpty === "function") pushIfRemoteEmpty();
+        if (hasUsefulProgress(local)) {
+          emit("empty", "Criando nuvem");
+          if (typeof pushIfRemoteEmpty === "function") pushIfRemoteEmpty();
+        } else {
+          emit("synced", "Nuvem pronta");
+        }
         return;
       }
 
       const normalizedRemote = normalizeState(remote);
-      const remoteTime = normalizeTimestamp(normalizedRemote.updatedAt);
-      const localTime = normalizeTimestamp(local.updatedAt);
 
-      if (remoteTime > localTime) {
+      if (checkedCountFrom(local) > checkedCountFrom(normalizedRemote)) {
+        emit("syncing", "Enviando local");
+        pushCloudState(local, { immediate: true });
+        return;
+      }
+
+      if (remoteShouldApply(normalizedRemote, local)) {
         applyingRemote = true;
         if (typeof applyRemoteState === "function") applyRemoteState(normalizedRemote);
         applyingRemote = false;
@@ -72,7 +97,7 @@ async function initCloudSync({ getLocalState, applyRemoteState, pushIfRemoteEmpt
         return;
       }
 
-      if (localTime > remoteTime + 1000) {
+      if (normalizeTimestamp(local.updatedAt) > normalizeTimestamp(normalizedRemote.updatedAt) + 1000 && hasUsefulProgress(local)) {
         pushCloudState(local, { immediate: true });
         return;
       }
