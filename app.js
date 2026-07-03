@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 24;
+const APP_VERSION = 30;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -171,34 +171,27 @@ const checklist = [
       },
       {
         "id": "s02-02",
-        "title": "Montar setor de energia",
-        "lead": "Defender · cabos e carregadores:",
+        "title": "Montar setor de energia e baterias",
+        "lead": "Defender · carregar primeiro o que sustenta captação:",
         "bullets": [
           "Fonte original Apple + cabo USB-C para MagSafe 3",
-          "Estação 330W AS330W com 6 USB-C + 4 USB-A",
-          "Carregador Baseus 140W",
+          "Carregador Baseus 140W para Ugreen, iPhone e GoPro",
+          "Estação 330W AS330W para matriz audiovisual",
           "4 cabos USB-C USB4 240W/40Gbps",
           "Carregador/caixa NP-FW50 da ZV-E10",
           "Cabos/carregadores DJI, GoPro, Hollyland, iPhone e Osmo",
           "Power bank Ugreen 25.000 mAh",
-          "Velcros/elásticos para prender cabos"
+          "Velcros/elásticos para prender cabos",
+          "Setores separados: Apple, Baseus, 330W e dispositivos finais"
         ],
         "details": [
           {
             "title": "Separação correta",
             "items": [
-              "A fonte Apple + MagSafe vai para o MacBook e não entra na matriz audiovisual.",
-              "A estação 330W vira o centro de carga dos equipamentos de captação.",
-              "O Baseus 140W fica como linha de boost/reserva, não como carregador principal da mesa.",
-              "Os cabos USB4 ficam presos com velcro; cabo solto atrasa a recarga e aumenta risco de esquecer item no quarto."
-            ]
-          },
-          {
-            "title": "Critério de embalagem",
-            "items": [
-              "Fonte Apple e MagSafe ficam juntos no setor do MacBook.",
-              "330W, Baseus, cabos e carregadores de câmera/drone/áudio ficam juntos no setor de energia.",
-              "Power bank Ugreen fica perto dos cabos USB-C curtos, porque ele é reserva de campo."
+              "Apple/MagSafe fica junto do MacBook.",
+              "Baseus 140W fica no setor boost: Ugreen, iPhone e Osmo.",
+              "330W fica no setor audiovisual: DJI, Sony, Lark, luzes, GoPro e acessórios.",
+              "Cabos USB4 ficam presos e identificados para não misturar com cabos leves."
             ]
           }
         ],
@@ -474,50 +467,27 @@ const checklist = [
       },
       {
         "id": "s04-02",
-        "title": "Montar estação técnica de recarga",
-        "lead": "Pousada · potência, prioridade e portas:",
+        "title": "Montar estação técnica de baterias",
+        "lead": "Pousada · use o mapa completo e execute por prioridade:",
         "bullets": [
-          "Fonte Apple + MagSafe → MacBook fora da matriz audiovisual",
-          "330W C1 100W → Ugreen Power Bank 25.000 mAh",
-          "330W C2 100W → reserva premium ou item crítico atrasado",
-          "330W C3 30W → Hub DJI Mini 4 Pro",
-          "330W C4 30W → Carregador NP-FW50 da ZV-E10",
-          "330W C5 30W → Hollyland Lark Max 2",
-          "330W C6 30W → iPhone 15 Pro Max ou DJI Osmo Mobile 6",
-          "USB-A → GoPro HERO 11, VL120, fill light, RC2, Kica JetFan ou fan ZV-E10",
-          "Baseus 140W → linha reserva/boost, não matriz principal",
-          "Cartões, leitor Ugreen e pendrives fora da zona de energia",
-          "Cabos presos e nada carregando no chão"
+          "Abrir desenho completo da energia",
+          "Montar linha Apple/MagSafe para MacBook",
+          "Montar Baseus: Ugreen, iPhone e GoPro",
+          "Montar AS330W: drone, RC2, NP-FW50, Lark, Osmo e luzes",
+          "Separar cartões, leitor Ugreen e pendrives da zona de energia",
+          "Prender cabos e manter nada no chão"
         ],
         "details": [
           {
-            "title": "Desenho técnico",
-            "items": [
-              "Linha 0: fonte original Apple + cabo USB-C para MagSafe 3 alimenta somente o MacBook.",
-              "Linha 1: estação 330W AS330W alimenta o ecossistema audiovisual.",
-              "Linha 2: Baseus 140W fica livre para boost, contingência ou item crítico atrasado.",
-              "C1/C2 da estação são portas premium; C1 fica no Ugreen e C2 fica como reserva forte.",
-              "C3–C6 são a zona ideal para DJI, NP-FW50, Lark, iPhone e Osmo."
-            ]
+            "type": "power-diagram",
+            "title": "Desenho visual completo"
           },
           {
-            "title": "Ordem de prioridade",
+            "title": "Critério de execução",
             "items": [
-              "1. Ugreen Power Bank — reserva de campo.",
-              "2. DJI Mini 4 Pro — baterias e operação aérea.",
-              "3. Sony NP-FW50 — câmera principal.",
-              "4. Hollyland Lark Max 2 — áudio limpo.",
-              "5. GoPro HERO 11 — água e ação.",
-              "6. iPhone/Osmo — vertical, bastidor e comunicação.",
-              "7. Luzes e acessórios — VL120, fill light, RC2, fan e Kica JetFan."
-            ]
-          },
-          {
-            "title": "Regra de segurança e organização",
-            "items": [
-              "Não misture energia com dados: cartões, leitor Ugreen e pendrives ficam perto do MacBook.",
-              "Nada deve carregar no chão. A queda de cabo derruba equipamento e dificulta conferir antes de dormir.",
-              "Antes de dormir, faça conferência visual: Sony, drone, RC2, GoPro, Lark, iPhone, Osmo, Ugreen e MacBook."
+              "Não use o card como tabela técnica; ele é apenas o checklist físico.",
+              "A tabela detalhada de voltagem, amperagem, potência e tempo fica no desenho completo.",
+              "Depois de montar, confira a ordem: power bank, drone, controle, Sony, áudio, celular, GoPro, Osmo e luzes."
             ]
           }
         ],
@@ -2119,28 +2089,32 @@ const checklist = [
       },
       {
         "id": "s11-03",
-        "title": "Defender — energia e recarga",
-        "lead": "Espelho da estação técnica:",
+        "title": "Defender — energia, baterias e cabos",
+        "lead": "Espelho da estação técnica de baterias:",
         "bullets": [
-          "Fonte original Apple",
-          "Cabo USB-C para MagSafe 3",
-          "Estação 330W AS330W com 6 USB-C + 4 USB-A",
-          "Carregador Baseus 140W",
+          "Fonte original Apple + cabo USB-C para MagSafe 3",
+          "Baseus 140W com cabos usados em Ugreen, iPhone e GoPro",
+          "Estação 330W AS330W com cabos usados em drone, RC2, Sony, áudio, Osmo e luzes",
           "4 cabos USB-C USB4 240W/40Gbps",
-          "Carregador/caixa NP-FW50 da ZV-E10",
-          "Baterias NP-FW50 genéricas + bateria da câmera",
-          "Cabos/carregadores DJI, GoPro, Hollyland, iPhone e Osmo",
           "Power bank Ugreen 25.000 mAh",
-          "Velcros/elásticos dos cabos"
+          "Hub DJI Mini 4 Pro e baterias",
+          "DJI RC2",
+          "Carregador/caixa NP-FW50 da ZV-E10",
+          "Hollyland Lark Max 2",
+          "DJI Osmo Mobile 6",
+          "GoPro HERO 11",
+          "Ulanzi VL120, fill light, Kica JetFan e fan ZV-E10",
+          "Velcros/elásticos e cabos leves"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
-              "Fonte Apple e MagSafe precisam voltar juntos; são a linha dedicada do MacBook.",
-              "Retire todos os cabos das tomadas e confira se nenhuma fonte ficou atrás da cama, mesa ou criado-mudo.",
-              "Agrupe cabos por sistema antes de fechar: Apple/MacBook, Sony, DJI, GoPro, áudio, celular/Osmo e power bank.",
-              "Baterias cheias e usadas precisam voltar separadas, mesmo no retorno."
+              "Fonte Apple e MagSafe voltam juntos no setor do MacBook.",
+              "Baseus volta com cabos usados no Ugreen, iPhone e GoPro.",
+              "Estação 330W volta com os cabos do setor audiovisual.",
+              "Confira os itens pequenos: deadcats, cabos USB-C curtos, cabos USB-A, adaptadores e flanelas.",
+              "Nenhum cabo, fonte ou bateria fica em tomada, chão, cama ou atrás da mesa."
             ]
           }
         ],
@@ -2472,7 +2446,7 @@ const els = {
   more: $('#moreMenu'), moreToggle: $('#moreToggle'), markVisible: $('#markVisibleBtn'), clearVisible: $('#clearVisibleBtn'),
   markAll: $('#markAllBtn'), clearAll: $('#clearAllBtn'), exportBtn: $('#exportBtn'), reset: $('#resetBtn'), toggleControls: $('#toggleControlsBtn'),
   stats: $('#quickStats'), ring: $('#progressRing'), percent: $('#progressPercent'), progressTitle: $('#progressTitle'), progressSubtitle: $('#progressSubtitle'), scoreMini: $('#scoreMini'),
-  visible: $('#visibleCount'), hideDone: $('#hideDoneBtn'), expandAll: $('#expandAllBtn'), collapseAll: $('#collapseAllBtn'), backTop: $('#backTop')
+  visible: $('#visibleCount'), hideDone: $('#hideDoneBtn'), expandAll: $('#expandAllBtn'), collapseAll: $('#collapseAllBtn'), backTop: $('#backTop'), cloudStatus: $('#cloudStatus'), powerModal: $('#powerModal'), powerModalPanel: $('.power-modal__panel'), powerModalBackdrop: $('#powerModalBackdrop'), powerModalClose: $('#powerModalClose'), powerModalPrint: $('#powerModalPrint'), powerModalDiagram: $('#powerModalDiagram')
 };
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -2486,23 +2460,137 @@ function sectionBulletUnits(section) { return sectionItems(section).flatMap(item
 function allBulletUnits() { return allItems().flatMap(item => bulletUnits(item)); }
 function isDone(id) { return !!state.checked[id]; }
 function itemDone(item) { const units = bulletUnits(item); return units.length ? units.every(unit => isDone(unit.id)) : isDone(item.id); }
+function syncItemCompletion(item) {
+  const units = bulletUnits(item);
+  if (!units.length) return isDone(item.id);
+  const done = units.every(unit => isDone(unit.id));
+  if (done) state.checked[item.id] = true;
+  else delete state.checked[item.id];
+  return done;
+}
+function syncAllCardCompletion() { allItems().forEach(item => syncItemCompletion(item)); }
 function sectionDone(section) { const required = sectionBulletUnits(section).filter(unit => unit.critical); return required.length > 0 && required.every(unit => isDone(unit.id)); }
 function sectionProgress(section) { const required = sectionBulletUnits(section).filter(unit => unit.critical); const done = required.filter(unit => isDone(unit.id)).length; return { done, total: required.length, pct: required.length ? Math.round(done / required.length * 100) : 0 }; }
 function firstIncompleteSection() { return checklist.find(section => !sectionDone(section)) || null; }
 
+function normalizeTimestamp(value) {
+  if (typeof value === 'number') return value;
+  if (typeof value === 'string') {
+    const parsed = Date.parse(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  return 0;
+}
+
+function getPersistedState({ touch = true } = {}) {
+  const previous = readStoredState();
+  return {
+    version: APP_VERSION,
+    updatedAt: touch ? Date.now() : normalizeTimestamp(previous.updatedAt || Date.now()),
+    checked: state.checked || {},
+    filter: state.filter || 'all',
+    query: state.query || '',
+    hideDone: state.hideDone !== false,
+    openSections: Array.isArray(state.openSections) ? state.openSections : [],
+    expanded: state.expanded || {},
+    controlsVisible: state.controlsVisible === true
+  };
+}
+
+function readStoredState() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+
+function persistLocal(payload) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    version: APP_VERSION,
+    ...payload,
+    updatedAt: normalizeTimestamp(payload.updatedAt || Date.now())
+  }));
+}
+
+function applyPersistedState(saved, { keepView = false } = {}) {
+  if (!saved || typeof saved !== 'object') return;
+  state.checked = saved.checked || {};
+  state.filter = keepView ? (state.filter || 'all') : (saved.filter || 'all');
+  state.query = keepView ? (state.query || '') : (saved.query || '');
+  state.hideDone = saved.version >= APP_VERSION ? saved.hideDone !== false : true;
+  state.openSections = Array.isArray(saved.openSections) ? saved.openSections : [];
+  state.expanded = saved.expanded || {};
+  state.controlsVisible = saved.version >= APP_VERSION ? saved.controlsVisible === true : false;
+  syncAllCardCompletion();
+}
+
 function load() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    state.checked = saved.checked || {};
-    state.filter = saved.filter || 'all';
-    state.query = saved.query || '';
-    state.hideDone = saved.version >= APP_VERSION ? !!saved.hideDone : true;
-    state.openSections = Array.isArray(saved.openSections) ? saved.openSections : [];
-    state.expanded = saved.expanded || {};
-    state.controlsVisible = saved.version >= APP_VERSION ? saved.controlsVisible !== false : false;
+    applyPersistedState(readStoredState());
   } catch {}
 }
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: APP_VERSION, updatedAt: new Date().toISOString(), ...state })); }
+
+function updateCloudStatus(status, label) {
+  if (!els.cloudStatus) return;
+  const map = {
+    local: ['ph:hard-drives-bold', 'Local'],
+    connecting: ['ph:cloud-arrow-up-bold', 'Conectando'],
+    empty: ['ph:cloud-arrow-up-bold', 'Criando nuvem'],
+    syncing: ['ph:cloud-arrow-up-bold', 'Sincronizando'],
+    synced: ['ph:cloud-check-bold', 'Nuvem ativa'],
+    error: ['ph:cloud-warning-bold', 'Falha']
+  };
+  const [icon, text] = map[status] || map.local;
+  els.cloudStatus.dataset.status = status;
+  els.cloudStatus.innerHTML = `<iconify-icon icon="${icon}"></iconify-icon><b>${label || text}</b>`;
+}
+
+function save() {
+  const payload = getPersistedState();
+  persistLocal(payload);
+  if (window.ChecklistCloud) {
+    updateCloudStatus('syncing');
+    window.ChecklistCloud.push(payload);
+  } else {
+    updateCloudStatus('local');
+  }
+}
+
+function applyRemoteState(remote) {
+  const local = readStoredState();
+  const remoteTime = normalizeTimestamp(remote?.updatedAt);
+  const localTime = normalizeTimestamp(local?.updatedAt);
+  if (!remote || remoteTime < localTime) return;
+  applyPersistedState(remote, { keepView: false });
+  persistLocal({ ...remote, updatedAt: remoteTime || Date.now() });
+  if (state.query) els.searchPanel.classList.add('is-open');
+  else els.searchPanel.classList.remove('is-open');
+  if (!state.openSections.length) state.openSections = [firstIncompleteSection()?.id].filter(Boolean);
+  render();
+  syncPowerRoute();
+}
+
+function pushLocalStateToCloud() {
+  const local = readStoredState();
+  const hasLocal = local && Object.keys(local).length > 0;
+  const payload = hasLocal ? local : getPersistedState();
+  if (window.ChecklistCloud) window.ChecklistCloud.push({ ...payload, updatedAt: normalizeTimestamp(payload.updatedAt) || Date.now() });
+}
+
+function initCloudSync() {
+  if (!window.ChecklistCloud || initCloudSync.started) return false;
+  initCloudSync.started = true;
+  updateCloudStatus('connecting');
+  window.ChecklistCloud.init({
+    getLocalState: readStoredState,
+    applyRemoteState,
+    pushIfRemoteEmpty: pushLocalStateToCloud,
+    onStatus: updateCloudStatus
+  });
+  return true;
+}
+window.addEventListener('checklist-cloud-ready', initCloudSync);
 
 function matchesQuery(item) {
   if (!state.query.trim()) return true;
@@ -2630,8 +2718,137 @@ function renderSummary(item) {
     return `<li><label class="bullet-check"><input class="bullet-input" type="checkbox" data-bullet-id="${id}" ${isDone(id) ? 'checked' : ''}><span class="bullet-box"><iconify-icon icon="ph:check-bold"></iconify-icon></span><span>${esc(b)}</span></label></li>`;
   }).join('')}</ul></span>`;
 }
+function renderPowerDiagram(mode = 'inline') {
+  const rows = [
+    {p:'A0', charger:'Apple', port:'Fonte original + MagSafe 3', out:'Conforme fonte Apple', dev:'MacBook Pro', need:'MagSafe 3 / USB-C PD', time:'backup/ingest', note:'fora da matriz audiovisual'},
+    {p:'A1', charger:'Baseus 140W', port:'C1', out:'100W máx. em uso com 3 portas', dev:'Ugreen Power Bank 25.000 mAh', need:'USB-C1 entrada até 65W · 90Wh', time:'prioridade máxima', note:'reserva de campo'},
+    {p:'A6', charger:'Baseus 140W', port:'C2', out:'20W em uso com 3 portas', dev:'iPhone 15 Pro Max', need:'USB-C PD 20W+', time:'até 50% em ~30 min', note:'comunicação e vertical'},
+    {p:'A7', charger:'Baseus 140W', port:'USB-A', out:'18W em uso com 3 portas', dev:'GoPro HERO 11', need:'5V · 1A–2A', time:'carga leve/estável', note:'água e ação'},
+    {p:'A2', charger:'AS330W', port:'C3', out:'30W máx. · 5V3A/9V3A/12V2.5A/15V2A/20V1.5A', dev:'Hub DJI Mini 4 Pro', need:'5V3A / 9V3A / 12V3A', time:'3 baterias em sequência', note:'porta certa; não precisa 100W'},
+    {p:'A3', charger:'AS330W', port:'C4', out:'30W máx.', dev:'DJI RC2', need:'até 9V3A · bateria 22,32Wh', time:'~1h30', note:'controle do drone'},
+    {p:'A4', charger:'AS330W', port:'C5', out:'30W máx.', dev:'NP-FW50 · ZV-E10', need:'carregador duplo / USB · câmera interna ~150 min', time:'porta dedicada', note:'câmera principal'},
+    {p:'A5', charger:'AS330W', port:'C6', out:'30W máx.', dev:'Hollyland Lark Max 2', need:'Mic 167mAh · RX 300mAh · case 2000mAh', time:'mic/RX ~1h30 · case ~2h', note:'áudio limpo'},
+    {p:'B1', charger:'AS330W', port:'C1', out:'100W máx. usado como 10W+', dev:'DJI Osmo Mobile 6', need:'USB-C · 10W recomendado', time:'~1h24', note:'gimbal celular'},
+    {p:'B2', charger:'AS330W', port:'C2', out:'100W máx. usado como 5V', dev:'Ulanzi VL120 / fill light', need:'VL120 5V · 3100mAh', time:'~2h30', note:'luz de apoio'},
+    {p:'C', charger:'AS330W', port:'USB-A', out:'rodízio leve', dev:'Kica JetFan / fan ZV-E10', need:'JetFan comum ~5V1A; se Max até 54W', time:'rodízio', note:'manutenção/apoio'}
+  ];
+
+  return `
+  <div class="charge-map charge-map--v29" aria-label="Mapa profissional de recarga por prioridade e especificação elétrica">
+    <header class="charge-map__head charge-map__head--v29">
+      <div>
+        <span>Mapa técnico de baterias</span>
+        <strong>Recarga por prioridade, potência e tempo real</strong>
+        <p>O card do checklist ficou simples. Esta tela concentra o desenho técnico: tomada, carregadores, portas, cabos, potência disponível, necessidade de entrada e prioridade operacional.</p>
+      </div>
+      <div class="charge-map__badges">
+        <span><i class="prio prio-a">A</i> bateria crítica</span>
+        <span><i class="prio prio-b">B</i> operação</span>
+        <span><i class="prio prio-c">C</i> rodízio</span>
+      </div>
+    </header>
+
+    <section class="v29-spine">
+      <div class="v29-wall">
+        <iconify-icon icon="ph:plug-charging-bold"></iconify-icon>
+        <strong>Tomada / régua boa</strong>
+        <span>1 ponto físico · 3 carregadores · nada no chão</span>
+      </div>
+      <div class="v29-ac-lines"><i></i><i></i><i></i></div>
+    </section>
+
+    <section class="v29-chargers">
+      <article class="v29-charger v29-charger--apple">
+        <h3><iconify-icon icon="ph:laptop-bold"></iconify-icon>Apple/MagSafe</h3>
+        <p>MacBook isolado para backup. Não disputa energia audiovisual.</p>
+        <div class="v29-wire v29-wire--a"><b>Fonte Apple</b><i></i><strong><em>A0</em>MacBook Pro</strong></div>
+      </article>
+
+      <article class="v29-charger v29-charger--baseus">
+        <h3><iconify-icon icon="ph:battery-charging-bold"></iconify-icon>Baseus 140W</h3>
+        <p>Três portas ocupadas: 100W + 20W + 18W.</p>
+        <div class="v29-wire v29-wire--a"><b>C1 · 100W</b><i></i><strong><em>A1</em>Ugreen 25.000 mAh</strong></div>
+        <div class="v29-wire v29-wire--a"><b>C2 · 20W</b><i></i><strong><em>A6</em>iPhone 15 Pro Max</strong></div>
+        <div class="v29-wire v29-wire--a"><b>USB-A · 18W</b><i></i><strong><em>A7</em>GoPro HERO 11</strong></div>
+      </article>
+
+      <article class="v29-charger v29-charger--as">
+        <h3><iconify-icon icon="ph:lightning-bold"></iconify-icon>AS330W 330W</h3>
+        <p>Matriz audiovisual: baterias, controle, câmera, áudio, gimbal e luz.</p>
+        <div class="v29-grid">
+          <div class="v29-wire v29-wire--a"><b>C3 · 30W</b><i></i><strong><em>A2</em>Hub DJI Mini 4 Pro</strong></div>
+          <div class="v29-wire v29-wire--a"><b>C4 · 30W</b><i></i><strong><em>A3</em>DJI RC2</strong></div>
+          <div class="v29-wire v29-wire--a"><b>C5 · 30W</b><i></i><strong><em>A4</em>NP-FW50 · ZV-E10</strong></div>
+          <div class="v29-wire v29-wire--a"><b>C6 · 30W</b><i></i><strong><em>A5</em>Lark Max 2</strong></div>
+          <div class="v29-wire v29-wire--b"><b>C1 · 100W</b><i></i><strong><em>B1</em>DJI Osmo Mobile 6</strong></div>
+          <div class="v29-wire v29-wire--b"><b>C2 · 100W</b><i></i><strong><em>B2</em>VL120 / fill light</strong></div>
+          <div class="v29-wire v29-wire--c"><b>USB-A</b><i></i><strong><em>C</em>Kica / fan ZV-E10</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="v29-priority">
+      <strong>Ordem prática antes de dormir</strong>
+      <div>
+        <span><b>A1</b>Ugreen</span>
+        <span><b>A2</b>Drone</span>
+        <span><b>A3</b>RC2</span>
+        <span><b>A4</b>ZV-E10</span>
+        <span><b>A5</b>Lark</span>
+        <span><b>A6</b>iPhone</span>
+        <span><b>A7</b>GoPro</span>
+        <span><b>B/C</b>Osmo, luzes e fans</span>
+      </div>
+    </section>
+
+    <section class="v29-table">
+      <h3>Especificação elétrica por conexão</h3>
+      <div class="v29-table__head">
+        <span>Prioridade</span><span>Carregador</span><span>Porta</span><span>Saída planejada</span><span>Dispositivo</span><span>Entrada/carga do dispositivo</span><span>Tempo / uso</span><span>Critério</span>
+      </div>
+      ${rows.map(row => `
+        <div class="v29-table__row v29-table__row--${row.p.startsWith('A') ? 'a' : row.p.startsWith('B') ? 'b' : 'c'}">
+          <span><i>${row.p}</i></span>
+          <span>${row.charger}</span>
+          <span>${row.port}</span>
+          <span>${row.out}</span>
+          <strong>${row.dev}</strong>
+          <span>${row.need}</span>
+          <span>${row.time}</span>
+          <em>${row.note}</em>
+        </div>
+      `).join('')}
+    </section>
+
+    <section class="v29-notes">
+      <div><iconify-icon icon="ph:database-bold"></iconify-icon><strong>Zona limpa</strong><span>MacBook, cartões, leitor Ugreen e pendrives. Sem carregadores.</span></div>
+      <div><iconify-icon icon="ph:plugs-connected-bold"></iconify-icon><strong>Zona de energia</strong><span>Apple, Baseus e AS330W no fundo/centro da mesa. Cabos presos.</span></div>
+      <div><iconify-icon icon="ph:warning-bold"></iconify-icon><strong>Regra crítica</strong><span>Não marque como concluído antes de ver todos os LEDs/cargas ativas.</span></div>
+    </section>
+  </div>`;
+}
+
+function renderPowerInlineCta() {
+  return `
+    <div class="power-cta">
+      <div>
+        <strong>Desenho técnico em tela cheia</strong>
+        <span>Abra a visualização dedicada para ver tomada, carregadores, portas, cabos e dispositivos finais sem corte.</span>
+      </div>
+      <button type="button" class="power-open-btn" data-open-power-map>
+        <iconify-icon icon="ph:flow-arrow-bold"></iconify-icon>
+        Abrir desenho completo
+      </button>
+    </div>`;
+}
+
 function renderDetails(item) {
-  return (item.details || []).map(block => `<div class="detail-card"><strong>${esc(block.title)}</strong><ul>${(block.items || []).map(text => `<li>${esc(text)}</li>`).join('')}</ul></div>`).join('');
+  return (item.details || []).map(block => {
+    if (block.type === 'power-diagram') {
+      return `<div class="detail-card detail-card--visual"><strong>${esc(block.title)}</strong>${renderPowerInlineCta()}</div>`;
+    }
+    return `<div class="detail-card"><strong>${esc(block.title)}</strong><ul>${(block.items || []).map(text => `<li>${esc(text)}</li>`).join('')}</ul></div>`;
+  }).join('');
 }
 
 function renderItem(item, section) {
@@ -2659,9 +2876,18 @@ function renderItem(item, section) {
   checkbox.addEventListener('change', event => {
     const value = checkbox.checked;
     bulletUnits(item).forEach(unit => state.checked[unit.id] = value);
+    state.checked[item.id] = value;
+    syncItemCompletion(item);
     if (sectionDone(section)) openNextSection(section.id);
     save();
     render();
+  });
+
+  node.querySelectorAll('[data-open-power-map]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      openPowerMapRoute();
+    });
   });
 
   node.querySelectorAll('.summary-check-input').forEach(input => {
@@ -2669,6 +2895,7 @@ function renderItem(item, section) {
     input.addEventListener('change', event => {
       event.stopPropagation();
       state.checked[input.dataset.bulletId] = input.checked;
+      syncItemCompletion(item);
       if (sectionDone(section)) openNextSection(section.id);
       save();
       render();
@@ -2696,6 +2923,56 @@ function openNextSection(currentId) {
   const next = firstIncompleteSection();
   state.openSections = next ? [next.id] : [];
   if (next && next.id !== currentId) setTimeout(() => document.getElementById(next.id)?.scrollIntoView({ behavior:'smooth', block:'start' }), 120);
+}
+
+
+let lastPowerFocus = null;
+
+function isPowerRoute() {
+  return location.hash === '#/energia' || location.hash === '#energia' || location.hash === '#/desenho-energia';
+}
+
+function openPowerMapRoute() {
+  if (!isPowerRoute()) {
+    location.hash = '/energia';
+  } else {
+    openPowerModal();
+  }
+}
+
+function openPowerModal() {
+  if (!els.powerModal) return;
+  lastPowerFocus = document.activeElement;
+  els.powerModal.hidden = false;
+  els.powerModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+  if (els.powerModalDiagram && !els.powerModalDiagram.dataset.ready) {
+    els.powerModalDiagram.innerHTML = renderPowerDiagram('full');
+    els.powerModalDiagram.dataset.ready = 'true';
+  }
+  requestAnimationFrame(() => els.powerModalPanel?.focus());
+}
+
+function clearPowerRoute() {
+  if (isPowerRoute()) {
+    history.pushState('', document.title, location.pathname + location.search);
+  }
+}
+
+function closePowerModal({clearHash = true} = {}) {
+  if (!els.powerModal) return;
+  els.powerModal.hidden = true;
+  els.powerModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+  if (clearHash) clearPowerRoute();
+  if (lastPowerFocus && typeof lastPowerFocus.focus === 'function') {
+    requestAnimationFrame(() => lastPowerFocus.focus());
+  }
+}
+
+function syncPowerRoute() {
+  if (isPowerRoute()) openPowerModal();
+  else closePowerModal({clearHash:false});
 }
 
 function render() {
@@ -2779,18 +3056,34 @@ function assignDetailRows() {
   });
 }
 
-function setVisible(value) { getVisibleItems().forEach(item => bulletUnits(item).forEach(unit => state.checked[unit.id] = value)); save(); render(); }
-function setAll(value) { allBulletUnits().forEach(unit => state.checked[unit.id] = value); save(); render(); }
+function setVisible(value) {
+  getVisibleItems().forEach(item => {
+    bulletUnits(item).forEach(unit => state.checked[unit.id] = value);
+    state.checked[item.id] = value;
+    syncItemCompletion(item);
+  });
+  save();
+  render();
+}
+function setAll(value) {
+  allItems().forEach(item => {
+    bulletUnits(item).forEach(unit => state.checked[unit.id] = value);
+    state.checked[item.id] = value;
+    syncItemCompletion(item);
+  });
+  save();
+  render();
+}
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v24', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v30', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v24.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v30.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 
@@ -2815,8 +3108,19 @@ els.backTop.addEventListener('click', () => scrollTo({ top:0, behavior:'smooth' 
 addEventListener('scroll', () => { updateScrolledHeader(); els.backTop.classList.toggle('is-visible', scrollY > 640); });
 addEventListener('resize', () => requestAnimationFrame(assignDetailRows));
 
+
+els.powerModalClose?.addEventListener('click', () => closePowerModal());
+els.powerModalBackdrop?.addEventListener('click', () => closePowerModal());
+els.powerModalPrint?.addEventListener('click', () => window.print());
+window.addEventListener('hashchange', syncPowerRoute);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && els.powerModal && !els.powerModal.hidden) closePowerModal();
+});
+
 load();
 if (!state.openSections.length) state.openSections = [firstIncompleteSection()?.id].filter(Boolean);
 if (state.query) els.searchPanel.classList.add('is-open');
 updateScrolledHeader();
 render();
+syncPowerRoute();
+initCloudSync();
