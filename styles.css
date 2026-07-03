@@ -2806,3 +2806,9 @@ body.is-scrolled .topbar:after { background: radial-gradient(ellipse at top, rgb
   content: " · concluído";
   font-weight: 900;
 }
+
+
+/* v32 — proteção de sincronização multi-navegador */
+.cloud-status[data-status="synced"] b {
+  white-space: nowrap;
+}

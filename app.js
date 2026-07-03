@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 31;
+const APP_VERSION = 32;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -2491,13 +2491,24 @@ function hasUsefulProgress(payload) {
   return checkedCountFrom(payload) > 0;
 }
 
+function optionIntentCountFrom(payload) {
+  if (!payload || typeof payload !== 'object') return 0;
+  let count = 0;
+  if (payload.hideDone === false) count += 1;
+  if (payload.controlsVisible === true) count += 1;
+  if (Array.isArray(payload.openSections) && payload.openSections.length > 1) count += 1;
+  if (payload.expanded && typeof payload.expanded === 'object' && Object.values(payload.expanded).some(Boolean)) count += 1;
+  return count;
+}
+
+function hasUsefulState(payload) {
+  return checkedCountFrom(payload) > 0 || optionIntentCountFrom(payload) > 0;
+}
+
 function remoteShouldApply(remote, local) {
   if (!remote) return false;
-  const remoteCount = checkedCountFrom(remote);
-  const localCount = checkedCountFrom(local);
-  if (remoteCount > localCount) return true;
-  if (remoteCount < localCount) return false;
-  return normalizeTimestamp(remote.updatedAt) > normalizeTimestamp(local.updatedAt);
+  if (hasUsefulState(remote)) return true;
+  return !hasUsefulState(local) && normalizeTimestamp(remote.updatedAt) > normalizeTimestamp(local.updatedAt);
 }
 
 function getPersistedState({ touch = true } = {}) {
@@ -2564,12 +2575,13 @@ function updateCloudStatus(status, label) {
   els.cloudStatus.innerHTML = `<iconify-icon icon="${icon}"></iconify-icon><b>${label || text}</b>`;
 }
 
-function save() {
+function save(options = {}) {
   const payload = getPersistedState();
+  if (options.forceReset) payload.forceResetAt = Date.now();
   persistLocal(payload);
   if (window.ChecklistCloud) {
     updateCloudStatus('syncing');
-    window.ChecklistCloud.push(payload);
+    window.ChecklistCloud.push(payload, { forceReset: options.forceReset === true });
   } else {
     updateCloudStatus('local');
   }
@@ -2591,11 +2603,11 @@ function applyRemoteState(remote) {
 function pushLocalStateToCloud() {
   const local = readStoredState();
   const payload = local && Object.keys(local).length > 0 ? local : getPersistedState();
-  if (!hasUsefulProgress(payload)) {
+  if (!hasUsefulState(payload)) {
     updateCloudStatus('synced', 'Nuvem pronta');
     return;
   }
-  if (window.ChecklistCloud) window.ChecklistCloud.push({ ...payload, updatedAt: normalizeTimestamp(payload.updatedAt) || Date.now() });
+  if (window.ChecklistCloud) window.ChecklistCloud.push({ ...payload, updatedAt: normalizeTimestamp(payload.updatedAt) || Date.now() }, { forceReset: false });
 }
 
 function initCloudSync() {
@@ -3091,19 +3103,19 @@ function setAll(value) {
     state.checked[item.id] = value;
     syncItemCompletion(item);
   });
-  save();
+  save({ forceReset: value === false });
   render();
 }
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v31', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v32', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v31.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v32.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 
@@ -3116,7 +3128,7 @@ els.markVisible.addEventListener('click', () => { if (confirm('Marcar todos os i
 els.clearVisible.addEventListener('click', () => { if (confirm('Limpar todos os itens visíveis?')) setVisible(false); });
 els.markAll.addEventListener('click', () => { if (confirm('Marcar tudo?')) setAll(true); });
 els.clearAll.addEventListener('click', () => { if (confirm('Limpar tudo?')) setAll(false); });
-els.reset.addEventListener('click', () => { if (confirm('Resetar todo o checklist?')) { state.checked={}; state.filter='all'; state.query=''; state.hideDone=true; state.openSections=[]; state.expanded={}; save(); render(); } });
+els.reset.addEventListener('click', () => { if (confirm('Resetar todo o checklist?')) { state.checked={}; state.filter='all'; state.query=''; state.hideDone=true; state.openSections=[]; state.expanded={}; state.controlsVisible=false; save({ forceReset: true }); render(); } });
 els.exportBtn.addEventListener('click', exportJson);
 els.toggleControls.addEventListener('click', () => { state.controlsVisible = state.controlsVisible === false ? true : false; save(); render(); });
 els.moreToggle.addEventListener('click', () => els.more.classList.toggle('is-open'));
