@@ -1,26 +1,22 @@
-# Anauá STL — Checklist v21
+# Anauá STL — Checklist v23
 
-Revamp do início do site.
+Ajuste focado no dashboard inicial.
 
-## Ajustes
+## Alterações
 
-- Título do navegador alterado para `São Thomé das Letras — Checklist`.
-- Hero minimalista:
-  - Apenas `São Thomé das Letras`;
-  - Título grande `Checklist`;
-  - Texto explicativo removido.
-- Dashboard refinado no mesmo espaço:
-  - Itens marcados/pendentes;
-  - Obrigatórios marcados/pendentes;
-  - Etapa atual;
-  - Estrutura/cards/shotlist;
-  - Progresso total com mini-resumo lateral.
-- Mantido o que já estava validado:
+- Corrigido alinhamento dos cards do dashboard.
+- Reduzida a variação exagerada de tamanho entre títulos, números e legendas.
+- Cards agora seguem estrutura consistente:
+  - rótulo;
+  - valor;
+  - descrição curta;
+  - apoio contextual.
+- Etapa atual não usa abreviação nem texto truncado.
+- Progresso total fica apenas no card lateral para evitar duplicidade.
+- Mini-resumo lateral mostra status operacional, sem repetir métricas principais.
+- Mantido:
+  - controles ocultos por padrão;
   - localStorage `checklist_stl`;
-  - filtros;
-  - header;
-  - checkboxes;
-  - mobile tocável;
-  - conteúdo da v20.
+  - conteúdo e lógica já validados.
 
 Abra com Live Server.

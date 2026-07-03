@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 21;
+const APP_VERSION = 23;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -2014,26 +2014,26 @@ const checklist = [
     "short": "11 Fechamento",
     "title": "11 — Fechamento geral: inventário completo",
     "kicker": "Nada fica para trás",
-    "goal": "Conferir fisicamente quarto, Defender, Assault, mídia, roupa e pós-produção com inventário detalhado de tudo que foi levado.",
+    "goal": "Conferir fisicamente tudo que entrou na Defender, na Assault e no escritório técnico da pousada.",
     "items": [
       {
         "id": "s11-01",
         "title": "Varredura física do quarto",
         "lead": "Olhar e tocar antes de sair:",
         "bullets": [
-          "Tomadas e extensões",
-          "Mesa técnica",
-          "Banheiro",
-          "Cama, chão e cantos",
-          "Janela/armário/cabide",
-          "Lixo, sacos e roupas molhadas"
+          "Tomadas, extensões e adaptadores",
+          "Mesa técnica e área do MacBook",
+          "Banheiro e bancada da pia",
+          "Cama, chão, cantos e embaixo da cama",
+          "Janela, armário, cabide e varal improvisado",
+          "Lixo, sacos e roupa molhada"
         ],
         "details": [
           {
             "title": "Procedimento",
             "items": [
-              "Faça a varredura em sentido único: porta, tomada, mesa, cama, chão, banheiro, janela e armário.",
-              "Não marque por memória. Cabos, cartões, pendrives, flanelas e adaptadores pequenos são os itens que mais ficam para trás.",
+              "Faça a varredura em sentido único: porta, tomadas, mesa, cama, chão, banheiro, janela e armário.",
+              "Não marque por memória. Cabos, cartões, pendrives, flanelas, deadcats e adaptadores pequenos são os itens que mais ficam para trás.",
               "Depois da varredura, feche a Defender e a Assault e não reabra sem necessidade."
             ]
           }
@@ -2046,23 +2046,28 @@ const checklist = [
       },
       {
         "id": "s11-02",
-        "title": "Defender — roupas, higiene e proteção pessoal",
-        "lead": "Itens pessoais e tecidos:",
+        "title": "Defender — roupas, frio e higiene",
+        "lead": "Espelho da montagem da Defender:",
         "bullets": [
-          "Camisetas de sábado, domingo e reserva",
-          "Calça, bermuda, pijama e roupa de banho",
-          "Meias extras, chinelo e calçado de caminhada",
-          "Agasalho, corta-vento/capa, gorro/luvas se usados",
-          "Toalha, nécessaire, protetor, repelente, protetor labial",
-          "Óculos/boné, sacos de roupa suja, roupa molhada e lixo"
+          "3 camisetas leves: sábado, domingo e 1 reserva",
+          "1 calça confortável para noite/frio",
+          "1 bermuda ou peça leve para deslocamento",
+          "1 pijama leve",
+          "1 sunga ou roupa de banho",
+          "3 cuecas: 2 dias + 1 reserva",
+          "3 pares de meia: 2 dias + 1 reserva",
+          "1 chinelo e 1 calçado confortável para pedra/trilha",
+          "1 agasalho forte + 1 corta-vento/capa de chuva",
+          "1 toalha + nécessaire isolada",
+          "Sacos separados para roupa suja, roupa molhada e lixo"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
-              "Roupa molhada precisa estar isolada antes de voltar para a Defender.",
-              "Necessaire e qualquer líquido devem ficar fechados e longe de eletrônicos.",
-              "Confira se nada ficou no banheiro, varal improvisado, cama ou sacola externa."
+              "Roupa molhada precisa voltar isolada e longe da base técnica.",
+              "Nécessaire e líquidos devem estar fechados e separados de MacBook, cartões, lentes, microfones e carregadores.",
+              "Confirme banheiro, cama, varal improvisado e sacolas externas antes de fechar a Defender."
             ]
           }
         ],
@@ -2075,15 +2080,17 @@ const checklist = [
       },
       {
         "id": "s11-03",
-        "title": "Defender — energia e carregamento",
-        "lead": "Central de recarga completa:",
+        "title": "Defender — energia e recarga",
+        "lead": "Espelho da estação de energia:",
         "bullets": [
-          "Carregador 330W 6 USB-C + 4 USB-A",
+          "Estação 330W com 6 USB-C + 4 USB-A",
           "Carregador Baseus 140W",
           "4 cabos USB-C USB4 240W/40Gbps",
+          "Carregador/caixa NP-FW50 da ZV-E10",
+          "Baterias NP-FW50 genéricas + bateria da câmera",
+          "Cabos/carregadores DJI, GoPro, Hollyland, iPhone e Osmo",
           "Power bank Ugreen 25.000 mAh",
-          "Carregador/caixa NP-FW50 e baterias NP-FW50",
-          "Carregadores/cabos DJI, GoPro, Hollyland, iPhone e Osmo"
+          "Adaptador/benjamim se foi levado"
         ],
         "details": [
           {
@@ -2091,7 +2098,7 @@ const checklist = [
             "items": [
               "Retire todos os cabos das tomadas e confira se nenhuma fonte ficou atrás da cama, mesa ou criado-mudo.",
               "Agrupe cabos por sistema antes de fechar: Sony, DJI, GoPro, áudio, celular/Osmo e power bank.",
-              "Bateria carregada e bateria usada precisam voltar para posições separadas, mesmo no retorno."
+              "Baterias cheias e usadas precisam voltar separadas, mesmo no retorno."
             ]
           }
         ],
@@ -2104,15 +2111,16 @@ const checklist = [
       },
       {
         "id": "s11-04",
-        "title": "Defender — dados, backup e mídia",
-        "lead": "Núcleo de ingest:",
+        "title": "Defender — dados, cartões e backup",
+        "lead": "Espelho do núcleo de ingest:",
         "bullets": [
           "MacBook Pro M5 em sleeve",
           "Leitor Ugreen USB-C SD + TF",
-          "SD SanDisk Extreme Pro 256GB V30 200MB/s",
+          "SD SanDisk Extreme Pro 256GB V30 200MB/s da ZV-E10",
           "2 microSD SanDisk Extreme Pro 256GB V30",
           "2 pendrives SanDisk Ultra Dual Drive Go 64GB",
-          "Estojo de cartões com usados/vazios separados"
+          "Estojo de cartões com usados/vazios separados",
+          "Pastas ZVE10, IPHONE, GOPRO, DRONE, AUDIO, SELECTS, DAVINCI e EXPORTS"
         ],
         "details": [
           {
@@ -2133,21 +2141,23 @@ const checklist = [
       },
       {
         "id": "s11-05",
-        "title": "Defender — estabilização, luz e acessórios grandes",
-        "lead": "Volume técnico planejado:",
+        "title": "Defender — estabilização, luz e suporte",
+        "lead": "Espelho dos acessórios grandes:",
         "bullets": [
           "Scorp Mini 3 Pro com case",
           "Tripod, slider, fixed plate e quick release plate do Scorp",
-          "Extension pole, articulating arm e smartphone holder",
-          "Fill light do kit Scorp e cabos/parafusos/Allen key",
-          "Ulanzi MT-44 e Ulanzi MT-08",
+          "Extension pole, articulating arm e smartphone holder do Scorp",
+          "Fill light do kit Scorp",
+          "Cabos, parafusos, Allen key, dust cover e adaptador GoPro do kit Scorp",
+          "Ulanzi MT-44",
+          "Ulanzi MT-08",
           "Ulanzi VL120 RGB 2500K–9000K"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
-              "Peças pequenas do Scorp devem voltar para o case correto: plates, parafusos, cabos, dust cover e chave Allen.",
+              "Peças pequenas do Scorp devem voltar ao case correto.",
               "MT-44, MT-08 e VL120 não devem ficar soltos em saco de roupa.",
               "Se algum acessório foi usado no quarto, confira mesa, cama e tomada."
             ]
@@ -2164,21 +2174,22 @@ const checklist = [
       {
         "id": "s11-06",
         "title": "Defender — manutenção e acessórios condicionais",
-        "lead": "Itens de apoio:",
+        "lead": "Espelho da manutenção:",
         "bullets": [
           "Kica JetFan",
           "Ventilador de refrigeração da ZV-E10",
           "Dummy battery USB-C da ZV-E10",
           "Flanelas, lens pen, sílica, ziplocks e presilhas",
           "Case rígido do DJI Mini 4 Pro",
-          "Lente wide externa e suporte Sunnylife GoPro para Mini 4 Pro"
+          "Lente wide externa do DJI Mini 4 Pro",
+          "Suporte Sunnylife GoPro para DJI Mini 4 Pro"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
               "Itens de manutenção voltam secos e isolados.",
-              "Acessórios condicionais do drone devem voltar para o case ou setor do drone, não para bolsos frontais.",
+              "Acessórios condicionais do drone voltam para o setor do drone, não para bolsos frontais.",
               "Não guarde flanela molhada com lente, filtro, cartão ou microfone."
             ]
           }
@@ -2193,15 +2204,17 @@ const checklist = [
       },
       {
         "id": "s11-07",
-        "title": "Assault — câmera Sony e óptica",
-        "lead": "Imagem principal:",
+        "title": "Assault — Sony ZV-E10 e óptica",
+        "lead": "Espelho do núcleo de imagem:",
         "bullets": [
           "Sony ZV-E10",
           "Cage SmallRig com empunhadura",
           "Viltrox 15mm montada/protegida",
           "Viltrox 23mm protegida",
-          "Filtros ND e tampas",
-          "Baterias NP-FW50 cheias/usadas separadas"
+          "SD SanDisk Extreme Pro 256GB V30 na câmera ou estojo",
+          "Filtro ND principal e filtros usados",
+          "Tampas de lente/corpo",
+          "Bateria NP-FW50 da câmera + reservas separadas"
         ],
         "details": [
           {
@@ -2222,23 +2235,24 @@ const checklist = [
       },
       {
         "id": "s11-08",
-        "title": "Assault — áudio, GoPro e ação",
-        "lead": "Som e risco:",
+        "title": "Assault — áudio e captação móvel",
+        "lead": "Espelho do núcleo de som e vertical:",
         "bullets": [
-          "Hollyland Lark Max 2 com case",
-          "Deadcats e cabos câmera/celular",
-          "Lark M2/backup se estiver levando",
-          "GoPro HERO 11",
-          "Bateria e microSD da GoPro",
-          "Suportes úteis usados no roteiro"
+          "Hollyland Lark Max 2 completo e carregado",
+          "Deadcats do Lark Max 2",
+          "Cabo do Lark para Sony ZV-E10",
+          "Cabo do Lark para iPhone 15 Pro Max",
+          "Case do Lark Max 2",
+          "iPhone 15 Pro Max",
+          "DJI Osmo Mobile 6"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
-              "Microfones, transmissores e receiver precisam voltar para o case, não para bolso solto.",
+              "Transmissores, receiver, deadcats e cabos precisam voltar ao case correto.",
               "Deadcat pequeno é fácil de perder; confira antes de fechar.",
-              "GoPro deve voltar seca, com tampa/porta conferida e cartão preservado."
+              "iPhone e Osmo voltam para recarga antes de armazenamento final."
             ]
           }
         ],
@@ -2246,21 +2260,51 @@ const checklist = [
           "fechamento",
           "assault",
           "audio",
-          "gopro"
+          "camera"
         ],
         "critical": true
       },
       {
         "id": "s11-09",
-        "title": "Assault — drone e controle",
-        "lead": "Aéreo completo:",
+        "title": "Assault — GoPro e água/ação",
+        "lead": "Espelho do núcleo de risco:",
+        "bullets": [
+          "GoPro HERO 11",
+          "MicroSD da GoPro conferido",
+          "Bateria GoPro cheia/usada separada",
+          "Adaptador/suporte GoPro do kit Scorp se saiu a campo",
+          "Ziplock para retorno úmido",
+          "Flanela seca dedicada à GoPro"
+        ],
+        "details": [
+          {
+            "title": "Conferência",
+            "items": [
+              "GoPro deve voltar seca antes de entrar na van; se estiver úmida, vai em ziplock separado.",
+              "Confira microSD antes de desmontar a bolsa.",
+              "Suporte/adaptador pequeno não deve ficar perdido em bolso de roupa."
+            ]
+          }
+        ],
+        "tags": [
+          "fechamento",
+          "assault",
+          "gopro"
+        ],
+        "critical": true
+      },
+      {
+        "id": "s11-10",
+        "title": "Assault — drone e controle aéreo",
+        "lead": "Espelho do núcleo DJI:",
         "bullets": [
           "DJI Mini 4 Pro",
-          "RC2",
-          "Baterias do drone",
-          "MicroSD do drone e RC2/reserva",
-          "Filtros/hélices/acessórios usados",
-          "Suporte Sunnylife/lente wide se saíram para campo"
+          "Controle DJI RC2",
+          "Baterias DJI carregadas/usadas separadas",
+          "MicroSD do drone + microSD/armazenamento do RC2 conferidos",
+          "Filtros/hélices necessários em estojo",
+          "Lente wide externa do Mini 4 Pro se saiu a campo",
+          "Suporte Sunnylife GoPro para Mini 4 Pro se saiu a campo"
         ],
         "details": [
           {
@@ -2280,36 +2324,39 @@ const checklist = [
         "critical": true
       },
       {
-        "id": "s11-10",
-        "title": "Assault — campo, controle e documentos",
-        "lead": "Acesso rápido:",
+        "id": "s11-11",
+        "title": "Assault — energia de campo e controle pessoal",
+        "lead": "Espelho dos bolsos rápidos:",
         "bullets": [
-          "iPhone 15 Pro Max",
-          "Osmo Mobile 6 se saiu a campo",
-          "Power bank e cabos curtos",
+          "Power bank Ugreen 25.000 mAh + cabo USB-C curto",
+          "Cabos curtos de campo",
+          "Estojo de cartões com regra vazio/usado",
           "Documento com foto",
-          "Dinheiro/cartão/chave",
-          "Remédio essencial, ziplock e flanela de campo"
+          "Dinheiro/cartão e chave",
+          "Remédio essencial",
+          "Ziplock e flanela de campo",
+          "Agasalho forte ou corta-vento/capa quando sair para Pedra/Pirâmide"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
               "Documento, dinheiro e chave devem voltar para o mesmo bolso definido no início.",
-              "Power bank e cabos curtos voltam para recarga antes de ir para armazenamento.",
-              "iPhone precisa ter espaço preservado e material sincronizado/backup planejado."
+              "Power bank e cabos curtos voltam para recarga antes do armazenamento.",
+              "Frio usado na saída da tarde não pode ficar fora da Defender no retorno."
             ]
           }
         ],
         "tags": [
           "fechamento",
           "assault",
-          "controle"
+          "controle",
+          "energia"
         ],
         "critical": true
       },
       {
-        "id": "s11-11",
+        "id": "s11-12",
         "title": "Mídia e backup final em casa",
         "lead": "Antes de formatar qualquer cartão:",
         "bullets": [
@@ -2337,7 +2384,7 @@ const checklist = [
         "critical": true
       },
       {
-        "id": "s11-12",
+        "id": "s11-13",
         "title": "Pós-produção e entrega",
         "lead": "DaVinci e Reels:",
         "bullets": [
@@ -2374,7 +2421,7 @@ const baseFilters = [
   ['active', 'Agora', 'ph:target-bold']
 ];
 
-const state = { checked: {}, filter: 'all', query: '', hideDone: true, openSections: [], expanded: {}, controlsVisible: true };
+const state = { checked: {}, filter: 'all', query: '', hideDone: true, openSections: [], expanded: {}, controlsVisible: false };
 const $ = selector => document.querySelector(selector);
 const els = {
   sections: $('#sectionsContainer'), sectionTpl: $('#sectionTemplate'), itemTpl: $('#itemTemplate'),
@@ -2410,6 +2457,7 @@ function load() {
     state.hideDone = saved.version >= APP_VERSION ? !!saved.hideDone : true;
     state.openSections = Array.isArray(saved.openSections) ? saved.openSections : [];
     state.expanded = saved.expanded || {};
+    state.controlsVisible = saved.version >= APP_VERSION ? saved.controlsVisible !== false : false;
   } catch {}
 }
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: APP_VERSION, updatedAt: new Date().toISOString(), ...state })); }
@@ -2484,36 +2532,39 @@ function renderFilters() {
 
 function renderStats() {
   const units = allBulletUnits();
-  const done = units.filter(unit => isDone(unit.id)).length;
-  const pending = units.length - done;
-  const req = units.filter(unit => unit.critical).length;
-  const reqDone = units.filter(unit => unit.critical && isDone(unit.id)).length;
-  const reqPending = req - reqDone;
+  const req = units.filter(unit => unit.critical);
+  const reqPending = req.filter(unit => !isDone(unit.id)).length;
   const cards = allItems();
   const active = firstIncompleteSection();
-  const activeShort = active ? (active.short || active.title.split('—')[0].trim()) : 'Finalizado';
+  const activeNumber = active ? (active.title.match(/^(\d+[A-Z]?)/)?.[1] || 'Atual') : 'Fim';
+  const activeTitle = active ? active.title.replace(/^\d+[A-Z]?\s*—\s*/, '').trim() : 'Checklist concluído';
+  const activeKicker = active ? active.kicker : 'Todas as etapas foram concluídas';
   const shotlistBlocks = checklist.filter(section => normalize(section.title).includes('shotlist')).length;
 
   els.stats.innerHTML = `
     <div class="stat stat--primary">
-      <div class="stat__head"><iconify-icon icon="ph:list-checks-bold"></iconify-icon><span>Itens</span></div>
-      <strong>${done}/${units.length}</strong>
-      <small>${pending} pendentes</small>
+      <div class="stat__head"><iconify-icon icon="ph:target-bold"></iconify-icon><span>Próxima etapa</span></div>
+      <strong class="stat__value stat__value--step">${esc(activeNumber)}</strong>
+      <span class="stat__title">${esc(activeTitle)}</span>
+      <small>${esc(activeKicker || 'Próximo bloco operacional')}</small>
     </div>
     <div class="stat">
       <div class="stat__head"><iconify-icon icon="ph:warning-diamond-bold"></iconify-icon><span>Obrigatórios</span></div>
-      <strong>${reqDone}/${req}</strong>
-      <small>${reqPending} críticos pendentes</small>
+      <strong class="stat__value">${reqPending}</strong>
+      <span class="stat__title">pendentes</span>
+      <small>${req.length} itens críticos no total</small>
     </div>
     <div class="stat">
-      <div class="stat__head"><iconify-icon icon="ph:target-bold"></iconify-icon><span>Agora</span></div>
-      <strong>${esc(activeShort)}</strong>
-      <small>${active ? 'próxima etapa aberta' : 'checklist completo'}</small>
+      <div class="stat__head"><iconify-icon icon="ph:cards-three-bold"></iconify-icon><span>Checklist</span></div>
+      <strong class="stat__value">${cards.length}</strong>
+      <span class="stat__title">cards principais</span>
+      <small>${checklist.length} seções operacionais</small>
     </div>
     <div class="stat">
-      <div class="stat__head"><iconify-icon icon="ph:cards-three-bold"></iconify-icon><span>Estrutura</span></div>
-      <strong>${cards.length}</strong>
-      <small>${shotlistBlocks} blocos de shotlist</small>
+      <div class="stat__head"><iconify-icon icon="ph:film-strip-bold"></iconify-icon><span>Shotlist</span></div>
+      <strong class="stat__value">${shotlistBlocks}</strong>
+      <span class="stat__title">blocos</span>
+      <small>linha do tempo da captação</small>
     </div>`;
 }
 function renderLead(item) {
@@ -2655,22 +2706,19 @@ function updateProgress(visibleCards) {
   const done = units.filter(unit => isDone(unit.id)).length;
   const pending = units.length - done;
   const pct = units.length ? Math.round(done / units.length * 100) : 0;
-  const req = units.filter(unit => unit.critical).length;
-  const reqDone = units.filter(unit => unit.critical && isDone(unit.id)).length;
-  const active = firstIncompleteSection();
   const visibleUnits = visibleCards.flatMap(item => bulletUnits(item));
 
   els.ring.style.setProperty('--progress', pct);
   els.percent.textContent = `${pct}%`;
   els.progressTitle.textContent = `${done} de ${units.length} itens`;
-  els.progressSubtitle.textContent = done === units.length ? 'Checklist completo.' : `${pending} pendentes no total.`;
+  els.progressSubtitle.textContent = done === units.length ? 'Checklist completo.' : `${pending} itens pendentes.`;
   els.visible.textContent = `${visibleCards.length} cards visíveis · ${visibleUnits.filter(unit => !isDone(unit.id)).length} itens pendentes`;
 
   if (els.scoreMini) {
     els.scoreMini.innerHTML = `
-      <div><span>Etapa atual</span><strong>${active ? esc(active.short || active.title.split('—')[0].trim()) : 'Finalizado'}</strong></div>
-      <div><span>Críticos</span><strong>${reqDone}/${req}</strong></div>
-      <div><span>Visíveis</span><strong>${visibleCards.length}</strong></div>
+      <div><span>Dados</span><strong>Salvos no navegador</strong></div>
+      <div><span>Controles</span><strong>${state.controlsVisible === false ? 'Ocultos' : 'Visíveis'}</strong></div>
+      <div><span>Feitos</span><strong>${state.hideDone ? 'Ocultos' : 'Visíveis'}</strong></div>
     `;
   }
 }
@@ -2693,14 +2741,14 @@ function setVisible(value) { getVisibleItems().forEach(item => bulletUnits(item)
 function setAll(value) { allBulletUnits().forEach(unit => state.checked[unit.id] = value); save(); render(); }
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v21', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v23', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v21.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v23.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 
