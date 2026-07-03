@@ -1,22 +1,20 @@
-# Anauá STL — Checklist v23
+# Anauá STL — Checklist v24
 
-Ajuste focado no dashboard inicial.
+Atualização do setor de energia.
 
 ## Alterações
 
-- Corrigido alinhamento dos cards do dashboard.
-- Reduzida a variação exagerada de tamanho entre títulos, números e legendas.
-- Cards agora seguem estrutura consistente:
-  - rótulo;
-  - valor;
-  - descrição curta;
-  - apoio contextual.
-- Etapa atual não usa abreviação nem texto truncado.
-- Progresso total fica apenas no card lateral para evitar duplicidade.
-- Mini-resumo lateral mostra status operacional, sem repetir métricas principais.
-- Mantido:
-  - controles ocultos por padrão;
-  - localStorage `checklist_stl`;
-  - conteúdo e lógica já validados.
+- Card “Montar setor de energia” atualizado na Defender.
+- Card “Montar estação técnica de recarga” atualizado na Pousada com desenho técnico de portas.
+- MacBook saiu da matriz audiovisual:
+  - fonte original Apple;
+  - cabo USB-C para MagSafe 3;
+  - linha dedicada fora da estação 330W.
+- Estação 330W virou matriz audiovisual.
+- Baseus 140W virou linha reserva/boost.
+- Fechamento geral atualizado para conferir fonte Apple, MagSafe e todo o setor de energia.
+
+Persistência mantida:
+`checklist_stl`
 
 Abra com Live Server.

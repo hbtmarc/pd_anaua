@@ -719,3 +719,34 @@ body.is-scrolled .topbar:after { background: radial-gradient(ellipse at top, rgb
     grid-template-columns: 1fr;
   }
 }
+
+
+/* v24 — card de estação técnica de recarga mais legível */
+.check-item:has(.summary-lead):has([data-bullet-id^="s04-02"]) .summary-list {
+  display: grid;
+  gap: 3px;
+}
+.check-item:has([data-bullet-id^="s04-02"]) .bullet-check {
+  min-height: 22px !important;
+}
+.check-item:has([data-bullet-id^="s04-02"]) .summary-list li:nth-child(1) .bullet-check {
+  color: var(--green);
+  font-weight: 850;
+}
+.check-item:has([data-bullet-id^="s04-02"]) .summary-list li:nth-child(2) .bullet-check,
+.check-item:has([data-bullet-id^="s04-02"]) .summary-list li:nth-child(3) .bullet-check {
+  color: #9a431f;
+  font-weight: 830;
+}
+.check-item:has([data-bullet-id^="s04-02"]) .summary-list li:nth-child(n+4):nth-child(-n+7) .bullet-check {
+  color: #315f4d;
+  font-weight: 780;
+}
+.check-item:has([data-bullet-id^="s04-02"]) .summary-list li:nth-child(n+8) .bullet-check {
+  color: var(--muted);
+}
+@media(max-width:760px) {
+  .check-item:has([data-bullet-id^="s04-02"]) .summary-list {
+    gap: 7px;
+  }
+}

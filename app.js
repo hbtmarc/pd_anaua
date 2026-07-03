@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 23;
+const APP_VERSION = 24;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -172,22 +172,33 @@ const checklist = [
       {
         "id": "s02-02",
         "title": "Montar setor de energia",
-        "lead": "Bolso técnico de recarga:",
+        "lead": "Defender · cabos e carregadores:",
         "bullets": [
-          "Estação 330W com 6 USB-C + 4 USB-A",
+          "Fonte original Apple + cabo USB-C para MagSafe 3",
+          "Estação 330W AS330W com 6 USB-C + 4 USB-A",
           "Carregador Baseus 140W",
           "4 cabos USB-C USB4 240W/40Gbps",
           "Carregador/caixa NP-FW50 da ZV-E10",
           "Cabos/carregadores DJI, GoPro, Hollyland, iPhone e Osmo",
-          "Adaptador/benjamim apenas se estiver separado na bancada"
+          "Power bank Ugreen 25.000 mAh",
+          "Velcros/elásticos para prender cabos"
         ],
         "details": [
           {
-            "title": "Montagem",
+            "title": "Separação correta",
             "items": [
-              "O 330W é a central da pousada. O Baseus 140W é reforço ou backup para carga pesada.",
-              "Agrupe carregadores por sistema: Sony com NP-FW50, DJI com hub/fonte, GoPro com baterias, Hollyland com case/cabo.",
-              "Prenda cabos USB4 com velcro. Cabo solto torna a recarga noturna lenta e confusa."
+              "A fonte Apple + MagSafe vai para o MacBook e não entra na matriz audiovisual.",
+              "A estação 330W vira o centro de carga dos equipamentos de captação.",
+              "O Baseus 140W fica como linha de boost/reserva, não como carregador principal da mesa.",
+              "Os cabos USB4 ficam presos com velcro; cabo solto atrasa a recarga e aumenta risco de esquecer item no quarto."
+            ]
+          },
+          {
+            "title": "Critério de embalagem",
+            "items": [
+              "Fonte Apple e MagSafe ficam juntos no setor do MacBook.",
+              "330W, Baseus, cabos e carregadores de câmera/drone/áudio ficam juntos no setor de energia.",
+              "Power bank Ugreen fica perto dos cabos USB-C curtos, porque ele é reserva de campo."
             ]
           }
         ],
@@ -463,22 +474,50 @@ const checklist = [
       },
       {
         "id": "s04-02",
-        "title": "Montar estação de recarga",
-        "lead": "Tomada e cabos:",
+        "title": "Montar estação técnica de recarga",
+        "lead": "Pousada · potência, prioridade e portas:",
         "bullets": [
-          "330W como hub principal",
-          "Baseus 140W como reforço",
-          "Baterias por sistema",
-          "Cabos presos",
-          "Nada no chão"
+          "Fonte Apple + MagSafe → MacBook fora da matriz audiovisual",
+          "330W C1 100W → Ugreen Power Bank 25.000 mAh",
+          "330W C2 100W → reserva premium ou item crítico atrasado",
+          "330W C3 30W → Hub DJI Mini 4 Pro",
+          "330W C4 30W → Carregador NP-FW50 da ZV-E10",
+          "330W C5 30W → Hollyland Lark Max 2",
+          "330W C6 30W → iPhone 15 Pro Max ou DJI Osmo Mobile 6",
+          "USB-A → GoPro HERO 11, VL120, fill light, RC2, Kica JetFan ou fan ZV-E10",
+          "Baseus 140W → linha reserva/boost, não matriz principal",
+          "Cartões, leitor Ugreen e pendrives fora da zona de energia",
+          "Cabos presos e nada carregando no chão"
         ],
         "details": [
           {
-            "title": "Montagem",
+            "title": "Desenho técnico",
             "items": [
-              "O 330W deve ficar em posição estável e ventilada.",
-              "Agrupe cargas: Sony, DJI/RC2, GoPro, Hollyland, iPhone/Osmo e power bank.",
-              "Antes de dormir, todos os sistemas do próximo dia devem estar carregando ou já cheios."
+              "Linha 0: fonte original Apple + cabo USB-C para MagSafe 3 alimenta somente o MacBook.",
+              "Linha 1: estação 330W AS330W alimenta o ecossistema audiovisual.",
+              "Linha 2: Baseus 140W fica livre para boost, contingência ou item crítico atrasado.",
+              "C1/C2 da estação são portas premium; C1 fica no Ugreen e C2 fica como reserva forte.",
+              "C3–C6 são a zona ideal para DJI, NP-FW50, Lark, iPhone e Osmo."
+            ]
+          },
+          {
+            "title": "Ordem de prioridade",
+            "items": [
+              "1. Ugreen Power Bank — reserva de campo.",
+              "2. DJI Mini 4 Pro — baterias e operação aérea.",
+              "3. Sony NP-FW50 — câmera principal.",
+              "4. Hollyland Lark Max 2 — áudio limpo.",
+              "5. GoPro HERO 11 — água e ação.",
+              "6. iPhone/Osmo — vertical, bastidor e comunicação.",
+              "7. Luzes e acessórios — VL120, fill light, RC2, fan e Kica JetFan."
+            ]
+          },
+          {
+            "title": "Regra de segurança e organização",
+            "items": [
+              "Não misture energia com dados: cartões, leitor Ugreen e pendrives ficam perto do MacBook.",
+              "Nada deve carregar no chão. A queda de cabo derruba equipamento e dificulta conferir antes de dormir.",
+              "Antes de dormir, faça conferência visual: Sony, drone, RC2, GoPro, Lark, iPhone, Osmo, Ugreen e MacBook."
             ]
           }
         ],
@@ -2081,23 +2120,26 @@ const checklist = [
       {
         "id": "s11-03",
         "title": "Defender — energia e recarga",
-        "lead": "Espelho da estação de energia:",
+        "lead": "Espelho da estação técnica:",
         "bullets": [
-          "Estação 330W com 6 USB-C + 4 USB-A",
+          "Fonte original Apple",
+          "Cabo USB-C para MagSafe 3",
+          "Estação 330W AS330W com 6 USB-C + 4 USB-A",
           "Carregador Baseus 140W",
           "4 cabos USB-C USB4 240W/40Gbps",
           "Carregador/caixa NP-FW50 da ZV-E10",
           "Baterias NP-FW50 genéricas + bateria da câmera",
           "Cabos/carregadores DJI, GoPro, Hollyland, iPhone e Osmo",
           "Power bank Ugreen 25.000 mAh",
-          "Adaptador/benjamim se foi levado"
+          "Velcros/elásticos dos cabos"
         ],
         "details": [
           {
             "title": "Conferência",
             "items": [
+              "Fonte Apple e MagSafe precisam voltar juntos; são a linha dedicada do MacBook.",
               "Retire todos os cabos das tomadas e confira se nenhuma fonte ficou atrás da cama, mesa ou criado-mudo.",
-              "Agrupe cabos por sistema antes de fechar: Sony, DJI, GoPro, áudio, celular/Osmo e power bank.",
+              "Agrupe cabos por sistema antes de fechar: Apple/MacBook, Sony, DJI, GoPro, áudio, celular/Osmo e power bank.",
               "Baterias cheias e usadas precisam voltar separadas, mesmo no retorno."
             ]
           }
@@ -2741,14 +2783,14 @@ function setVisible(value) { getVisibleItems().forEach(item => bulletUnits(item)
 function setAll(value) { allBulletUnits().forEach(unit => state.checked[unit.id] = value); save(); render(); }
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v23', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v24', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v23.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v24.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 
