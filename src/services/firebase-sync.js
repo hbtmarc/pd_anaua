@@ -2,14 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/fireba
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
 
 const DEBOUNCE_MS = 450;
+const CLOCK_SKEW_MS = 1000;
 
 let databaseRef = null;
 let pushTimer = null;
 let applyingRemote = false;
 let statusHandler = null;
-let hasRemoteSnapshot = false;
+let hydrated = false;
 let lastRemoteState = null;
-let pendingBeforeHydration = null;
+let queuedLocalState = null;
 
 function normalizeTimestamp(value) {
   if (typeof value === "number") return value;
@@ -60,12 +61,63 @@ function stableComparable(state) {
   return JSON.stringify(clean);
 }
 
+function isExplicitNewerReset(local, remote) {
+  return normalizeTimestamp(local.forceResetAt) > normalizeTimestamp(remote?.forceResetAt || 0);
+}
+
+function localShouldReplaceRemote(local, remote, options = {}) {
+  const localState = normalizeState(local);
+  const remoteState = remote ? normalizeState(remote) : null;
+
+  if (!remoteState) return hasUsefulState(localState) || options.forceReset === true;
+  if (options.forceReset === true || isExplicitNewerReset(localState, remoteState)) return true;
+
+  if (!hasUsefulState(localState)) return false;
+
+  const localTime = normalizeTimestamp(localState.updatedAt);
+  const remoteTime = normalizeTimestamp(remoteState.updatedAt);
+
+  return localTime > remoteTime + CLOCK_SKEW_MS;
+}
+
 function emit(status, label) {
   if (typeof statusHandler === "function") statusHandler(status, label);
 }
 
+function writeState(payload, options = {}) {
+  if (!databaseRef) return;
+
+  const finalPayload = normalizeState({
+    ...payload,
+    updatedAt: Date.now()
+  });
+
+  const remoteCount = checkedCountFrom(lastRemoteState);
+  const localCount = checkedCountFrom(finalPayload);
+  const forceReset = options.forceReset === true || isExplicitNewerReset(finalPayload, lastRemoteState);
+
+  if (!forceReset && remoteCount > 0 && localCount === 0) {
+    emit("synced", "Nuvem preservada");
+    console.warn("[Checklist Cloud] Escrita vazia bloqueada para preservar progresso remoto.");
+    return;
+  }
+
+  if (lastRemoteState && stableComparable(lastRemoteState) === stableComparable(finalPayload)) {
+    emit("synced", "Nuvem ativa");
+    return;
+  }
+
+  set(databaseRef, finalPayload)
+    .then(() => emit("synced", "Nuvem ativa"))
+    .catch(error => {
+      emit("error", "Falha");
+      console.warn("[Checklist Cloud] Falha ao salvar no RTDB:", error);
+    });
+}
+
 async function initCloudSync({ getLocalState, applyRemoteState, pushIfRemoteEmpty, onStatus } = {}) {
   statusHandler = onStatus;
+
   try {
     if (!window.FIREBASE_CONFIG || !window.CHECKLIST_CLOUD_PATH) {
       emit("local", "Local");
@@ -81,32 +133,42 @@ async function initCloudSync({ getLocalState, applyRemoteState, pushIfRemoteEmpt
 
     onValue(databaseRef, snapshot => {
       const rawRemote = snapshot.val();
+      const remote = rawRemote ? normalizeState(rawRemote) : null;
       const local = normalizeState(typeof getLocalState === "function" ? getLocalState() : {});
-      hasRemoteSnapshot = true;
 
-      if (!rawRemote) {
-        lastRemoteState = null;
-        if (hasUsefulState(local)) {
+      hydrated = true;
+      lastRemoteState = remote;
+
+      if (!remote) {
+        if (localShouldReplaceRemote(queuedLocalState || local, null, queuedLocalState?.options || {})) {
           emit("empty", "Criando nuvem");
-          if (typeof pushIfRemoteEmpty === "function") pushIfRemoteEmpty();
-        } else if (pendingBeforeHydration && hasUsefulState(pendingBeforeHydration.state)) {
-          emit("empty", "Criando nuvem");
-          pushCloudState(pendingBeforeHydration.state, { immediate: true, forceReset: false });
+          writeState((queuedLocalState && queuedLocalState.payload) || local, (queuedLocalState && queuedLocalState.options) || {});
+        } else if (typeof pushIfRemoteEmpty === "function") {
+          pushIfRemoteEmpty();
         } else {
           emit("synced", "Nuvem pronta");
         }
-        pendingBeforeHydration = null;
+        queuedLocalState = null;
         return;
       }
 
-      const remote = normalizeState(rawRemote);
-      lastRemoteState = remote;
-      pendingBeforeHydration = null;
+      if (queuedLocalState && localShouldReplaceRemote(queuedLocalState.payload, remote, queuedLocalState.options)) {
+        emit("syncing", "Enviando local");
+        writeState(queuedLocalState.payload, queuedLocalState.options);
+        queuedLocalState = null;
+        return;
+      }
 
+      if (localShouldReplaceRemote(local, remote)) {
+        emit("syncing", "Enviando local");
+        writeState(local, {});
+        return;
+      }
+
+      queuedLocalState = null;
       applyingRemote = true;
       if (typeof applyRemoteState === "function") applyRemoteState(remote);
       applyingRemote = false;
-
       emit("synced", "Nuvem ativa");
     }, error => {
       emit("error", "Falha");
@@ -129,45 +191,21 @@ function pushCloudState(state, options = {}) {
     updatedAt: normalizeTimestamp(state.updatedAt) || Date.now()
   });
 
-  if (!hasRemoteSnapshot) {
-    pendingBeforeHydration = { state: payload, options };
+  window.clearTimeout(pushTimer);
+
+  if (!hydrated) {
+    queuedLocalState = { payload, options };
     emit("connecting", "Aguardando nuvem");
     return;
   }
 
-  const remoteCount = checkedCountFrom(lastRemoteState);
-  const localCount = checkedCountFrom(payload);
-  const forceReset = options.forceReset === true || normalizeTimestamp(payload.forceResetAt) > 0;
-
-  if (!forceReset && remoteCount > 0 && localCount === 0) {
-    emit("synced", "Nuvem preservada");
-    console.warn("[Checklist Cloud] Escrita vazia bloqueada para preservar progresso remoto.");
-    return;
-  }
-
-  if (lastRemoteState && stableComparable(lastRemoteState) === stableComparable(payload)) {
-    emit("synced", "Nuvem ativa");
-    return;
-  }
-
-  window.clearTimeout(pushTimer);
-
-  const write = () => {
-    const finalPayload = normalizeState({
-      ...payload,
-      updatedAt: Date.now()
-    });
-
-    set(databaseRef, finalPayload)
-      .then(() => emit("synced", "Nuvem ativa"))
-      .catch(error => {
-        emit("error", "Falha");
-        console.warn("[Checklist Cloud] Falha ao salvar no RTDB:", error);
-      });
-  };
-
-  if (options.immediate) write();
-  else pushTimer = window.setTimeout(write, DEBOUNCE_MS);
+  pushTimer = window.setTimeout(() => {
+    if (localShouldReplaceRemote(payload, lastRemoteState, options)) {
+      writeState(payload, options);
+    } else {
+      emit("synced", "Nuvem ativa");
+    }
+  }, options.immediate ? 0 : DEBOUNCE_MS);
 }
 
 window.ChecklistCloud = {

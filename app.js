@@ -1,6 +1,6 @@
 
 const STORAGE_KEY = 'checklist_stl';
-const APP_VERSION = 32;
+const APP_VERSION = 33;
 const checklist = [
   {
     "id": "s01-preparacao",
@@ -2507,8 +2507,19 @@ function hasUsefulState(payload) {
 
 function remoteShouldApply(remote, local) {
   if (!remote) return false;
-  if (hasUsefulState(remote)) return true;
-  return !hasUsefulState(local) && normalizeTimestamp(remote.updatedAt) > normalizeTimestamp(local.updatedAt);
+
+  const remoteTime = normalizeTimestamp(remote.updatedAt);
+  const localTime = normalizeTimestamp(local.updatedAt);
+  const remoteReset = normalizeTimestamp(remote.forceResetAt || 0);
+  const localReset = normalizeTimestamp(local.forceResetAt || 0);
+
+  if (remoteReset > localReset) return true;
+  if (localReset > remoteReset) return false;
+
+  if (!hasUsefulState(local) && hasUsefulState(remote)) return true;
+  if (hasUsefulState(local) && !hasUsefulState(remote)) return false;
+
+  return remoteTime >= localTime;
 }
 
 function getPersistedState({ touch = true } = {}) {
@@ -3108,14 +3119,14 @@ function setAll(value) {
 }
 function exportJson() {
   const data = {
-    title: 'São Thomé das Letras — Checklist v32', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
+    title: 'São Thomé das Letras — Checklist v33', exportedAt: new Date().toISOString(), total: allBulletUnits().length,
     done: allBulletUnits().filter(unit => isDone(unit.id)).length,
     sections: checklist.map(section => ({ id: section.id, title: section.title, progress: sectionProgress(section), items: sectionItems(section).map(item => ({ id:item.id, title:item.title, done:itemDone(item), bullets: bulletUnits(item).map(unit => ({ id:unit.id, title:unit.text, done:isDone(unit.id) })) })) }))
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = url; link.download = 'checklist_stl_v32.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+  link.href = url; link.download = 'checklist_stl_v33.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
 }
 function updateScrolledHeader() { document.body.classList.toggle('is-scrolled', window.scrollY > 24); }
 

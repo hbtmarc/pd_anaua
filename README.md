@@ -1,27 +1,29 @@
-# Anauá STL — Checklist v32
+# Anauá STL — Checklist v33
 
-Correção de sincronização multi-navegador.
+Correção definitiva do ciclo Chrome/Firefox/GitHub Pages.
 
-## Problema corrigido
+## O que foi corrigido
 
-Na v31, um navegador limpo podia entrar antes de hidratar o estado remoto e publicar um estado local vazio/default. Isso fazia o RTDB voltar para zero ou entrar em alternância de `checked` e `controlsVisible`.
+- Marcação feita no Chrome não desaparece mais após Ctrl+Shift+R se o `localStorage` estiver mais recente que o RTDB.
+- Navegador limpo não zera o RTDB.
+- O Firebase só recebe escrita depois do primeiro snapshot remoto.
+- Se o local for mais novo que a nuvem, o local sobe para o Firebase.
+- Se a nuvem for mais nova, a nuvem hidrata o navegador.
+- Escrita vazia continua bloqueada quando já existe progresso remoto.
+- Reset e Limpar Tudo continuam permitidos por intenção explícita.
 
-## Solução
+## Regra de sincronização
 
-- O cliente agora espera o primeiro snapshot do RTDB antes de permitir qualquer escrita.
-- Se existir estado remoto, o RTDB vira a fonte da verdade inicial.
-- Um navegador vazio não pode sobrescrever progresso remoto.
-- Escritas com `checked` vazio são bloqueadas quando já existe progresso remoto, salvo reset explícito.
-- Preferências/opções continuam sendo persistidas depois que o usuário altera:
-  - `hideDone`;
-  - `controlsVisible`;
-  - seções abertas;
-  - detalhes expandidos.
-- Reset e "Limpar tudo" continuam funcionando porque enviam intenção explícita de reset.
+1. Aguardar primeiro snapshot do RTDB.
+2. Comparar `updatedAt`.
+3. Estado local mais recente vence e sobe.
+4. Estado remoto mais recente vence e aplica.
+5. Navegador vazio nunca apaga progresso remoto.
+6. Preferências como `hideDone`, `controlsVisible`, `openSections` e `expanded` persistem depois da primeira alteração real.
 
 ## Mantido
 
 - `localStorage`: `checklist_stl`
-- RTDB path: `/checklist_stl/shared/state`
+- Firebase path: `/checklist_stl/shared/state`
+- Visual verde/branco para seção concluída.
 - Mapa de energia: `#/energia`
-- Seção concluída com fundo verde e texto branco.

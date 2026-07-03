@@ -2812,3 +2812,5 @@ body.is-scrolled .topbar:after { background: radial-gradient(ellipse at top, rgb
 .cloud-status[data-status="synced"] b {
   white-space: nowrap;
 }
+
+/* v33 — sincronização local recente x nuvem antiga estabilizada */
